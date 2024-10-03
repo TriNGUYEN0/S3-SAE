@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import java.lang.*?>
+<?import javafx.scene.text.*?>
+<?import javafx.scene.control.*?>
+<?import javafx.scene.layout.*?>
+
+<?import javafx.scene.media.MediaView?>
+<Pane fx:id="paneMap" focusTraversable="true" stylesheets="@style.css" xmlns="http://javafx.com/javafx/8.0.40" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.abenibrahim.sae_dev2.controleur.Controleur">
+    <TilePane fx:id="tilePaneMap2" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500" prefWidth="1500" visible="false"/>
+    <TilePane fx:id="tilePaneMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500" prefWidth="1500" />
+    <TilePane fx:id="inventairePane" hgap="10.0" layoutX="150" layoutY="250" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="350" prefWidth="350" vgap="10.0" visible="false" />
+    <TilePane fx:id="premierPlanMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500" prefWidth="1500" />
+    <TilePane fx:id="murMap" maxHeight="-Infinity" maxWidth="-Infinity" minHeight="-Infinity" minWidth="-Infinity" prefHeight="1500" prefWidth="1500" />
+   <HBox fx:id="slot1" layoutX="200" layoutY="325"  prefHeight="49.0" prefWidth="84.0" style="-fx-border-color: Black;" visible="false" />
+    <HBox fx:id="slot2" layoutX="300" layoutY="325" prefHeight="49.0" prefWidth="84.0" style="-fx-border-color: Black;" visible="false" />
+   <Label fx:id="titre" layoutX="275" layoutY="250" text="Inventaire" visible="false">
+      <font>
+         <Font name="Ani" size="38.0" />
+      </font>
+   </Label>
+    <Label fx:id="armeChoisie" layoutX="350" layoutY="400"  visible="false">
+        <font>
+            <Font name="Ani" size="15.0" />
+        </font>
+    </Label>
+    <Label fx:id="phrase" layoutX="200" layoutY="400" text="Arme équipéé: "  visible="false">
+        <font>
+            <Font name="Ani" size="15.0" />
+        </font>
+    </Label>
+    <Label fx:id="nbSoin" layoutX="350" layoutY="400"  visible="true">
+        <font>
+            <Font name="Ani" size="30.0" />
+        </font>
+    </Label>
+    <Label fx:id="dialogueBox" layoutX="200" layoutY="200" prefHeight="100" prefWidth="300" visible="false" style="-fx-background-color: white; -fx-border-color: black;"  wrapText="true">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Label>
+    <Label fx:id="dialogueBox2" layoutX="200" layoutY="200" prefHeight="100" prefWidth="300" visible="false" style="-fx-background-color: white; -fx-border-color: black;">
+        <font>
+            <Font size="14.0" />
+        </font>
+    </Label>
+</Pane>

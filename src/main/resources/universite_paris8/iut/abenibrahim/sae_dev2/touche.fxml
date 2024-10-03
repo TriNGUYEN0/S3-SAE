@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<?import javafx.geometry.Insets?>
+<?import javafx.scene.control.Button?>
+<?import javafx.scene.layout.VBox?>
+<?import javafx.scene.text.Text?>
+
+<VBox xmlns="http://javafx.com/javafx/18" xmlns:fx="http://javafx.com/fxml/1" fx:controller="universite_paris8.iut.abenibrahim.sae_dev2.controleur.AideControleur" spacing="10" style="-fx-background-color: black; -fx-padding: 20px;">
+
+    <Text text="Touches de Jeu" style="-fx-font-size: 24px; -fx-font-weight: bold; -fx-fill: darkred;"/>
+    <Text text="Déplacements:" style="-fx-fill: crimson;"/>
+    <Text text="Les Flèches" style="-fx-fill: crimson;"/>
+    <Text text="" />
+    <Text text="Actions:" style="-fx-fill: crimson;"/>
+    <Text text="Attaquer: A" style="-fx-fill: crimson;"/>
+    <Text text="Lancer Projectile: SPACE" style="-fx-fill: crimson;"/>
+    <Text text="Ramasser: R" style="-fx-fill: crimson;"/>
+    <Text text="Se Soigner: C" style="-fx-fill: crimson;"/>
+    <Text text="Ouvrir/fermer l'inventaire: I/W" style="-fx-fill: crimson;"/>
+    <Text text="Parler: P" style="-fx-fill: crimson;"/>
+    <Text text="Sauvegarder: CTRL + S" style="-fx-fill: crimson;"/>
+    <Text text="Masquer Dialogue: ENTER" style="-fx-fill: crimson;"/>
+
+    <Button fx:id="fermerButton" text="Fermer" onAction="#fermerAide" style="-fx-background-color: darkred; -fx-text-fill: white; -fx-font-weight: bold; -fx-padding: 10px 20px; -fx-background-radius: 5px;"/>
+</VBox>
