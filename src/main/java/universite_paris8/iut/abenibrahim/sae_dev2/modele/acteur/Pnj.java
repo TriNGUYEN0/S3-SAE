@@ -1,52 +1,42 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
 
-import javafx.beans.property.IntegerProperty;
-import javafx.beans.property.SimpleIntegerProperty;
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
 
-public class Pnj {
-    private IntegerProperty x;
-    private IntegerProperty y;
+public class Pnj extends Acteur {
+    private StringProperty dialogue;
 
-    private StringProperty Dialogue;
-
-    public Pnj(){
-        this.x = new SimpleIntegerProperty(1410);
-        this.y = new SimpleIntegerProperty(100);
-        this.Dialogue = new SimpleStringProperty("Je vois que vous voulez tuer le Cleric beast. Mais malheureusement il vous faut un objet qui augmente vos points de défense. ");
-    }
-    public int getX() {
-        return x.getValue();
-    }
-    public int getY() {
-        return y.getValue();
+    public Pnj(Environnement environnement, int x, int y, int pv) {
+        super(environnement, x, y, 0, pv); // vitesse est 0 pour un PNJ statique
+        this.dialogue = new SimpleStringProperty(
+                "Je vois que vous voulez tuer le Cleric beast. Mais malheureusement il vous faut un objet qui augmente vos points de défense."
+        );
     }
 
-    public void setX(int x) {
-        this.x.setValue(x);
+    // Implémentation des méthodes abstraites d'Acteur
+    @Override
+    public void attaquer() {
+        // Les PNJ ne peuvent pas attaquer, donc on laisse vide ou on lance une exception
+        throw new UnsupportedOperationException("Le PNJ ne peut pas attaquer.");
     }
 
-    public void setY(int y) {
-        this.y.setValue(y);
+    @Override
+    public void recoisDegat(int degat) {
+        // Les PNJ ne peuvent pas recevoir de dégâts, donc on laisse vide ou on lance une exception
+        throw new UnsupportedOperationException("Le PNJ ne peut pas recevoir de dégâts.");
     }
 
-    public void setDialogue(String dialogue) {
-        this.Dialogue.set(dialogue);
-    }
-
-    public StringProperty DialogueProperty(){
-        return Dialogue;
+    // Gestion du dialogue
+    public StringProperty dialogueProperty() {
+        return dialogue;
     }
 
     public String getDialogue() {
-        return Dialogue.getValue();
+        return dialogue.get();
     }
 
-    public IntegerProperty getXproperty() {
-        return x;
-    }
-    public IntegerProperty getYproperty() {
-        return y;
+    public void setDialogue(String dialogue) {
+        this.dialogue.set(dialogue);
     }
 }
