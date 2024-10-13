@@ -7,7 +7,7 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ArmeDistance;
 
-public class EnnemiProjectile extends Acteur{
+public class EnnemiProjectile extends Ennemi{
     private ObservableList<Projectile> projectiles;
     private ArmeDistance armeDistance;
     private Direction direction;
