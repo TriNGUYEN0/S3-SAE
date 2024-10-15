@@ -39,28 +39,34 @@ public abstract class Acteur {
     }
 
     public  int getX() {
-                    return this.x.getValue();
-                }
+        return this.x.getValue();
+    }
     public  IntegerProperty XProprety() {
-                    return this.x;
-                }
+        return this.x;
+    }
     public  int getY() {
-                    return this.y.getValue();
-                }
+        return this.y.getValue();
+    }
     public IntegerProperty YProprety() {
-                    return this.y;
-                }
+        return this.y;
+    }
     public  void setX(int n){
-                    this.x.setValue(n);
-                }
+        this.x.setValue(n);
+    }
     public  void setY(int n){
-                    this.y.setValue(n);
-                }
+        this.y.setValue(n);
+    }
     public IntegerProperty pvProperty(){return this.pv;}
     public int getPv(){return this.pv.getValue();}
 
     public void setPv(int pv) {
         this.pv.set(pv);
+    }
+    public int getVitesse() {
+        return vitesse;
+    }
+    public Environnement getEnvironnement() {
+        return environnement;
     }
 
     public boolean estVivant(){
@@ -69,9 +75,7 @@ public abstract class Acteur {
     public boolean estMort() {
         return getPv() <= 0;
     }
-    public abstract void attaquer();
 
-    public abstract void recoisDegat(int degat);
 
 }
 
