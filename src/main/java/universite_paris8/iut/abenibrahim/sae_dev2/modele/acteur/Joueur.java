@@ -13,6 +13,8 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
 import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.DeplacementJoueur;
+
 
 public class Joueur extends Acteur {
 
@@ -22,15 +24,19 @@ public class Joueur extends Acteur {
     private ObservableList<Projectile> projectiles;
     private Direction lastDirection;
     private int pointDef;
+    private DeplacementJoueur deplacementJoueur;
+
+
 
     public Joueur(Environnement e, int x, int y, int v, int pv){
         super(e,x,y,v,pv);
-        this.listeArme= FXCollections.observableArrayList();
+        this.listeArme = FXCollections.observableArrayList();
         this.projectiles = FXCollections.observableArrayList();
         this.armeEquipee = null;
-        this.nbSoin= new SimpleIntegerProperty(20);
+        this.nbSoin = new SimpleIntegerProperty(20);
         this.lastDirection = Direction.EST;
         this.pointDef = 0;
+        this.deplacementJoueur = new DeplacementJoueur(); // Khởi tạo dịch vụ di chuyển cho Joueur
     }
 
     @Override
@@ -193,7 +199,10 @@ public class Joueur extends Acteur {
 
     @Override
     public void seDeplace(Direction direction) {
-        super.seDeplace(direction);
+        deplacementJoueur.seDeplacer(this, direction); // Sử dụng DeplacementJoueur để di chuyển
+    }
+
+    public void setLastDirection(Direction direction) {
         this.lastDirection = direction;
     }
 
