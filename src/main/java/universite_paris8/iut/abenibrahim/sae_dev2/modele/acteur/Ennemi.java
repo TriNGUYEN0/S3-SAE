@@ -8,7 +8,7 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epée;
 import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.DeplacementEnnemi;
 
-public class Ennemi extends Acteur implements Combat {
+public class Ennemi extends Acteur {
 
     private Arme epée;
     private Direction direction;
