@@ -15,17 +15,7 @@ public class Pnj extends Acteur {
     }
 
     // Implémentation des méthodes abstraites d'Acteur
-    @Override
-    public void attaquer() {
-        // Les PNJ ne peuvent pas attaquer, donc on laisse vide ou on lance une exception
-        throw new UnsupportedOperationException("Le PNJ ne peut pas attaquer.");
-    }
 
-    @Override
-    public void recoisDegat(int degat) {
-        // Les PNJ ne peuvent pas recevoir de dégâts, donc on laisse vide ou on lance une exception
-        throw new UnsupportedOperationException("Le PNJ ne peut pas recevoir de dégâts.");
-    }
 
     // Gestion du dialogue
     public StringProperty dialogueProperty() {
