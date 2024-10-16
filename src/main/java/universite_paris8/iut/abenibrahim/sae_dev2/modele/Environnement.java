@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.ArrayList;
 
 public class Environnement {
+    private static Environnement uniqueInstance = null;
     private ArrayList<Arme> armeMap;
     private List<Pnj> pnjList;
     private List<EnnemiProjectile> ennemiProjectileList;
@@ -28,7 +29,8 @@ public class Environnement {
     private Ennemi ennemi;
     private List<objetDefense> objetDefenseList;
 
-    public Environnement() {
+
+    private Environnement() {
         this.map = new Map();
         this.acteurs = FXCollections.observableArrayList();
         this.guts = new Joueur(this,x, y, vitesse, pvJoueur);
@@ -43,7 +45,12 @@ public class Environnement {
         acteurs.add(guts);
         acteurs.add(ennemi);
     }
-
+public static Environnement getUniqueInstance(){
+        if(uniqueInstance == null){
+            uniqueInstance = new Environnement();
+        }
+        return  uniqueInstance;
+}
 
     public ArrayList<Arme> getArmeMap() {
         return armeMap;

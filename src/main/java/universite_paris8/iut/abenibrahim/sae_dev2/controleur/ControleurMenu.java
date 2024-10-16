@@ -125,7 +125,7 @@ public class ControleurMenu {
             ois.close();
 
             // Restaurer les données de l'environnement à partir de saveData
-            Environnement env = new Environnement();
+            Environnement env = Environnement.getUniqueInstance();
             Joueur guts = env.getGuts();
             guts.setX(saveData.getGutsX());
             guts.setY(saveData.getGutsY());
@@ -140,7 +140,6 @@ public class ControleurMenu {
             env.getMap().setTab2(saveData.getMapData2());
 
             // Stocker l'environnement chargé pour l'utiliser dans la scène de jeu
-            Main.setEnvironnement(env);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }

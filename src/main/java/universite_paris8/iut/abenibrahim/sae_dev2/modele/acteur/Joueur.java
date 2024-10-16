@@ -28,6 +28,7 @@ public class Joueur extends Acteur {
         this.listeArme= FXCollections.observableArrayList();
         this.projectiles = FXCollections.observableArrayList();
         this.armeEquipee = null;
+        //strategie sur les diférentes armes
         this.nbSoin= new SimpleIntegerProperty(20);
         this.lastDirection = Direction.EST;
         this.pointDef = 0;

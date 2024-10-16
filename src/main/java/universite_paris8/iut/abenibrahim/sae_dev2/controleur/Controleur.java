@@ -110,13 +110,7 @@ public class Controleur implements Initializable {
         tilePaneMap.setPrefTileWidth(50);
         tilePaneMap.setPrefTileHeight(50);
 
-        this.environnement=new Environnement();
-        Environnement env = Main.getEnvironnement();
-        if (env == null) {
-            this.environnement = new Environnement();
-        } else {
-            this.environnement = env;
-        }
+        this.environnement = Environnement.getUniqueInstance();
 
         this.mapVue = new MapVue(this.environnement.getMap().getTab(),this.environnement.getMap().getTab2(),environnement.getMap().getTab3(), tilePaneMap, premierPlanMap,tilePaneMap2);
         this.mapVue.remplirMap();
@@ -203,15 +197,15 @@ public class Controleur implements Initializable {
                         this.environnement.unTour();
                         this.projectileVue.updateProjectiles(environnement.getGuts().getProjectiles(), environnement.getEnnemi(), projectilesSprites, this.paneMap);
                         this.pRojectileVueEnnemie.updateProjectiles(environnement.getEnnemiProjectile().getProjectileList(),environnement.getGuts(),enemyProjectilesSprites , this.paneMap);
-                        if(!this.environnement.getEnnemiProjectile().estMort()){
-                            this.environnement.getEnnemiProjectile().attaquer();
+                        if(!environnement.getEnnemiProjectile().estMort()){
+                            environnement.getEnnemiProjectile().attaquer();
                         }
                         System.out.println("PV JOUEUR : " + environnement.getGuts().getPv());
                         System.out.println("PV ENNEMI : " + environnement.getEnnemi().getPv());
                         System.out.println("pv Ennemi2 : " + environnement.getEnnemiProjectile().getPv());
-                        this.environnement.getEnnemi().attaquer();
+                        environnement.getEnnemi().attaquer();
                         temps++;
-                        this.ennemiVue.animerEnnemi(this.animationTimer, this.environnement.getEnnemi().getDirection());
+                        ennemiVue.animerEnnemi(animationTimer, environnement.getEnnemi().getDirection());
                         if (environnement.getGuts().estMort()) {
                             gameLoop.stop();
                             paneMap.getChildren().remove(gutsSprite);
