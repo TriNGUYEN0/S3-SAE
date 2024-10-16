@@ -168,5 +168,9 @@ public class Joueur extends Acteur {
         this.pointDef = pointDef;
     }
 
+    public void setLastDirection(Direction direction) {
+        this.lastDirection = direction;
+    }
+
 
 }
