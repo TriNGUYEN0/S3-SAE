@@ -15,6 +15,8 @@ public abstract class Acteur {
     private IntegerProperty pv;
     private int vitesse = 10;
 
+
+
     public Acteur(Environnement e,int x,int y,int v,int pv){
         this.x=new SimpleIntegerProperty(x);
         this.y=new SimpleIntegerProperty(y);

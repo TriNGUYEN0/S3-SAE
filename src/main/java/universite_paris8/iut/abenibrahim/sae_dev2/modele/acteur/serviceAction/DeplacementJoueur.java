@@ -15,11 +15,11 @@ public class DeplacementJoueur implements Deplacement {
             int xTmp = joueur.getX() + direction.getX() * joueur.getVitesse();
             int yTmp = joueur.getY() + direction.getY() * joueur.getVitesse();
 
-            // Kiểm tra nếu vị trí mới nằm trong bản đồ và không có va chạm
+
             if (environnement.dansTerrain(xTmp, yTmp) && environnement.getMap().verifierCollisions(xTmp, yTmp)) {
                 joueur.setX(xTmp);
                 joueur.setY(yTmp);
-                joueur.setLastDirection(direction); // Cập nhật hướng cuối cùng
+                joueur.setLastDirection(direction);
             }
         }
     }

@@ -11,33 +11,33 @@ public class Ennemi extends Acteur {
 
     private Arme epée;
     private Direction direction;
-    private DeplacementEnnemi deplacementEnnemi; // Dịch vụ di chuyển
-    private CombatEnnemi combatEnnemi; // Dịch vụ chiến đấu
+    private DeplacementEnnemi deplacementEnnemi;
+    private CombatEnnemi combatEnnemi;
 
     public Ennemi(Environnement e, int x, int y, int v, int pv) {
         super(e, x, y, v, pv);
         this.epée = new Epée();
         this.direction = Direction.EST;
-        this.deplacementEnnemi = new DeplacementEnnemi(); // Khởi tạo dịch vụ di chuyển
-        this.combatEnnemi = new CombatEnnemi(this); // Khởi tạo dịch vụ chiến đấu
+        this.deplacementEnnemi = new DeplacementEnnemi();
+        this.combatEnnemi = new CombatEnnemi(this);
     }
 
-    // Phương thức điều khiển di chuyển về phía người chơi
+
     public void seDeplaceVersJoueur() {
         deplacementEnnemi.seDeplacer(this, this.direction); // Chỉ di chuyển khi phát hiện người chơi
     }
 
-    // Gọi dịch vụ chiến đấu để tấn công
+
     public void attaquer(Acteur cible) {
         combatEnnemi.attaquer(cible);
     }
 
-    // Gọi dịch vụ chiến đấu để nhận sát thương
+
     public void recoisDegat(int degat) {
         combatEnnemi.recoisDegat(degat);
     }
 
-    // Getter và Setter cho các thuộc tính
+    //getter setter
     public void setDirection(Direction direction) {
         this.direction = direction;
     }

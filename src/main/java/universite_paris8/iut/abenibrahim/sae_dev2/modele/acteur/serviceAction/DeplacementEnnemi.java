@@ -10,13 +10,13 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
 
 public class DeplacementEnnemi implements Deplacement {
 
-    private static final int DISTANCE_DETECTION = 100; // Phạm vi phát hiện
+    public static final int DISTANCE_DETECTION = 100; // Phạm vi phát hiện
 
     @Override
     public void seDeplacer(Acteur acteur, Direction direction) {
         if (acteur instanceof Ennemi) {
             Ennemi ennemi = (Ennemi) acteur;
-            if (detecterJoueur(ennemi)) { // Chỉ di chuyển khi phát hiện thấy người chơi
+            if (detecterJoueur(ennemi)) {
                 suivreJoueur(ennemi);
             }
         }
@@ -30,7 +30,6 @@ public class DeplacementEnnemi implements Deplacement {
         int distanceY = Math.abs(joueur.getY() - ennemi.getY());
         double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
 
-        // Trả về true nếu Joueur nằm trong phạm vi phát hiện của Ennemi
         return distance <= DISTANCE_DETECTION;
     }
 
@@ -56,7 +55,7 @@ public class DeplacementEnnemi implements Deplacement {
                     ennemi.setX(ennemi.getX() + deltaX);
                     ennemi.setY(ennemi.getY() + deltaY);
 
-                    // Détermine la direction de déplacement
+
                     if (deltaX > 0) {
                         ennemi.setDirection(Direction.EST);
                     } else if (deltaX < 0) {
