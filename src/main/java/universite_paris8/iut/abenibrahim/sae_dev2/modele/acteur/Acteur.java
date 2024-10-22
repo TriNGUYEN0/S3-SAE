@@ -30,15 +30,6 @@ public abstract class Acteur {
     }
 
 
-    public void seDeplace(Direction direction) {
-        int xTmp = getX() + direction.getX() * vitesse;
-        int yTmp = getY() + direction.getY() * vitesse;
-
-        if ( this.environnement.dansTerrain(xTmp,yTmp) && this.environnement.getMap().verifierCollisions(xTmp,yTmp)) {
-            setX(getX()  + direction.getX() * vitesse);
-            setY(getY()  + direction.getY() * vitesse);
-        }
-    }
 
     public  int getX() {
         return this.x.getValue();
