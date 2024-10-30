@@ -24,7 +24,7 @@ public class Ennemi extends Acteur {
 
 
     public void seDeplaceVersJoueur() {
-        deplacementEnnemi.seDeplacer(this, this.direction); // Chỉ di chuyển khi phát hiện người chơi
+        deplacementEnnemi.seDeplacer(this, this.direction);
     }
 
 

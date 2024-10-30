@@ -1,17 +1,17 @@
-package universite_paris8.iut.abenibrahim.sae_dev2.objet;
+package universite_paris8.iut.abenibrahim.sae_dev2.modele.objet;
 
 import javafx.scene.image.Image;
+import universite_paris8.iut.abenibrahim.sae_dev2.vue.ImageObjet;
 
 public class Soin {
     private int x;
     private int y;
     private int pointPvDonner;
-    private Image image;
+
     public Soin() {
-        this.x = 150;
-        this.y = 150;
-        this.image = new Image(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/items.png").toString());
-        this.pointPvDonner = 25;
+        this.x = Constante.POSITION_X_SOIN;
+        this.y = Constante.POSITION_Y_SOIN;
+        this.pointPvDonner = Constante.PV_DONNER_AVEC_SOIN;
     }
     public int getX() {
         return x;
@@ -25,18 +25,7 @@ public class Soin {
     public void setY(int y) {
         this.y = y;
     }
-    public int getPointPvDonner() {
-        return pointPvDonner;
-    }
-    public void setPointPvDonner(int pointPvDonner) {
-        this.pointPvDonner = pointPvDonner;
-    }
-    public void setImage(Image image) {
-        this.image = image;
-    }
-    public Image getImage() {
-        return image;
-    }
+
 
 
 }

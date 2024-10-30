@@ -1,54 +1,39 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.vue;
 
-import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Constante;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
 
-import java.util.ArrayList;
-import java.util.List;
-
-public class objetDefVue {
-    private List<objetDefense> objetDefenses;
-    private List<ImageView> defenseImage;
+public class ObjetDefVue {
     private Pane paneMap;
-    private Environnement environnement;
-    private objetDefense objetDefense;
-    public objetDefVue(Environnement environnement, Pane paneMap) {
-        this.environnement = environnement;
+    private final ObjetDefense objetDefense;
+    private final ImageView imageView;
+    public ObjetDefVue(Pane paneMap) {
         this.paneMap = paneMap;
-        this.objetDefenses = new ArrayList<>();
-        this.defenseImage = new ArrayList<>();
-        this.objetDefense = new objetDefense();
-
-    }
-    public void ajouterObjetDefenseDansMap() {
-        for(objetDefense objetDefense : environnement.getObjetDefenseList()) {
-            Image image = objetDefense.getImage();
-            ImageView imageView = new ImageView(image);
-            paneMap.getChildren().add(imageView);
-            imageView.setTranslateX(objetDefense.getX()); // Ajuster la position X
-            imageView.setTranslateY(objetDefense.getY());
-            objetDefenses.add(objetDefense);
-            defenseImage.add(imageView);
-        }
-    }
-    public void supprimerObjetDefDeLaCarte(objetDefense objetDefense) {
-        int index = objetDefenses.indexOf(objetDefense);
-        if (index >= 0) {
-            ImageView imageView = defenseImage.get(index);
-            objetDefenses.remove(objetDefense);
-            defenseImage.remove(imageView);
-            paneMap.getChildren().remove(imageView);
-        }
+        this.objetDefense = new ObjetDefense();
+        this.imageView = new ImageView(ImageObjet.IMAGE_OBJET_DEF); // Charger l'image depuis ImageObjet
+        paneMap.getChildren().add(imageView); // Ajouter l'ImageView au Pane
+        updatePosition();
+        imageView.setVisible(true);
+        this.paneMap = paneMap;
     }
 
-    public void ajouterObjetDefenseEnv(objetDefense objetDefense) {
-        this.environnement.getObjetDefenseList().add(objetDefense);
+    public void updatePosition() {
+        // Mettez à jour la position de l'image ici en fonction de la position de l'arme
+        imageView.setTranslateX(Constante.POSITION_X_OBJETDEF); // Ajustez cela si vous ajoutez une méthode getX() dans Arme
+        imageView.setTranslateY(Constante.POSITION_Y_OBJETDEF); // Ajustez cela si vous ajoutez une méthode getY() dans Arme
     }
-    public void afficherSoinMap(){
-        ajouterObjetDefenseEnv(objetDefense);
+
+    public void supprimerObjetDefVue() {
+        paneMap.getChildren().remove(imageView);
+    }
+    public ObjetDefense getObjetDef() {
+        return this.objetDefense;
+    }
+
+    public ImageView getImageView() {
+        return imageView;
     }
 
 }

@@ -1,24 +1,24 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.objet;
 
 import javafx.scene.image.Image;
+import universite_paris8.iut.abenibrahim.sae_dev2.vue.ImageObjet;
 
-public class objetDefense {
+public class ObjetDefense {
     private int x;
     private int y;
-    private Image image;
     private int defDonner;
 
-    public objetDefense() {
-        this.x = 375;
-        this.y =375 ;
-        this.image = new Image(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/pointDEf.png").toString());
-        this.defDonner = 100;
+    public ObjetDefense() {
+        this.x = Constante.POSITION_X_OBJETDEF;
+        this.y =Constante.POSITION_Y_OBJETDEF;
+        this.defDonner = Constante.POINT_DONNER_AVEC_OBJETDEF;
     }
-
-    public Image getImage() {
-        return image;
+    // un autre constructeur paramétrer.
+    public ObjetDefense(int x, int y,int defDonner) {
+        this.x = x;
+        this.y = y;
+        this.defDonner = defDonner;
     }
-
     public int getX() {
         return x;
     }

@@ -11,11 +11,10 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.CombatJoueur;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.DeplacementJoueur;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.Ramasser;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.Ramasser;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ArmeDistance;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
 
 public class Joueur extends Acteur {
 
@@ -28,7 +27,7 @@ public class Joueur extends Acteur {
 
     private DeplacementJoueur deplacementJoueur;
     private CombatJoueur combatJoueur;
-    private Ramasser ramassageService; // Dịch vụ nhặt đồ
+    private Ramasser ramassageService;
 
     public Joueur(Environnement e, int x, int y, int v, int pv) {
         super(e, x, y, v, pv);
@@ -76,7 +75,7 @@ public class Joueur extends Acteur {
         return ramassageService.ramasserSoin(this, environnement);
     }
 
-    public objetDefense ramasserObjetDefense() {
+    public ObjetDefense ramasserObjetDefense() {
         return ramassageService.ramasserObjetDefense(this, environnement);
     }
 

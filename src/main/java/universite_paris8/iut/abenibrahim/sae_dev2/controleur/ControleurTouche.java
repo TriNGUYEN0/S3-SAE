@@ -5,11 +5,11 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.*;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.vue.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
 
 public class ControleurTouche implements EventHandler<KeyEvent> {
     private final AnimatedSprite animatedSprite;
@@ -19,8 +19,9 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
     private Joueur joueur;
     private SoinVue soinVue;
     private MapVue mapVue;
-    private objetDefVue objetDefVue;
-    public ControleurTouche(Joueur joueur, ImageView v, InventaireVue inventaireVue, SoinVue soinVue, DialogueVue dialogueVue, MapVue mapVue,objetDefVue objetDefVue) {
+    private ObjetDefVue objetDefVue;
+    private ArmeVue armeVue;
+    public ControleurTouche(Joueur joueur, ImageView v, InventaireVue inventaireVue, SoinVue soinVue, DialogueVue dialogueVue, MapVue mapVue, ObjetDefVue objetDefVue, ArmeVue armeVue) {
         this.animatedSprite = new AnimatedSprite(joueur.getX(), joueur.getY(), JoueurVue.framesDroite, 0);
         this.animatedSprite.setImageView(v);
         this.animatedSprite.setFrameActuel(0);
@@ -30,6 +31,7 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
         this.joueur = joueur;
         this.mapVue=mapVue;
         this.objetDefVue=objetDefVue;
+        this.armeVue=armeVue;
     }
 
     @Override
@@ -64,17 +66,18 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                 }
             }
             case R -> {
-                Arme ramassee = this.joueur.ramasserarme();
+                Arme ramassee = this.joueur.ramasserArme();
                 Soin soin = this.joueur.ramasserSoin();
-                objetDefense objetDefense = this.joueur.ramasserObjetDefense();
-                if (ramassee != null && ct != null) {
-                    inventaireVue.supprimerArmeDeLaCarte(ramassee);
+                ObjetDefense objetDefense = this.joueur.ramasserObjetDefense();
+                if (ramassee != null && ct != null && armeVue != null) {
+                    System.out.println("ramasseee");
+                    this.armeVue.supprimerArmeDeLaCarte();
                 }
-                if (soin != null && ct != null) {
-                    soinVue.supprimerSoinDeLaCarte(soin);
+                if (soin != null && ct != null && soinVue != null) {
+                    soinVue.supprimerSoinVue();
                 }
-                if (objetDefense != null && ct != null) {
-                    objetDefVue.supprimerObjetDefDeLaCarte(objetDefense);
+                if (objetDefense != null && ct != null && objetDefVue != null) {
+                    objetDefVue.supprimerObjetDefVue();
                 }
             }
             case P -> {

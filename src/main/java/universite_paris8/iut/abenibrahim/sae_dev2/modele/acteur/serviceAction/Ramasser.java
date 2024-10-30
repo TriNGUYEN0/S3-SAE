@@ -3,9 +3,9 @@ package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.InventaireObjets;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
 
 public class Ramasser {
 
@@ -39,10 +39,10 @@ public class Ramasser {
         return null;
     }
 
-    public objetDefense ramasserObjetDefense(Joueur joueur, Environnement environnement) {
+    public ObjetDefense ramasserObjetDefense(Joueur joueur, Environnement environnement) {
         int posX = joueur.getX();
         int posY = joueur.getY();
-        for (objetDefense objDef : environnement.getObjetDefenseList()) {
+        for (ObjetDefense objDef : environnement.getObjetDefenseList()) {
             double distance = Math.sqrt(Math.pow(posX - objDef.getX(), 2) + Math.pow(posY - objDef.getY(), 2));
             if (distance <= DISTANCE_RAMASSAGE) {
                 joueur.setPointDef(objDef.getDefDonner());
