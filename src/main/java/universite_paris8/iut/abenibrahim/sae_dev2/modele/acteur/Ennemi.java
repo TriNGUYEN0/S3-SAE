@@ -1,10 +1,10 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
 
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.CombatEnnemi;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epée;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.DeplacementEnnemi;
 
 public class Ennemi extends Acteur {

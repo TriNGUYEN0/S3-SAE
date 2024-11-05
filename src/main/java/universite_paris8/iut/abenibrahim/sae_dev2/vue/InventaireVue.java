@@ -11,6 +11,7 @@ import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
 import javafx.scene.layout.VBox;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.*;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ArmeDistance;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epée;
@@ -81,29 +82,29 @@ public class InventaireVue{
 
     public void afficherInventaire() {
         inventairePane.setVisible(true);
-        inventairePane.setLayoutX(this.environnement.getGuts().getX());
-        inventairePane.setLayoutY(this.environnement.getGuts().getY());
+        inventairePane.setLayoutX(this.environnement.getJoueur().getX());
+        inventairePane.setLayoutY(this.environnement.getJoueur().getY());
 
         slot1.setAlignment(Pos.CENTER); // Center items in slot1
         slot1.setPadding(new Insets(10)); // Optional: adjust padding as needed
         slot2.setAlignment(Pos.CENTER); // Center items in slot2
         slot2.setPadding(new Insets(10)); // Optional: adjust padding as needed
 
-        slot1.setLayoutX(this.environnement.getGuts().getX() + 50);
-        slot1.setLayoutY(this.environnement.getGuts().getY() + 75);
-        slot2.setLayoutY(this.environnement.getGuts().getY() + 75);
-        slot2.setLayoutX(this.environnement.getGuts().getX() + 150);
-        titre.setLayoutX(this.environnement.getGuts().getX() + 125);
-        titre.setLayoutY(this.environnement.getGuts().getY());
-        phrase.setLayoutX(this.environnement.getGuts().getX() + 50);
-        phrase.setLayoutY(this.environnement.getGuts().getY() + 150);
-        this.armeChoisie.setLayoutX(this.environnement.getGuts().getX() + 200);
-        this.armeChoisie.setLayoutY(this.environnement.getGuts().getY() + 150);
+        slot1.setLayoutX(this.environnement.getJoueur().getX() + 50);
+        slot1.setLayoutY(this.environnement.getJoueur().getY() + 75);
+        slot2.setLayoutY(this.environnement.getJoueur().getY() + 75);
+        slot2.setLayoutX(this.environnement.getJoueur().getX() + 150);
+        titre.setLayoutX(this.environnement.getJoueur().getX() + 125);
+        titre.setLayoutY(this.environnement.getJoueur().getY());
+        phrase.setLayoutX(this.environnement.getJoueur().getX() + 50);
+        phrase.setLayoutY(this.environnement.getJoueur().getY() + 150);
+        this.armeChoisie.setLayoutX(this.environnement.getJoueur().getX() + 200);
+        this.armeChoisie.setLayoutY(this.environnement.getJoueur().getY() + 150);
 
         clearSlots();
         int indexSlot = 0;
 
-        for (InventaireObjets item : environnement.getGuts().getListeArme()) {
+        for (InventaireObjets item : environnement.getJoueur().getListeArme()) {
             ImageView imageView = item.getImage();
             imageView.setFitWidth(50);
             imageView.setFitHeight(50);
@@ -141,13 +142,13 @@ public class InventaireVue{
         }
 
         selectedArme = arme;
-        this.environnement.getGuts().equiperArme(selectedArme);
+        this.environnement.getJoueur().equiperArme(selectedArme);
         selectedImageView = imageView;
         imageView.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         System.out.println("Selected weapon nom " + arme.getNom());
         this.armeChoisie.textProperty().bind(selectedArme.nomProperty());
-        this.armeChoisie.setLayoutX(this.environnement.getGuts().getX() + 200);
-        this.armeChoisie.setLayoutY(this.environnement.getGuts().getY() + 150);
+        this.armeChoisie.setLayoutX(this.environnement.getJoueur().getX() + 200);
+        this.armeChoisie.setLayoutY(this.environnement.getJoueur().getY() + 150);
 
     }
     private void clearSlots() {

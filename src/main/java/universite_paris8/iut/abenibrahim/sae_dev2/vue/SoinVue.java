@@ -7,7 +7,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Constante;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
@@ -51,7 +51,7 @@ public class SoinVue {
         afficherSoin();
     }
     public void afficherSoin(){
-        nbSoin.textProperty().bind(this.environnement.getGuts().nbSoinProperty().asString());
+        nbSoin.textProperty().bind(this.environnement.getJoueur().nbSoinProperty().asString());
     }
     public Node getsoinStackPane() {
         return this.soinStackPane;

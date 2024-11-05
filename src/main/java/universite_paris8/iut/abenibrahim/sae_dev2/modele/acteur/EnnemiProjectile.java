@@ -3,7 +3,7 @@ package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.CombatEnnemi;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.serviceAction.DeplacementEnnemi;
@@ -54,7 +54,7 @@ public class EnnemiProjectile extends Ennemi {
 
 
     public boolean detecterJoueur() {
-        Joueur joueur = getEnvironnement().getGuts();
+        Joueur joueur = getEnvironnement().getJoueur();
         int distanceX = Math.abs(joueur.getX() - getX());
         int distanceY = Math.abs(joueur.getY() - getY());
         double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);

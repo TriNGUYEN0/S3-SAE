@@ -1,7 +1,7 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack;
 
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Constants;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.*;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;

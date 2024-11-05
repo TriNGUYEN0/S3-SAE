@@ -2,7 +2,7 @@ package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
 
 import javafx.beans.property.SimpleStringProperty;
 import javafx.beans.property.StringProperty;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 
 public class Pnj extends Acteur {
     private StringProperty dialogue;
