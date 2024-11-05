@@ -15,9 +15,7 @@ import javafx.util.Duration;
 import universite_paris8.iut.abenibrahim.sae_dev2.Main;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.SaveData;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epée;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.vue.*;
 
 import java.net.URL;
@@ -243,7 +241,8 @@ public class Controleur implements Initializable {
         return gutsSprite;
     }
     public void initialiserArmes() {
-        ArmeVue armeVue = new ArmeVue(paneMap, new Epée());
+        Arme arme = UsineArme.creerArme("Epée");
+        ArmeVue armeVue = new ArmeVue(paneMap, arme);
         environnement.getArmeVues().add(armeVue);
     }
     public void initialiserObjetDefVue() {
