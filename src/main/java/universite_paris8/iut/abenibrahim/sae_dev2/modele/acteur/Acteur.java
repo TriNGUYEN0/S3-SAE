@@ -2,76 +2,111 @@ package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.shape.Rectangle;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.combat.Combat;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.deplacement.Deplacement;
 
 public abstract class Acteur {
-    private IntegerProperty x,y;
-
-    Environnement environnement;
-    private String id;
-
+    private IntegerProperty x, y;
     private IntegerProperty pv;
-    private int vitesse = 10;
+    private int vitesse;
+    private String id;
+    protected Environnement environnement;
 
-    public Acteur(Environnement e,int x,int y,int v,int pv){
-        this.x=new SimpleIntegerProperty(x);
-        this.y=new SimpleIntegerProperty(y);
-        this.pv=new SimpleIntegerProperty(pv);
-        this.id= String.valueOf(1);
+
+    protected Combat combatStrategy;
+
+
+    protected Deplacement deplacementStrategy;
+
+    public Acteur(Environnement e, int x, int y, int v, int pv) {
         this.environnement = e;
+        this.x = new SimpleIntegerProperty(x);
+        this.y = new SimpleIntegerProperty(y);
+        this.vitesse = v;
+        this.pv = new SimpleIntegerProperty(pv);
+        this.id = String.valueOf(1);
+    }
+
+
+    public int getX() {
+        return x.get();
+    }
+
+    public void setX(int x) {
+        this.x.set(x);
+    }
+
+    public IntegerProperty xProperty() {
+        return x;
+    }
+
+    public int getY() {
+        return y.get();
+    }
+
+    public void setY(int y) {
+        this.y.set(y);
+    }
+
+    public IntegerProperty yProperty() {
+        return y;
+    }
+
+    public int getPv() {
+        return pv.get();
+    }
+
+    public void setPv(int pv) {
+        this.pv.set(pv);
+    }
+
+    public IntegerProperty pvProperty() {
+        return pv;
+    }
+
+    public int getVitesse() {
+        return vitesse;
+    }
+
+    public Environnement getEnvironnement() {
+        return environnement;
     }
 
     public String getId() {
         return id;
     }
 
+    public boolean estVivant() {
+        return getPv() > 0;
+    }
 
-    public void seDeplace(Direction direction) {
-        int xTmp = getX() + direction.getX() * vitesse;
-        int yTmp = getY() + direction.getY() * vitesse;
 
-        if ( this.environnement.dansTerrain(xTmp,yTmp) && this.environnement.getMap().verifierCollisions(xTmp,yTmp)) {
-            setX(getX()  + direction.getX() * vitesse);
-            setY(getY()  + direction.getY() * vitesse);
+    public void setCombatStrategy(Combat combatStrategy) {
+        this.combatStrategy = combatStrategy;
+    }
+
+    public void attaquer(Acteur cible) {
+        if (combatStrategy != null) {
+            combatStrategy.attaquer(cible);
         }
     }
 
-    public  int getX() {
-                    return this.x.getValue();
-                }
-    public  IntegerProperty XProprety() {
-                    return this.x;
-                }
-    public  int getY() {
-                    return this.y.getValue();
-                }
-    public IntegerProperty YProprety() {
-                    return this.y;
-                }
-    public  void setX(int n){
-                    this.x.setValue(n);
-                }
-    public  void setY(int n){
-                    this.y.setValue(n);
-                }
-    public IntegerProperty pvProperty(){return this.pv;}
-    public int getPv(){return this.pv.getValue();}
-
-    public void setPv(int pv) {
-        this.pv.set(pv);
+    public void recevoirDegats(int degats) {
+        if (combatStrategy != null) {
+            combatStrategy.recevoirDegats(degats);
+        }
     }
 
-    public boolean estVivant(){
-        return this.getPv()> 0;
-    }
-    public boolean estMort() {
-        return getPv() <= 0;
-    }
-    public abstract void attaquer();
 
-    public abstract void recoisDegat(int degat);
+    public void setDeplacementStrategy(Deplacement deplacementStrategy) {
+        this.deplacementStrategy = deplacementStrategy;
+    }
 
+    public void seDeplacer(Direction direction) {
+        if (deplacementStrategy != null) {
+            deplacementStrategy.seDeplacer(this, direction);
+        }
+    }
 }
-

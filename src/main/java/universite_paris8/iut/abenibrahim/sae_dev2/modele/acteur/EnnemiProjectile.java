@@ -2,76 +2,54 @@ package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
 
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ArmeDistance;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.combat.CombatEnnemiProjectile;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.deplacement.DeplacementEnnemiProjectile;
 
-public class EnnemiProjectile extends Acteur{
-    private ObservableList<Projectile> projectiles;
+public class EnnemiProjectile extends Acteur {
     private ArmeDistance armeDistance;
+    private ObservableList<Projectile> projectiles;
     private Direction direction;
-    private Direction lastDirection;
-    private static int DISTANCE_DETECTION = 100;
+
+    // Thêm hằng số cho khoảng cách phát hiện
+    private static final int DISTANCE_DETECTION = 500;
+
     public EnnemiProjectile(Environnement e, int x, int y, int v, int pv) {
         super(e, x, y, v, pv);
-        this.projectiles = FXCollections.observableArrayList();
         this.armeDistance = new ArmeDistance();
-        this.lastDirection = Direction.EST;
+        this.projectiles = FXCollections.observableArrayList();
+        this.direction = Direction.EST;
+
+        this.setCombatStrategy(new CombatEnnemiProjectile(this));
+        this.setDeplacementStrategy(new DeplacementEnnemiProjectile());
     }
 
-    public boolean detecterJoueur(){
-        Joueur joueur = environnement.getGuts();
+    // Thêm phương thức detecterJoueur()
+    public boolean detecterJoueur() {
+        Joueur joueur = this.getEnvironnement().getJoueur();
         int distanceX = Math.abs(joueur.getX() - this.getX());
         int distanceY = Math.abs(joueur.getY() - this.getY());
         double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
         return distance <= DISTANCE_DETECTION;
     }
 
-    public void setLastDirection(Direction direction){
-        this.lastDirection = direction;
+    // Các phương thức getter và setter
+    public ArmeDistance getArmeDistance() {
+        return armeDistance;
     }
 
-    public void setDistanceDetection(int distanceDetection){
-        DISTANCE_DETECTION = distanceDetection;
-    }
-
-
-    @Override
-    public void attaquer() {
-        if(detecterJoueur()){
-            Joueur joueur = environnement.getGuts();
-            int projectileX = getX();
-            int projectileY = getY();
-            int vitesseProjectile = 10; // Ajustez selon vos besoins
-            int degatProjectile = armeDistance.getPointAttaque();
-            Direction directionVersJoueur = calculerDirection(joueur.getX(), joueur.getY());
-            Projectile projectile = new Projectile(projectileX, projectileY, directionVersJoueur, vitesseProjectile, degatProjectile);
-            projectiles.add(projectile);
-            System.out.println("Projectile lancé à : " + projectileX + ", " + projectileY + " en direction " + lastDirection);
-        }
-
-    }
-    @Override
-    public void recoisDegat(int degat) {
-        int newPv = getPv() - degat;
-        setPv(newPv);
-    }
-
-    public ObservableList<Projectile> getProjectileList() {
+    public ObservableList<Projectile> getProjectiles() {
         return projectiles;
     }
-    private Direction calculerDirection(int joueurX, int joueurY) {
-        int deltaX = joueurX - getX();
-        int deltaY = joueurY - getY();
 
-        if (Math.abs(deltaX) > Math.abs(deltaY)) {
-            return deltaX > 0 ? Direction.EST : Direction.OUEST;
-        } else {
-            return deltaY > 0 ? Direction.SUD : Direction.NORD;
-        }
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 }
-
-
-

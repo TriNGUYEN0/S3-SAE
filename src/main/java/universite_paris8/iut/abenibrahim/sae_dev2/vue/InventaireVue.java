@@ -10,7 +10,7 @@ import javafx.scene.layout.TilePane;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ArmeDistance;
 import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epée;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epee;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Hache;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,7 +46,7 @@ public class InventaireVue{
     private ImageView ennemiSprite;
 
 
-    private Epée epée;
+    private Epee epée;
     private Hache hache;
     private ArmeDistance armeDistance;
 
@@ -63,7 +63,7 @@ public class InventaireVue{
         this.slots = slots;
         this.gSprite = g;
         this.ennemiSprite = eSprite;
-        this.epée = new Epée();
+        this.epée = new Epee();
         this.hache = new Hache();
         this.armeDistance = new ArmeDistance();
         this.premierPlanMap = premierPlanMap;
