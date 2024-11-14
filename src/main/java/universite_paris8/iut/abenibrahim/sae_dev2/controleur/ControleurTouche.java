@@ -6,10 +6,10 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.vue.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
 
 public class ControleurTouche implements EventHandler<KeyEvent> {
     private final AnimatedSprite animatedSprite;

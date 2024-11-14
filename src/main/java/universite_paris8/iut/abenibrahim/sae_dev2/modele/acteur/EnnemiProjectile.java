@@ -14,7 +14,7 @@ public class EnnemiProjectile extends Acteur {
     private ObservableList<Projectile> projectiles;
     private Direction direction;
 
-    // Thêm hằng số cho khoảng cách phát hiện
+
     private static final int DISTANCE_DETECTION = 500;
 
     public EnnemiProjectile(Environnement e, int x, int y, int v, int pv) {
@@ -27,7 +27,6 @@ public class EnnemiProjectile extends Acteur {
         this.setDeplacementStrategy(new DeplacementEnnemiProjectile());
     }
 
-    // Thêm phương thức detecterJoueur()
     public boolean detecterJoueur() {
         Joueur joueur = this.getEnvironnement().getJoueur();
         int distanceX = Math.abs(joueur.getX() - this.getX());
@@ -36,7 +35,6 @@ public class EnnemiProjectile extends Acteur {
         return distance <= DISTANCE_DETECTION;
     }
 
-    // Các phương thức getter và setter
     public ArmeDistance getArmeDistance() {
         return armeDistance;
     }

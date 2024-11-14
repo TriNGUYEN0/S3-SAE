@@ -2,7 +2,7 @@ package universite_paris8.iut.abenibrahim.sae_dev2.modele;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import javafx.scene.image.Image;
