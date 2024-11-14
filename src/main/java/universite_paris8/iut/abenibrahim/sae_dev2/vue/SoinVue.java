@@ -47,7 +47,7 @@ public class SoinVue {
         paneMap.getChildren().add(imageView);
         updatePosition();
         imageView.setVisible(true);
-        this.soin = new Soin();
+        this.soin = new Soin.Builder().build();
         afficherSoin();
     }
     public void afficherSoin(){

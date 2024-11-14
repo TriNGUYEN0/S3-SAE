@@ -241,7 +241,8 @@ public class Controleur implements Initializable {
         return gutsSprite;
     }
     public void initialiserArmes() {
-        Arme arme = UsineArme.creerArme("Epée");
+        EpeeFactory epeeFactory = new EpeeFactory();
+        Arme arme = epeeFactory.createArme();
         ArmeVue armeVue = new ArmeVue(paneMap, arme);
         environnement.getArmeVues().add(armeVue);
     }

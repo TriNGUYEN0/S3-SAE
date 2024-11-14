@@ -2,6 +2,11 @@ package universite_paris8.iut.abenibrahim.sae_dev2.modele.objet;
 
 public class Constante {
 
+
+
+
+
+
     public static final int POSITION_X_ARME =350;
 
     public static final int POSITION_Y_ARME =350;

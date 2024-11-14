@@ -11,7 +11,7 @@ public class ObjetDefVue {
     private final ImageView imageView;
     public ObjetDefVue(Pane paneMap) {
         this.paneMap = paneMap;
-        this.objetDefense = new ObjetDefense();
+        this.objetDefense = new ObjetDefense.Builder().build();
         this.imageView = new ImageView(ImageObjet.IMAGE_OBJET_DEF); // Charger l'image depuis ImageObjet
         paneMap.getChildren().add(imageView); // Ajouter l'ImageView au Pane
         updatePosition();
