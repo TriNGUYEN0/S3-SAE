@@ -1,7 +1,7 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
 
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epee;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.combat.CombatEnnemi;

@@ -15,7 +15,7 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import universite_paris8.iut.abenibrahim.sae_dev2.Main;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Ennemi;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.SaveData;
 

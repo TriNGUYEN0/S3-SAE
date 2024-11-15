@@ -5,7 +5,7 @@ import javafx.fxml.FXMLLoader;
 import javafx.scene.Scene;
 import javafx.scene.layout.Pane;
 import javafx.stage.Stage;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 
 public class Main extends Application {
     private static Environnement environnement;

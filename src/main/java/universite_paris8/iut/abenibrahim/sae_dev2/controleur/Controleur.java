@@ -13,11 +13,8 @@ import javafx.scene.layout.TilePane;
 import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import universite_paris8.iut.abenibrahim.sae_dev2.Main;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.SaveData;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Acteur;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.EnnemiProjectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.vue.*;
 
 import java.net.URL;

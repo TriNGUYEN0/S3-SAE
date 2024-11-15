@@ -17,6 +17,7 @@ module universite_paris8.iut.abenibrahim.sae_dev2 {
 
     exports universite_paris8.iut.abenibrahim.sae_dev2.modele.objet;
     exports universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
+    exports universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack;
 
 
 }

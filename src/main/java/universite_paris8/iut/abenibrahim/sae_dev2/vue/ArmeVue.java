@@ -2,13 +2,8 @@ package universite_paris8.iut.abenibrahim.sae_dev2.vue;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Constante;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
-
-import java.util.ArrayList;
-import java.util.List;
 
 public class ArmeVue {
     private final Arme arme;

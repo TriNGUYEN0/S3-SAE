@@ -1,8 +1,8 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.vue;
 
 import javafx.fxml.FXML;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import javafx.scene.control.Label;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Pnj;
 
 import java.util.List;
@@ -22,10 +22,10 @@ public class DialogueVue {
     }
 
     public void afficherDialoguePnj(){
-        List<Pnj> pnjs = environnement.getPnjList();
+        List<Pnj> pnjs = environnement.getActeurManager().getPnjs();
         if (!pnjs.isEmpty()) {
             Pnj pnj = pnjs.get(0);
-            if(environnement.getJoueur().getPointDef()==100){
+            if(environnement.getActeurManager().getJoueur().getPointDef()==100){
                 dialogueBox.setText("je vois que vous avez l'objet mais faites attention il met des obstacles que lui seul peut voir.");
             }else{
                 dialogueBox.setText(pnj.getDialogue());

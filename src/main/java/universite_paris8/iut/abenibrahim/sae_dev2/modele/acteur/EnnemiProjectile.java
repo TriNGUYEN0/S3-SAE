@@ -4,7 +4,7 @@ import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ArmeDistance;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.combat.CombatEnnemiProjectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.deplacement.DeplacementEnnemiProjectile;
@@ -28,12 +28,13 @@ public class EnnemiProjectile extends Acteur {
     }
 
     public boolean detecterJoueur() {
-        Joueur joueur = this.getEnvironnement().getJoueur();
+        Joueur joueur = this.getEnvironnement().getActeurManager().getJoueur();
         int distanceX = Math.abs(joueur.getX() - this.getX());
         int distanceY = Math.abs(joueur.getY() - this.getY());
         double distance = Math.sqrt(distanceX * distanceX + distanceY * distanceY);
         return distance <= DISTANCE_DETECTION;
     }
+
 
     public ArmeDistance getArmeDistance() {
         return armeDistance;

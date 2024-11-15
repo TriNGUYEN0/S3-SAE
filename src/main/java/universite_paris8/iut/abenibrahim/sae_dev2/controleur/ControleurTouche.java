@@ -5,41 +5,48 @@ import javafx.scene.image.ImageView;
 import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.*;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.vue.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 
 public class ControleurTouche implements EventHandler<KeyEvent> {
     private final AnimatedSprite animatedSprite;
     private DialogueVue dialogueVue;
-    public Controleur ct;
+    private Controleur controleur;
     private InventaireVue inventaireVue;
     private Joueur joueur;
     private SoinVue soinVue;
     private MapVue mapVue;
-    private objetDefVue objetDefVue;
-    public ControleurTouche(Joueur joueur, ImageView v, InventaireVue inventaireVue, SoinVue soinVue, DialogueVue dialogueVue, MapVue mapVue,objetDefVue objetDefVue) {
+    private ObjetDefVue objetDefVue;
+    private Environnement environnement;
+
+    public ControleurTouche(Joueur joueur, Environnement environnement, ImageView joueurSprite,
+                            InventaireVue inventaireVue, SoinVue soinVue, DialogueVue dialogueVue,
+                            MapVue mapVue, ObjetDefVue objetDefVue) {
+        this.joueur = joueur;
+        this.environnement = environnement;
         this.animatedSprite = new AnimatedSprite(joueur.getX(), joueur.getY(), JoueurVue.framesDroite, 0);
-        this.animatedSprite.setImageView(v);
+        this.animatedSprite.setImageView(joueurSprite);
         this.animatedSprite.setFrameActuel(0);
         this.inventaireVue = inventaireVue;
         this.dialogueVue = dialogueVue;
         this.soinVue = soinVue;
-        this.joueur = joueur;
-        this.mapVue=mapVue;
-        this.objetDefVue=objetDefVue;
+        this.mapVue = mapVue;
+        this.objetDefVue = objetDefVue;
     }
 
     @Override
     public void handle(KeyEvent event) {
-        KeyCode k = event.getCode();
+        KeyCode keyCode = event.getCode();
         Direction direction = null;
-        switch (k){
+
+        switch (keyCode) {
             case S -> {
                 if (event.isControlDown()) {
-                    ct.saveGame();
+                    if (controleur != null) controleur.saveGame();
                 }
             }
             case W -> {
@@ -48,15 +55,15 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                 }
             }
             case C -> {
-                if(this.joueur.peutSeSoigner()){
-                    this.joueur.seSoigner();
+                if (joueur.peutSeSoigner()) {
+                    joueur.seSoigner();
                 }
             }
             case A -> {
-                this.joueur.attaquer();
+                joueur.attaquer(environnement.getActeurManager().getJoueur());
             }
             case SPACE -> {
-                this.joueur.lancerProjectile();
+                joueur.lancerProjectile();
             }
             case I -> {
                 if (!inventaireVue.inventairePane.isVisible()) {
@@ -64,26 +71,21 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                 }
             }
             case R -> {
-                Arme ramassee = this.joueur.ramasserarme();
-                Soin soin = this.joueur.ramasserSoin();
-                objetDefense objetDefense = this.joueur.ramasserObjetDefense();
-                if (ramassee != null && ct != null) {
-                    inventaireVue.supprimerArmeDeLaCarte(ramassee);
-                }
-                if (soin != null && ct != null) {
-                    soinVue.supprimerSoinDeLaCarte(soin);
-                }
-                if (objetDefense != null && ct != null) {
-                    objetDefVue.supprimerObjetDefDeLaCarte(objetDefense);
-                }
+                Arme armeRamassee = joueur.ramasserarme();
+                Soin soin = joueur.ramasserSoin();
+                ObjetDefense objetDefense = joueur.ramasserObjetDefense();
+
+                if (armeRamassee != null) inventaireVue.supprimerArmeDeLaCarte(armeRamassee);
+                if (soin != null) soinVue.supprimerSoinDeLaCarte(soin);
+                if (objetDefense != null) objetDefVue.supprimerObjetDefDeLaCarte(objetDefense);
             }
             case P -> {
-                if (joueur.peutParler()){
+                if (joueur.peutParler()) {
                     dialogueVue.afficherDialoguePnj();
                 }
             }
             case ENTER -> {
-                if(dialogueVue.dialogueBox.isVisible() || dialogueVue.dialogueBox2.isVisible()){
+                if (dialogueVue.dialogueBox.isVisible() || dialogueVue.dialogueBox2.isVisible()) {
                     dialogueVue.masquerDialogue();
                 }
             }
@@ -104,16 +106,16 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                 animatedSprite.definirFrames(JoueurVue.framesDroite);
             }
         }
-        if (direction != null)
-            if (!inventaireVue.inventairePane.isVisible()){
-                this.joueur.seDeplace(direction);
-                ct.ajusterCameraSuiviJoueur();
-                mapVue.updatePlayerPosition(joueur.getX(), joueur.getY());
-                System.out.println(joueur.getX() + " " + joueur.getY());
-            }
+
+        if (direction != null && !inventaireVue.inventairePane.isVisible()) {
+            joueur.seDeplacer(direction);
+            if (controleur != null) controleur.ajusterCameraSuiviJoueur();
+            mapVue.updatePlayerPosition(joueur.getX(), joueur.getY());
+        }
     }
-    public void Actualiser(Controleur c){
-        this.ct = c;
+
+    public void actualiserControleur(Controleur controleur) {
+        this.controleur = controleur;
     }
 
     public AnimatedSprite getAnimatedSprite() {

@@ -28,7 +28,7 @@ public class PRojectileVueEnnemie {
             Projectile projectile = iterator.next();
             projectile.deplacer();
             if (checkCollision(projectile, joueur)) {
-                joueur.recoisDegat(projectile.getDegat());
+                joueur.recevoirDegats(projectile.getDegat());
                 iterator.remove(); // Supprimez le projectile de la liste
                 int index = projectiles.indexOf(projectile);
                 if (index != -1 && index < projectilesSprites.size()) {

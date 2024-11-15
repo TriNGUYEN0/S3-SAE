@@ -28,7 +28,7 @@ public class ProjectileVue {
             Projectile projectile = iterator.next();
             projectile.deplacer();
             if (checkCollision(projectile, ennemi)) {
-                ennemi.recoisDegat(projectile.getDegat());
+                ennemi.recevoirDegats(projectile.getDegat());
                 iterator.remove(); // Supprimez le projectile de la liste
                 int index = projectiles.indexOf(projectile);
                 if (index != -1 && index < projectilesSprites.size()) {
