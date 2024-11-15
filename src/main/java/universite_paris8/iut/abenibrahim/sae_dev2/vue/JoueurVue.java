@@ -17,7 +17,8 @@ public class JoueurVue {
     private SoinVue soinVue;
     private DialogueVue dialogueVue;
     private MapVue mapVue;
-    private objetDefVue objetDefVue;
+    private ObjetDefVue objetDefVue;
+    private ArmeVue armeVue;
 
     public static String[] framesGauche;
     public static String[] framesDroite;
@@ -26,7 +27,7 @@ public class JoueurVue {
 
 
 
-    public JoueurVue(Joueur joueur, Pane paneMap, InventaireVue inventaireVue, SoinVue soinVue, DialogueVue dialogueVue, MapVue mapVue,objetDefVue objetDefVue) {
+    public JoueurVue(Joueur joueur, Pane paneMap, InventaireVue inventaireVue, SoinVue soinVue, DialogueVue dialogueVue, MapVue mapVue, ObjetDefVue objetDefVue, ArmeVue armeVue) {
         this.joueur = joueur;
         this.mapVue=mapVue;
         this.paneMap = paneMap;
@@ -34,6 +35,7 @@ public class JoueurVue {
         this.soinVue = soinVue;
         this.dialogueVue = dialogueVue;
         this.objetDefVue=objetDefVue;
+        this.armeVue = armeVue;
         framesGauche = new String[]{ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/gauche1.png").toExternalForm() , ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/gauche2.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/gauche3.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/gauche4.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/gauche5.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/gauche6.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/gauche7.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/gauche8.png").toExternalForm()};
         framesDroite = new String[]{ ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/right1.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/right2.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/right3.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/right4.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/right5.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/right6.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/right7.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/right8.png").toExternalForm()};
         framesHaut = new String[]{ ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/up1.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/up2.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/up3.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/up4.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/up5.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/up6.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/up7.png").toExternalForm(), ControleurTouche.class.getResource("/universite_paris8/iut/abenibrahim/sae_dev2/up8.png").toExternalForm()};
@@ -50,7 +52,7 @@ public class JoueurVue {
 
     public void creerSpriteJoueur(Controleur c) {
         gutsSprite = c.getGutsSprite();
-        ControleurTouche deplacementFleche = new ControleurTouche(this.joueur, gutsSprite, inventaireVue,soinVue,dialogueVue,mapVue,objetDefVue);
+        ControleurTouche deplacementFleche = new ControleurTouche(this.joueur, gutsSprite, inventaireVue,soinVue,dialogueVue,mapVue,objetDefVue,armeVue);
         deplacementFleche.Actualiser(c);
         Scene scene = paneMap.getScene();
         if (scene != null) {

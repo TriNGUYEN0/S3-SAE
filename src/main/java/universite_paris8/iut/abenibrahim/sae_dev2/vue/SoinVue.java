@@ -7,14 +7,17 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.StackPane;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Constante;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
 
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class SoinVue {
+    private final ImageView imageView;
     private Pane paneMap;
     private StackPane soinStackPane;
     private StackPane nbsoinStackPane;
@@ -26,10 +29,10 @@ public class SoinVue {
     private Label nbSoin;
     private Soin soin;
 
-    public SoinVue(Pane paneMap, Label nbSoin, Environnement environnement) {
+    public SoinVue(Pane paneMap, Label nbSoin,Environnement environnement) {
         this.paneMap = paneMap;
-        this.environnement = environnement;
         this.nbSoin = nbSoin;
+        this.environnement = environnement;
         this.soinStackPane = new StackPane();
         this.nbsoinStackPane = new StackPane();
         Image soinImage = new Image(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/items.png").toString());
@@ -40,11 +43,15 @@ public class SoinVue {
         nbsoinStackPane.getChildren().add(nbSoin);
         paneMap.getChildren().add(soinStackPane);
         paneMap.getChildren().add(nbsoinStackPane);
-        this.soin = new Soin();
+        this.imageView = new ImageView(ImageObjet.IMAGE_SOIN);
+        paneMap.getChildren().add(imageView);
+        updatePosition();
+        imageView.setVisible(true);
+        this.soin = new Soin.Builder().build();
         afficherSoin();
     }
     public void afficherSoin(){
-       nbSoin.textProperty().bind(this.environnement.getGuts().nbSoinProperty().asString());
+        nbSoin.textProperty().bind(this.environnement.getJoueur().nbSoinProperty().asString());
     }
     public Node getsoinStackPane() {
         return this.soinStackPane;
@@ -52,32 +59,20 @@ public class SoinVue {
     public Node getnbsoinStackPane() {
         return this.nbsoinStackPane;
     }
-    public void ajouterSoinMap() {
-        for (Soin soin : this.environnement.getSoinMap()) {
-            Image image = soin.getImage(); // Obtenir l'image de l'arme
-            ImageView imageView = new ImageView(image);
-            imageView.setFitHeight(50);
-            imageView.setFitWidth(50);// Créer l'ImageView avec l'image
-            paneMap.getChildren().add(imageView); // Ajouter l'ImageView au PaneMap
-            imageView.setTranslateX(soin.getX()); // Ajuster la position X
-            imageView.setTranslateY(soin.getY()); // Ajuster la position Y
-            soins.add(soin);
-            soinImageViews.add(imageView);
-        }
+    public void updatePosition() {
+        // Mettez à jour la position de l'image ici en fonction de la position de l'arme
+        imageView.setTranslateX(Constante.POSITION_X_SOIN); // Ajustez cela si vous ajoutez une méthode getX() dans Arme
+        imageView.setTranslateY(Constante.POSITION_Y_SOIN); // Ajustez cela si vous ajoutez une méthode getY() dans Arme
     }
-    public void supprimerSoinDeLaCarte(Soin soin) {
-        int index = soins.indexOf(soin);
-        if (index >= 0) {
-            ImageView imageView = soinImageViews.get(index);
-            soins.remove(soin);
-            soinImageViews.remove(imageView);
-            paneMap.getChildren().remove(imageView);
-        }
+    public Soin getSoin() {
+        return this.soin;
     }
-    public void ajouterSoin(Soin soin){
-        this.environnement.getSoinMap().add(soin);
+
+    public ImageView getImageView() {
+        return imageView;
     }
-    public void afficherSoinMap() {
-        ajouterSoin(soin);
+
+    public void supprimerSoinVue() {
+        paneMap.getChildren().remove(imageView);
     }
 }

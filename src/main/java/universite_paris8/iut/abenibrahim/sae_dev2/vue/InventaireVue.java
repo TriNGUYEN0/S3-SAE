@@ -1,16 +1,20 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.vue;
 
 import javafx.fxml.FXML;
+import javafx.geometry.Insets;
+import javafx.geometry.Pos;
 import javafx.scene.control.Label;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.HBox;
 import javafx.scene.layout.Pane;
 import javafx.scene.layout.TilePane;
+import javafx.scene.layout.VBox;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.*;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ArmeDistance;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epee;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epée;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Hache;
 import java.util.ArrayList;
 import java.util.List;
@@ -46,9 +50,12 @@ public class InventaireVue{
     private ImageView ennemiSprite;
 
 
-    private Epee epée;
+    private Epée epée;
     private Hache hache;
     private ArmeDistance armeDistance;
+
+    private List<ArmeVue> armeVues = new ArrayList<>();
+
 
     public InventaireVue(Pane paneMap, TilePane tilePaneMap, Environnement environnement, TilePane inventaireP, HBox slot1, HBox slot2, Label titre, Label armeChoisie, Label phrase, List<HBox> slots, ImageView g, ImageView eSprite,TilePane premierPlanMap){
         this.paneMap = paneMap;
@@ -63,7 +70,7 @@ public class InventaireVue{
         this.slots = slots;
         this.gSprite = g;
         this.ennemiSprite = eSprite;
-        this.epée = new Epee();
+        this.epée = new Epée();
         this.hache = new Hache();
         this.armeDistance = new ArmeDistance();
         this.premierPlanMap = premierPlanMap;
@@ -73,62 +80,50 @@ public class InventaireVue{
         this.environnement.getArmeMap().add(arme);
     }
 
-    public void afficherArmes() {
-        for (Arme arme : this.environnement.getArmeMap()) {
-            Image image = arme.getImage(); // Obtenir l'image de l'arme
-            ImageView imageView = new ImageView(image); // Créer l'ImageView avec l'image
-            paneMap.getChildren().add(imageView); // Ajouter l'ImageView au PaneMap
-            imageView.setTranslateX(arme.getX()); // Ajuster la position X
-            imageView.setTranslateY(arme.getY()); // Ajuster la position Y
-            armes.add(arme);
-            armeImages.add(imageView);
-        }
-    }
-
-
-
-    public void  afficherInventaire() {
-
+    public void afficherInventaire() {
         inventairePane.setVisible(true);
-        inventairePane.setLayoutX(this.environnement.getGuts().getX());
-        inventairePane.setLayoutY(this.environnement.getGuts().getY());
-        slot1.setLayoutX(this.environnement.getGuts().getX() + 50);
-        slot1.setLayoutY(this.environnement.getGuts().getY() + 75);
-        slot2.setLayoutY(this.environnement.getGuts().getY() + 75);
-        slot2.setLayoutX(this.environnement.getGuts().getX() + 150);
-        titre.setLayoutX(this.environnement.getGuts().getX() + 125);
-        titre.setLayoutY(this.environnement.getGuts().getY());
-        phrase.setLayoutX(this.environnement.getGuts().getX() + 50);
-        phrase.setLayoutY(this.environnement.getGuts().getY() + 150);
-        this.armeChoisie.setLayoutX(this.environnement.getGuts().getX() + 200);
-        this.armeChoisie.setLayoutY(this.environnement.getGuts().getY() + 150);
-        clearSlots();
-        System.out.println("Taille de l'inventaire: " + environnement.getGuts().getListeArme().size());
-        // Boucle à travers la liste des armes dans l'inventaire du joueur
-        int indexSlot = 0;
-        for (InventaireObjets item : environnement.getGuts().getListeArme()) {
-            System.out.println("image");
-            ImageView imageView = new ImageView(item.getImage());
-            System.out.println(imageView.getImage().getUrl());// Crée une ImageView avec l'image de l'arme
-            imageView.setFitWidth(50); // Définit la largeur de l'ImageView à 50 pixels
-            imageView.setFitHeight(50); // Définit la hauteur de l'ImageView à 50 pixels
+        inventairePane.setLayoutX(this.environnement.getJoueur().getX());
+        inventairePane.setLayoutY(this.environnement.getJoueur().getY());
 
-            // Add click event handler
+        slot1.setAlignment(Pos.CENTER); // Center items in slot1
+        slot1.setPadding(new Insets(10)); // Optional: adjust padding as needed
+        slot2.setAlignment(Pos.CENTER); // Center items in slot2
+        slot2.setPadding(new Insets(10)); // Optional: adjust padding as needed
+
+        slot1.setLayoutX(this.environnement.getJoueur().getX() + 50);
+        slot1.setLayoutY(this.environnement.getJoueur().getY() + 75);
+        slot2.setLayoutY(this.environnement.getJoueur().getY() + 75);
+        slot2.setLayoutX(this.environnement.getJoueur().getX() + 150);
+        titre.setLayoutX(this.environnement.getJoueur().getX() + 125);
+        titre.setLayoutY(this.environnement.getJoueur().getY());
+        phrase.setLayoutX(this.environnement.getJoueur().getX() + 50);
+        phrase.setLayoutY(this.environnement.getJoueur().getY() + 150);
+        this.armeChoisie.setLayoutX(this.environnement.getJoueur().getX() + 200);
+        this.armeChoisie.setLayoutY(this.environnement.getJoueur().getY() + 150);
+
+        clearSlots();
+        int indexSlot = 0;
+
+        for (InventaireObjets item : environnement.getJoueur().getListeArme()) {
+            ImageView imageView = item.getImage();
+            imageView.setFitWidth(50);
+            imageView.setFitHeight(50);
+
+            // Center the ImageView within the slot
+            imageView.setPreserveRatio(true); // Keeps aspect ratio for better centering
+
+            // Click event handler for selecting an item
             imageView.setOnMouseClicked(event -> handleArmeSelection(item.getArme(), imageView));
 
-            if(indexSlot <= slots.size()){
+            if (indexSlot < slots.size()) {
                 slots.get(indexSlot).getChildren().add(imageView);
                 slots.get(indexSlot).setVisible(true);
                 indexSlot++;
             }
-
         }
 
-        for (ImageView imageView : armeImages){
-            imageView.setVisible(false);
-        }
-
-        paneMap.setVisible(true); // Masque le Pane contenant la carte du jeu
+        // Visibility settings for other UI components
+        paneMap.setVisible(true);
         gSprite.setVisible(false);
         tilePaneMap.setVisible(true);
         slot1.setVisible(true);
@@ -138,9 +133,8 @@ public class InventaireVue{
         phrase.setVisible(true);
         ennemiSprite.setVisible(false);
         premierPlanMap.setVisible(false);
-
-
     }
+
 
     private void handleArmeSelection(Arme arme, ImageView imageView) {
         if (selectedImageView != null) {
@@ -148,13 +142,13 @@ public class InventaireVue{
         }
 
         selectedArme = arme;
-        this.environnement.getGuts().equiperArme(selectedArme);
+        this.environnement.getJoueur().equiperArme(selectedArme);
         selectedImageView = imageView;
         imageView.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
         System.out.println("Selected weapon nom " + arme.getNom());
         this.armeChoisie.textProperty().bind(selectedArme.nomProperty());
-        this.armeChoisie.setLayoutX(this.environnement.getGuts().getX() + 200);
-        this.armeChoisie.setLayoutY(this.environnement.getGuts().getY() + 150);
+        this.armeChoisie.setLayoutX(this.environnement.getJoueur().getX() + 200);
+        this.armeChoisie.setLayoutY(this.environnement.getJoueur().getY() + 150);
 
     }
     private void clearSlots() {
@@ -181,21 +175,21 @@ public class InventaireVue{
             imageView.setVisible(true);
         }
     }
-    public void supprimerArmeDeLaCarte(Arme arme) {
-        int index = armes.indexOf(arme);
-        if (index >= 0) {
-            ImageView imageView = armeImages.remove(index);
-            armes.remove(index);
-            paneMap.getChildren().remove(imageView);
+
+    public void afficherArmes() {
+        for (Arme arme : this.environnement.getArmeMap()) {
+            ArmeVue armeVue = new ArmeVue(paneMap, arme);
+            armeVues.add(armeVue);
         }
     }
-
-    public void armeMap(){
-        this.ajouterArme(this.epée);
-        armeDistance.setX(760);
-        armeDistance.setY(1110);
-        Image pistolet = new Image(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/5450168-pixel-art-pistolet-noir-.png").toString());
-        armeDistance.setImage(pistolet);
-        this.ajouterArme(armeDistance);
+    public void supprimerArmeDeLaCarte(Arme arme) {
+        for (int i = armeVues.size() - 1; i >= 0; i--) {
+            ArmeVue armeVue = armeVues.get(i);
+            if (armeVue.getArme().equals(arme)) {
+                armeVue.supprimerArmeDeLaCarte();
+                armeVues.remove(i);  // Suppression sécurisée grâce à l'index
+                break;
+            }
+        }
     }
 }

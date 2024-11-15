@@ -1,16 +1,18 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele;
 
 import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 public class InventaireObjets {
     private Arme arme;
-    private Image image;
+    private ImageView image;
     private int id = 0;
-    public InventaireObjets(Image image,Arme arme) {
+    public InventaireObjets(ImageView image,Arme arme) {
         this.arme = arme;
         this.image = image;
     }
-    public Image getImage() {
+
+    public ImageView getImage() {
         return image;
     }
 
@@ -18,9 +20,7 @@ public class InventaireObjets {
         return id;
     }
 
-    public void setImage(Image image) {
-        this.image = image;
-    }
+
 
     public Arme getArme() {
         return arme;
