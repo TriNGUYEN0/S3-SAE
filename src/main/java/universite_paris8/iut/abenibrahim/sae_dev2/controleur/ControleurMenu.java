@@ -124,28 +124,34 @@ public class ControleurMenu {
             SaveData saveData = (SaveData) ois.readObject();
             ois.close();
 
-            // Restaurer les données de l'environnement à partir de saveData
+            // Tạo một instance mới của Environnement
             Environnement env = new Environnement();
-            Joueur guts = env.getGuts();
-            guts.setX(saveData.getGutsX());
-            guts.setY(saveData.getGutsY());
-            guts.setPv(saveData.getGutsPv());
 
-            Ennemi ennemi = env.getEnnemi();
-            ennemi.setX(saveData.getEnnemiX());
-            ennemi.setY(saveData.getEnnemiY());
-            ennemi.setPv(saveData.getEnnemiPv());
+            // Khôi phục dữ liệu của người chơi (joueur)
+            Joueur joueur = env.getActeurManager().getJoueur();
+            joueur.setX(saveData.getJoueurX());
+            joueur.setY(saveData.getJoueurY());
+            joueur.setPv(saveData.getJoueurPv());
 
-            env.getMap().setTab(saveData.getMapData());
-            env.getMap().setTab2(saveData.getMapData2());
+            // Khôi phục dữ liệu của các kẻ thù (ennemis)
+            env.getActeurManager().getEnnemis().clear(); // Xóa danh sách kẻ thù hiện tại
+            for (SaveData.EnnemiData ennemiData : saveData.getEnnemisData()) {
+                Ennemi ennemi = new Ennemi(env, ennemiData.getEnnemiX(), ennemiData.getEnnemiY(), 50, ennemiData.getEnnemiPv());
+                env.getActeurManager().ajouterEnnemi(ennemi);
+            }
 
-            // Stocker l'environnement chargé pour l'utiliser dans la scène de jeu
+            // Khôi phục dữ liệu bản đồ
+            env.getTerrainManager().getMap().setTab(saveData.getMapData());
+            env.getTerrainManager().getMap().setTab2(saveData.getMapData2());
+
+            // Lưu trữ môi trường đã tải để sử dụng trong cảnh trò chơi
             Main.setEnvironnement(env);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
         }
-
     }
+
+
 
     public void skipAnimation() {
         if (videoMediaPlayer != null) {

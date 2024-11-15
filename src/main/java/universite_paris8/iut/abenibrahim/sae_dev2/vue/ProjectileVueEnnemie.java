@@ -10,8 +10,8 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
 import java.util.Iterator;
 import java.util.List;
 
-public class PRojectileVueEnnemie {
-    public PRojectileVueEnnemie() {
+public class ProjectileVueEnnemie {
+    public ProjectileVueEnnemie() {
 
     }
 

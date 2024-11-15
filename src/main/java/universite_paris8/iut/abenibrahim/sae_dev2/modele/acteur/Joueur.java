@@ -22,6 +22,8 @@ public class Joueur extends Acteur {
     private ObservableList<Projectile> projectiles;
     private Direction lastDirection;
     private int pointDef;
+    private IntegerProperty x;
+    private IntegerProperty y;
 
     public Joueur(Environnement e, int x, int y, int v, int pv) {
         super(e, x, y, v, pv);
@@ -33,6 +35,9 @@ public class Joueur extends Acteur {
 
         this.setCombatStrategy(new CombatJoueur(this));
         this.setDeplacementStrategy(new DeplacementJoueur());
+
+        this.x = new SimpleIntegerProperty(x);
+        this.y = new SimpleIntegerProperty(y);
     }
 
     public void equiperArme(Arme arme) {
@@ -152,6 +157,27 @@ public class Joueur extends Acteur {
         int distanceY = Math.abs(yObjet - getY());
         return Math.sqrt(distanceX * distanceX + distanceY * distanceY) <= 50;
     }
+
+    @Override
+    public void setX(int x) {
+        super.setX(x);
+        this.x.set(x);
+    }
+
+    @Override
+    public void setY(int y) {
+        super.setY(y);
+        this.y.set(y);
+    }
+
+    public IntegerProperty XProperty() {
+        return x;
+    }
+
+    public IntegerProperty YProperty() {
+        return y;
+    }
+
 }
 
 
