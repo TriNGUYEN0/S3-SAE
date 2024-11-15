@@ -21,10 +21,10 @@ public class ArmeVue {
     }
 
     public void updatePosition() {
-        // Mettez à jour la position de l'image ici en fonction de la position de l'arme
-        imageView.setTranslateX(Constante.POSITION_X_ARME); // Ajustez cela si vous ajoutez une méthode getX() dans Arme
-        imageView.setTranslateY(Constante.POSITION_Y_ARME); // Ajustez cela si vous ajoutez une méthode getY() dans Arme
+        imageView.setTranslateX(arme.getX());
+        imageView.setTranslateY(arme.getY());
     }
+
     public void supprimerArmeDeLaCarte() {
         paneMap.getChildren().remove(imageView);
     }

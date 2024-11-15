@@ -1,6 +1,5 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.combat;
 
-package universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.combat;
 
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;

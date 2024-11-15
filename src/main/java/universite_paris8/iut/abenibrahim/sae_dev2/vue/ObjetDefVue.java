@@ -4,11 +4,18 @@ import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Constante;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
+import java.util.ArrayList;
+import java.util.List;
+
 
 public class ObjetDefVue {
     private Pane paneMap;
     private final ObjetDefense objetDefense;
     private final ImageView imageView;
+    private List<ObjetDefense> objetDefenses = new ArrayList<>();
+    private List<ImageView> objetDefImageViews = new ArrayList<>();
+
+
     public ObjetDefVue(Pane paneMap) {
         this.paneMap = paneMap;
         this.objetDefense = new ObjetDefense.Builder().build();
@@ -25,9 +32,20 @@ public class ObjetDefVue {
         imageView.setTranslateY(Constante.POSITION_Y_OBJETDEF); // Ajustez cela si vous ajoutez une méthode getY() dans Arme
     }
 
-    public void supprimerObjetDefVue() {
-        paneMap.getChildren().remove(imageView);
+    public void supprimerObjetDefDeLaCarte(ObjetDefense objetDefense) {
+        for (int i = objetDefenses.size() - 1; i >= 0; i--) {
+            if (objetDefenses.get(i).equals(objetDefense)) {
+                paneMap.getChildren().remove(objetDefImageViews.get(i));
+                objetDefenses.remove(i);
+                objetDefImageViews.remove(i);
+                break;
+            }
+        }
     }
+
+
+
+
     public ObjetDefense getObjetDef() {
         return this.objetDefense;
     }

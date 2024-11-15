@@ -70,8 +70,27 @@ public class SoinVue {
     public ImageView getImageView() {
         return imageView;
     }
-
-    public void supprimerSoinVue() {
-        paneMap.getChildren().remove(imageView);
+    public void afficherSoinsSurCarte() {
+        for (Soin soin : environnement.getObjetManager().getSoinMap()) {
+            ImageView imageView = new ImageView(ImageObjet.IMAGE_SOIN);
+            imageView.setTranslateX(soin.getX());
+            imageView.setTranslateY(soin.getY());
+            paneMap.getChildren().add(imageView);
+            soins.add(soin);
+            soinImageViews.add(imageView);
+        }
     }
+
+
+    public void supprimerSoinDeLaCarte(Soin soin) {
+        for (int i = soins.size() - 1; i >= 0; i--) {
+            if (soins.get(i).equals(soin)) {
+                paneMap.getChildren().remove(soinImageViews.get(i));
+                soins.remove(i);
+                soinImageViews.remove(i);
+                break;
+            }
+        }
+    }
+
 }

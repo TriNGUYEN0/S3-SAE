@@ -71,7 +71,7 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                 }
             }
             case R -> {
-                Arme armeRamassee = joueur.ramasserarme();
+                Arme armeRamassee = joueur.ramasserArme();
                 Soin soin = joueur.ramasserSoin();
                 ObjetDefense objetDefense = joueur.ramasserObjetDefense();
 

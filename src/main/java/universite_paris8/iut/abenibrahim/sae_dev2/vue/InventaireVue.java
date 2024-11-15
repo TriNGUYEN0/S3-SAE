@@ -58,22 +58,18 @@ public class InventaireVue {
 
     public void afficherInventaire() {
         inventairePane.setVisible(true);
-        slot1.setAlignment(Pos.CENTER);
-        slot1.setPadding(new Insets(10));
-        slot2.setAlignment(Pos.CENTER);
-        slot2.setPadding(new Insets(10));
-
         clearSlots();
         int indexSlot = 0;
 
-        for (InventaireObjets item : environnement.getActeurManager().getJoueur().getListeArmes()) {
-            ImageView imageView = item.getImage();
+        for (Arme arme : environnement.getActeurManager().getJoueur().getListeArmes()) {
+            ArmeVue armeVue = new ArmeVue(paneMap, arme);
+            ImageView imageView = armeVue.getImageView();
             imageView.setFitWidth(50);
             imageView.setFitHeight(50);
             imageView.setPreserveRatio(true);
 
-            // Xử lý sự kiện chọn vũ khí
-            imageView.setOnMouseClicked(event -> handleArmeSelection(item.getArme(), imageView));
+
+            imageView.setOnMouseClicked(event -> handleArmeSelection(arme, imageView));
 
             if (indexSlot < slots.size()) {
                 slots.get(indexSlot).getChildren().add(imageView);
@@ -82,13 +78,14 @@ public class InventaireVue {
             }
         }
 
-        // Hiển thị các thành phần UI
+
         slot1.setVisible(true);
         slot2.setVisible(true);
         titre.setVisible(true);
         armeChoisie.setVisible(true);
         phrase.setVisible(true);
     }
+
 
     private void handleArmeSelection(Arme arme, ImageView imageView) {
         if (selectedImageView != null) {
@@ -99,8 +96,9 @@ public class InventaireVue {
         this.environnement.getActeurManager().getJoueur().equiperArme(selectedArme);
         selectedImageView = imageView;
         imageView.setStyle("-fx-border-color: red; -fx-border-width: 2px;");
-        armeChoisie.textProperty().bind(selectedArme.nomProperty());
+        armeChoisie.setText(selectedArme.getNom());
     }
+
 
     private void clearSlots() {
         for (HBox slot : slots) {
