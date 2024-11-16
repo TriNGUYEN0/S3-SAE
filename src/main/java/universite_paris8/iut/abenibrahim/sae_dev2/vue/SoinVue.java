@@ -52,16 +52,15 @@ public class SoinVue {
     public void afficherSoin(){
         nbSoin.textProperty().bind(this.environnement.getActeurManager().getJoueur().nbSoinProperty().asString());
     }
-    public Node getsoinStackPane() {
+    public Node getSoinStackPane() {
         return this.soinStackPane;
     }
-    public Node getnbsoinStackPane() {
+    public Node getNbSoinStackPane() {
         return this.nbsoinStackPane;
     }
     public void updatePosition() {
-        // Mettez à jour la position de l'image ici en fonction de la position de l'arme
-        imageView.setTranslateX(Constante.POSITION_X_SOIN); // Ajustez cela si vous ajoutez une méthode getX() dans Arme
-        imageView.setTranslateY(Constante.POSITION_Y_SOIN); // Ajustez cela si vous ajoutez une méthode getY() dans Arme
+        imageView.setTranslateX(Constante.POSITION_X_SOIN);
+        imageView.setTranslateY(Constante.POSITION_Y_SOIN);
     }
     public Soin getSoin() {
         return this.soin;

@@ -121,7 +121,7 @@ public class Controleur implements Initializable {
             Image ennemiImage = new Image(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/ennemi-droite1-removebg-preview.png").toExternalForm());
             ennemiSprite = new ImageView(ennemiImage);
 
-            this.ennemiVue = new EnnemiVue(premierEnnemi.XProperty(), premierEnnemi.YProperty(), this.paneMap, ennemiSprite);
+            this.ennemiVue = new EnnemiVue(premierEnnemi.xProperty(), premierEnnemi.yProperty(), this.paneMap, ennemiSprite);
             this.ennemiVue.creerSpriteEnnemi();
             this.ennemiVue.initialiserEnnemi(ennemiSprite, paneMap);
 
@@ -135,10 +135,10 @@ public class Controleur implements Initializable {
 
         this.soinVue = new SoinVue(this.paneMap, this.nbSoin, this.environnement);
         this.soinVue.afficherSoinsSurCarte();
-        soinVue.getSoinStackPane().layoutXProperty().bind(joueur.XProperty().add(-400));
-        soinVue.getSoinStackPane().layoutYProperty().bind(joueur.YProperty().add(-100));
-        soinVue.getNbSoinStackPane().layoutXProperty().bind(joueur.XProperty().add(-325));
-        soinVue.getNbSoinStackPane().layoutYProperty().bind(joueur.YProperty().add(-95));
+        soinVue.getSoinStackPane().layoutXProperty().bind(joueur.xProperty().add(-400));
+        soinVue.getSoinStackPane().layoutYProperty().bind(joueur.yProperty().add(-100));
+        soinVue.getNbSoinStackPane().layoutXProperty().bind(joueur.xProperty().add(-325));
+        soinVue.getNbSoinStackPane().layoutYProperty().bind(joueur.yProperty().add(-95));
 
         slots = Arrays.asList(slot1, slot2);
         this.inventaireVue = new InventaireVue(this.paneMap, this.tilePaneMap, this.environnement,
@@ -159,8 +159,8 @@ public class Controleur implements Initializable {
         // Khởi tạo PNJ
         if (!environnement.getActeurManager().getPnjs().isEmpty()) {
             this.pnjVue = new PnjVue(paneMap,
-                    environnement.getActeurManager().getPnjs().get(0).XProperty(),
-                    environnement.getActeurManager().getPnjs().get(0).YProperty());
+                    environnement.getActeurManager().getPnjs().get(0).xProperty(),
+                    environnement.getActeurManager().getPnjs().get(0).yProperty());
             this.pnjVue.creerSpritePnj();
             this.pnjVue.initialiserPnj(pnjVue.getPnjSpriteView(), paneMap);
         }
