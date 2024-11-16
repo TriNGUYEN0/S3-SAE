@@ -2,34 +2,35 @@ package universite_paris8.iut.abenibrahim.sae_dev2.vue;
 
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.Pane;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Constante;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
+import universite_paris8.iut.abenibrahim.sae_dev2.vue.ImageObjet;
+
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class ObjetDefVue {
     private Pane paneMap;
-    private final ObjetDefense objetDefense;
-    private final ImageView imageView;
-    private List<ObjetDefense> objetDefenses = new ArrayList<>();
-    private List<ImageView> objetDefImageViews = new ArrayList<>();
+    private Environnement environnement;
+    private List<ObjetDefense> objetDefenses;
+    private List<ImageView> objetDefImageViews;
 
-
-    public ObjetDefVue(Pane paneMap) {
+    public ObjetDefVue(Environnement environnement, Pane paneMap) {
+        this.environnement = environnement;
         this.paneMap = paneMap;
-        this.objetDefense = new ObjetDefense.Builder().build();
-        this.imageView = new ImageView(ImageObjet.IMAGE_OBJET_DEF); // Charger l'image depuis ImageObjet
-        paneMap.getChildren().add(imageView); // Ajouter l'ImageView au Pane
-        updatePosition();
-        imageView.setVisible(true);
-        this.paneMap = paneMap;
+        this.objetDefenses = new ArrayList<>();
+        this.objetDefImageViews = new ArrayList<>();
     }
 
-    public void updatePosition() {
-        // Mettez à jour la position de l'image ici en fonction de la position de l'arme
-        imageView.setTranslateX(Constante.POSITION_X_OBJETDEF); // Ajustez cela si vous ajoutez une méthode getX() dans Arme
-        imageView.setTranslateY(Constante.POSITION_Y_OBJETDEF); // Ajustez cela si vous ajoutez une méthode getY() dans Arme
+    public void afficherObjetDefSurCarte() {
+        for (ObjetDefense objetDefense : environnement.getObjetManager().getObjetDefenseList()) {
+            ImageView imageView = new ImageView(ImageObjet.IMAGE_OBJET_DEF);
+            imageView.setTranslateX(objetDefense.getX());
+            imageView.setTranslateY(objetDefense.getY());
+            paneMap.getChildren().add(imageView);
+            objetDefenses.add(objetDefense);
+            objetDefImageViews.add(imageView);
+        }
     }
 
     public void supprimerObjetDefDeLaCarte(ObjetDefense objetDefense) {
@@ -42,16 +43,4 @@ public class ObjetDefVue {
             }
         }
     }
-
-
-
-
-    public ObjetDefense getObjetDef() {
-        return this.objetDefense;
-    }
-
-    public ImageView getImageView() {
-        return imageView;
-    }
-
 }

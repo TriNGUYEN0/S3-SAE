@@ -23,6 +23,7 @@ public class Joueur extends Acteur {
     private Direction lastDirection;
     private int pointDef;
 
+
     public Joueur(Environnement e, int x, int y, int v, int pv) {
         super(e, x, y, v, pv);
         this.listeArmes = FXCollections.observableArrayList();

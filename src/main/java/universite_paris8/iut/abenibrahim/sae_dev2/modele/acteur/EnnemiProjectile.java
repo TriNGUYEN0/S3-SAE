@@ -19,7 +19,7 @@ public class EnnemiProjectile extends Acteur {
 
     public EnnemiProjectile(Environnement e, int x, int y, int v, int pv) {
         super(e, x, y, v, pv);
-        this.armeDistance = new ArmeDistance();
+        this.armeDistance = new ArmeDistance(x,y);
         this.projectiles = FXCollections.observableArrayList();
         this.direction = Direction.EST;
 

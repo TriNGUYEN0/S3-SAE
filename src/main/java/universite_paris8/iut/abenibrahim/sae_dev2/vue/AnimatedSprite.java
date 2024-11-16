@@ -54,7 +54,6 @@ public class AnimatedSprite  {
         if (compteurDelaiFrame >= delaiFrame) {
             setFrameActuel((frameActuel + 1) % nombreFrames);
             getImageView().setImage(images[frameActuel]);
-            Controleur.setGSprite(images[frameActuel]);
             compteurDelaiFrame = 0;
         } else {
             compteurDelaiFrame++;
