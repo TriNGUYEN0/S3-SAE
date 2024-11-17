@@ -40,7 +40,6 @@ public class DeplacementEnnemi implements Deplacement {
                 ennemi.setX(ennemi.getX() + deltaX);
                 ennemi.setY(ennemi.getY() + deltaY);
 
-                // Cập nhật hướng di chuyển
                 if (Math.abs(deltaX) > Math.abs(deltaY)) {
                     if (deltaX > 0) {
                         ennemi.setDirection(Direction.EST);

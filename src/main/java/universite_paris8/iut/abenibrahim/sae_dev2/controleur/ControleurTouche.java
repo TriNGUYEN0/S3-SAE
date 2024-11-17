@@ -33,7 +33,7 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
         }
 
         if (direction != null) {
-            joueur.setLastDirection(direction); // Lưu hướng di chuyển cuối cùng
+            joueur.setDirection(direction); // Lưu hướng di chuyển cuối cùng
             joueur.seDeplacer(direction); // Di chuyển Joueur
             joueurVue.updateFrame(direction.name()); // Cập nhật khung hình
         }

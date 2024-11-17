@@ -20,7 +20,6 @@ public class Joueur extends Acteur {
     private Arme armeEquipee;
     private IntegerProperty nbSoin;
     private ObservableList<Projectile> projectiles;
-    private Direction lastDirection;
     private int pointDef;
 
 
@@ -29,9 +28,7 @@ public class Joueur extends Acteur {
         this.listeArmes = FXCollections.observableArrayList();
         this.projectiles = FXCollections.observableArrayList();
         this.nbSoin = new SimpleIntegerProperty(0);
-        this.lastDirection = Direction.EST;
         this.pointDef = 0;
-
         this.setCombatStrategy(new CombatJoueur(this));
         this.setDeplacementStrategy(new DeplacementJoueur());
     }
@@ -77,21 +74,13 @@ public class Joueur extends Acteur {
             int projectileY = getY();
             int vitesseProjectile = 10;
             int degatProjectile = armeEquipee.getPointAttaque();
-            Projectile projectile = new Projectile(projectileX, projectileY, lastDirection, vitesseProjectile, degatProjectile);
+            Projectile projectile = new Projectile(projectileX, projectileY, getDirection(), vitesseProjectile, degatProjectile);
             projectiles.add(projectile);
         }
     }
 
     public ObservableList<Projectile> getProjectiles() {
         return projectiles;
-    }
-
-    public Direction getLastDirection() {
-        return lastDirection;
-    }
-
-    public void setLastDirection(Direction direction) {
-        this.lastDirection = direction;
     }
 
     public int getPointDef() {

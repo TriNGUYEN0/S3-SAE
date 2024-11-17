@@ -8,16 +8,13 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.combat.Combat
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.deplacement.Deplacement;
 
 public abstract class Acteur {
+    private Direction direction;
     private IntegerProperty x, y;
     private IntegerProperty pv;
     private int vitesse;
     private String id;
     protected Environnement environnement;
-
-
     protected Combat combatStrategy;
-
-
     protected Deplacement deplacementStrategy;
 
     public Acteur(Environnement e, int x, int y, int v, int pv) {
@@ -27,6 +24,15 @@ public abstract class Acteur {
         this.vitesse = v;
         this.pv = new SimpleIntegerProperty(pv);
         this.id = String.valueOf(1);
+        this.direction = Direction.EST;
+    }
+
+    public Direction getDirection() {
+        return direction;
+    }
+
+    public void setDirection(Direction direction) {
+        this.direction = direction;
     }
 
 

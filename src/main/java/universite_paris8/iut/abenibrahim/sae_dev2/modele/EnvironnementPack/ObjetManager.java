@@ -18,7 +18,7 @@ public class ObjetManager {
         this.armeMap = new ArrayList<>();
         this.objetDefenseList = new ArrayList<>();
         this.soinMap = new ArrayList<>();
-        // Tạo và thêm vũ khí vào armeMap
+
         ArmeFactory epeeFactory = new EpeeFactory();
         Arme epee1 = epeeFactory.createArme(500, 500);
         Arme epee2 = epeeFactory.createArme(600, 600);

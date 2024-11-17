@@ -22,7 +22,7 @@ public class DeplacementEnnemiProjectile implements Deplacement {
             int xTmp = ennemiProjectile.getX() + directionVersJoueur.getX() * ennemiProjectile.getVitesse();
             int yTmp = ennemiProjectile.getY() + directionVersJoueur.getY() * ennemiProjectile.getVitesse();
 
-            // Sử dụng `dansTerrain` từ `Map`
+
             if (environnement.getTerrainManager().getMap().dansTerrain(xTmp, yTmp)
                     && environnement.getTerrainManager().getMap().verifierCollisions(xTmp, yTmp)) {
                 ennemiProjectile.setX(xTmp);

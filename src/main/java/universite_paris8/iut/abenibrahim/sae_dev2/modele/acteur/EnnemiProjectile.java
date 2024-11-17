@@ -12,7 +12,6 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.deplacement.D
 public class EnnemiProjectile extends Acteur {
     private ArmeDistance armeDistance;
     private ObservableList<Projectile> projectiles;
-    private Direction direction;
 
 
     private static final int DISTANCE_DETECTION = 500;
@@ -21,7 +20,7 @@ public class EnnemiProjectile extends Acteur {
         super(e, x, y, v, pv);
         this.armeDistance = new ArmeDistance(x,y);
         this.projectiles = FXCollections.observableArrayList();
-        this.direction = Direction.EST;
+
 
         this.setCombatStrategy(new CombatEnnemiProjectile(this));
         this.setDeplacementStrategy(new DeplacementEnnemiProjectile());
@@ -44,11 +43,4 @@ public class EnnemiProjectile extends Acteur {
         return projectiles;
     }
 
-    public Direction getDirection() {
-        return direction;
-    }
-
-    public void setDirection(Direction direction) {
-        this.direction = direction;
-    }
 }

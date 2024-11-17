@@ -38,9 +38,5 @@ public class Environnement {
         return acteurManager;
     }
 
-    public void reset() {
-        this.terrainManager = new TerrainManager(Constants.longueurMax, Constants.largeurMax);
-        this.objetManager = new ObjetManager();
-        this.acteurManager = new ActeurManager(this);
-    }
+
 }
