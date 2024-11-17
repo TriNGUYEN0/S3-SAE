@@ -4,7 +4,6 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
-import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -66,7 +65,6 @@ public class Controleur implements Initializable {
     private ProjectileVue projectileVue;
     private ProjectileVueEnnemie projectileVueEnnemie;
     private PnjVue pnjVue;
-    private Group gameContentGroup;
 
     private Timeline gameLoop;
     private int temps;
@@ -305,24 +303,18 @@ public class Controleur implements Initializable {
 
     public void ajusterCameraSuiviJoueur() {
         Joueur joueur = environnement.getActeurManager().getJoueur();
-        if (joueur == null) {
-            System.err.println("Lỗi: Joueur chưa được khởi tạo.");
-            return;
-        }
-
-        // Lấy kích thước cửa sổ hiển thị (Scene)
-        double sceneWidth = paneMap.getScene().getWidth();
-        double sceneHeight = paneMap.getScene().getHeight();
-
-        // Lấy vị trí của Joueur
         double joueurX = joueur.getX();
         double joueurY = joueur.getY();
 
-        // Tính toán offset để giữ Joueur ở giữa màn hình
-        double offsetX = -joueurX + (sceneWidth / 2) - (joueurSprite.getFitWidth() / 2);
-        double offsetY = -joueurY + (sceneHeight / 2) - (joueurSprite.getFitHeight() / 2);
+        // Kích thước cửa sổ hiển thị
+        double windowWidth = paneMap.getWidth();
+        double windowHeight = paneMap.getHeight();
 
-        // Điều chỉnh vị trí của các TilePane
+        // Tính toán vị trí của TilePane để Joueur luôn ở giữa màn hình
+        double offsetX = -joueurX * 50 + windowWidth / 2 - 25; // 50 là kích thước ô (tile)
+        double offsetY = -joueurY * 50 + windowHeight / 2 - 25;
+
+        // Đặt vị trí TilePane
         tilePaneMap.setLayoutX(offsetX);
         tilePaneMap.setLayoutY(offsetY);
 
@@ -333,11 +325,7 @@ public class Controleur implements Initializable {
             tilePaneMap2.setLayoutX(offsetX);
             tilePaneMap2.setLayoutY(offsetY);
         }
-
-        // Nếu có các thành phần khác cần di chuyển, điều chỉnh tương tự
     }
-
-
 
 
     public static void setJoueurSprite(Image i) {
