@@ -4,6 +4,7 @@ import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.fxml.FXML;
 import javafx.fxml.Initializable;
+import javafx.scene.Group;
 import javafx.scene.control.Label;
 import javafx.scene.image.ImageView;
 import javafx.scene.image.Image;
@@ -65,6 +66,7 @@ public class Controleur implements Initializable {
     private ProjectileVue projectileVue;
     private ProjectileVueEnnemie projectileVueEnnemie;
     private PnjVue pnjVue;
+    private Group gameContentGroup;
 
     private Timeline gameLoop;
     private int temps;
@@ -210,100 +212,83 @@ public class Controleur implements Initializable {
         temps = 0;
         gameLoop = new Timeline();
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.200),
+                Duration.seconds(0.200), // 5 lần chạy mỗi giây
                 ev -> {
                     try {
                         if (temps >= 10000) {
                             System.out.println("Animation terminé");
                             gameLoop.stop();
-                        } else {
-                            // Kiểm tra Environnement và ActeurManager
-                            if (environnement == null || environnement.getActeurManager() == null) {
-                                System.err.println("Lỗi: Environnement hoặc ActeurManager chưa được khởi tạo.");
-                                gameLoop.stop();
-                                return;
-                            }
-
-                            // Lấy Joueur
-                            Joueur joueur = environnement.getActeurManager().getJoueur();
-                            if (joueur == null) {
-                                System.err.println("Lỗi: Joueur chưa được khởi tạo trong Environnement.");
-                                gameLoop.stop();
-                                return;
-                            }
-
-                            // Kiểm tra JoueurVue
-                            if (joueurVue == null) {
-                                System.err.println("Lỗi: JoueurVue chưa được khởi tạo.");
-                                gameLoop.stop();
-                                return;
-                            }
-
-                            // Lấy ImageView từ JoueurVue
-                            ImageView joueurSprite = joueurVue.getJoueurSprite();
-                            if (joueurSprite == null) {
-                                System.err.println("Lỗi: JoueurSprite chưa được khởi tạo trong JoueurVue.");
-                                gameLoop.stop();
-                                return;
-                            }
-
-                            // Xóa ràng buộc trước khi đặt giá trị mới
-                            if (joueurSprite.translateXProperty().isBound()) {
-                                joueurSprite.translateXProperty().unbind();
-                            }
-                            if (joueurSprite.translateYProperty().isBound()) {
-                                joueurSprite.translateYProperty().unbind();
-                            }
-
-                            // Cập nhật vị trí của người chơi
-                            joueurSprite.setTranslateX(joueur.getX());
-                            joueurSprite.setTranslateY(joueur.getY());
-
-                            // Cập nhật các projectiles
-                            List<Ennemi> ennemis = environnement.getActeurManager().getEnnemis();
-                            if (projectileVue != null) {
-                                projectileVue.updateProjectiles(
-                                        joueur.getProjectiles(),
-                                        ennemis,
-                                        projectilesSprites,
-                                        this.paneMap
-                                );
-                            } else {
-                                System.err.println("Lỗi: ProjectileVue chưa được khởi tạo.");
-                            }
-
-                            // Xử lý các hành động của kẻ thù
-                            if (ennemis != null) {
-                                for (Iterator<Ennemi> it = ennemis.iterator(); it.hasNext(); ) {
-                                    Ennemi ennemi = it.next();
-                                    if (ennemi.estVivant()) {
-                                        ennemi.attaquer(joueur);
-                                    } else {
-                                        // Loại bỏ sprite của kẻ thù khi chết
-                                        paneMap.getChildren().remove(ennemi.getSprite());
-                                        it.remove();
-                                    }
-                                }
-                            } else {
-                                System.err.println("Lỗi: Danh sách kẻ thù (ennemis) không tồn tại.");
-                            }
-
-                            // Kiểm tra trạng thái sống của người chơi
-                            if (!joueur.estVivant()) {
-                                System.out.println("Game Over: Joueur đã chết.");
-                                gameLoop.stop();
-                                paneMap.getChildren().remove(joueurSprite);
-                                if (gameOverVue != null) {
-                                    gameOverVue.updatePosition(joueur.getX(), joueur.getY());
-                                    gameOverVue.getImageView().setVisible(true);
-                                } else {
-                                    System.err.println("Lỗi: GameOverVue chưa được khởi tạo.");
-                                }
-                            }
-
-                            // Tăng bộ đếm thời gian
-                            temps++;
+                            return;
                         }
+
+                        // 1. Kiểm tra môi trường và Joueur
+                        if (environnement == null || environnement.getActeurManager() == null) {
+                            System.err.println("Lỗi: Environnement hoặc ActeurManager chưa được khởi tạo.");
+                            gameLoop.stop();
+                            return;
+                        }
+
+                        Joueur joueur = environnement.getActeurManager().getJoueur();
+                        if (joueur == null || joueurVue == null) {
+                            System.err.println("Lỗi: Joueur hoặc JoueurVue chưa được khởi tạo.");
+                            gameLoop.stop();
+                            return;
+                        }
+
+                        // 2. Cập nhật vị trí của Joueur và Sprite
+                        joueurVue.updateFrame(joueur.getLastDirection().name());
+                        joueurVue.getJoueurSprite().setTranslateX(joueur.getX());
+                        joueurVue.getJoueurSprite().setTranslateY(joueur.getY());
+
+                        // 3. Camera theo Joueur
+                        ajusterCameraSuiviJoueur();
+
+                        // 4. Cập nhật và kiểm tra các projectiles
+                        List<Ennemi> ennemis = environnement.getActeurManager().getEnnemis();
+                        if (projectileVue != null) {
+                            projectileVue.updateProjectiles(
+                                    joueur.getProjectiles(),
+                                    ennemis,
+                                    projectilesSprites,
+                                    this.paneMap
+                            );
+                        } else {
+                            System.err.println("Lỗi: ProjectileVue chưa được khởi tạo.");
+                        }
+
+                        // 5. Xử lý kẻ thù (Ennemis)
+                        if (ennemis != null) {
+                            for (Iterator<Ennemi> it = ennemis.iterator(); it.hasNext(); ) {
+                                Ennemi ennemi = it.next();
+                                if (ennemi.estVivant()) {
+                                    ennemi.seDeplacer(ennemi.getDirection());
+                                    ennemi.updateSpritePosition(); // Cập nhật vị trí sprite của kẻ thù
+                                    ennemi.attaquer(joueur);
+                                } else {
+                                    // Loại bỏ sprite khi kẻ thù chết
+                                    paneMap.getChildren().remove(ennemi.getSprite());
+                                    it.remove();
+                                }
+                            }
+                        } else {
+                            System.err.println("Lỗi: Danh sách kẻ thù (ennemis) không tồn tại.");
+                        }
+
+                        // 6. Kiểm tra Joueur còn sống
+                        if (!joueur.estVivant()) {
+                            System.out.println("Game Over: Joueur đã chết.");
+                            gameLoop.stop();
+                            paneMap.getChildren().remove(joueurVue.getJoueurSprite());
+                            if (gameOverVue != null) {
+                                gameOverVue.updatePosition(joueur.getX(), joueur.getY());
+                                gameOverVue.getImageView().setVisible(true);
+                            } else {
+                                System.err.println("Lỗi: GameOverVue chưa được khởi tạo.");
+                            }
+                        }
+
+                        // 7. Tăng bộ đếm thời gian
+                        temps++;
                     } catch (Exception ex) {
                         System.err.println("Lỗi xảy ra trong vòng lặp gameLoop: " + ex.getMessage());
                         ex.printStackTrace();
@@ -317,20 +302,27 @@ public class Controleur implements Initializable {
     }
 
 
+
     public void ajusterCameraSuiviJoueur() {
         Joueur joueur = environnement.getActeurManager().getJoueur();
+        if (joueur == null) {
+            System.err.println("Lỗi: Joueur chưa được khởi tạo.");
+            return;
+        }
+
+        // Lấy kích thước cửa sổ hiển thị (Scene)
+        double sceneWidth = paneMap.getScene().getWidth();
+        double sceneHeight = paneMap.getScene().getHeight();
+
+        // Lấy vị trí của Joueur
         double joueurX = joueur.getX();
         double joueurY = joueur.getY();
 
-        // Kích thước cửa sổ hiển thị
-        double windowWidth = paneMap.getWidth();
-        double windowHeight = paneMap.getHeight();
+        // Tính toán offset để giữ Joueur ở giữa màn hình
+        double offsetX = -joueurX + (sceneWidth / 2) - (joueurSprite.getFitWidth() / 2);
+        double offsetY = -joueurY + (sceneHeight / 2) - (joueurSprite.getFitHeight() / 2);
 
-        // Tính toán vị trí của TilePane để Joueur luôn ở giữa màn hình
-        double offsetX = -joueurX * 50 + windowWidth / 2 - 25; // 50 là kích thước ô (tile)
-        double offsetY = -joueurY * 50 + windowHeight / 2 - 25;
-
-        // Đặt vị trí TilePane
+        // Điều chỉnh vị trí của các TilePane
         tilePaneMap.setLayoutX(offsetX);
         tilePaneMap.setLayoutY(offsetY);
 
@@ -341,7 +333,11 @@ public class Controleur implements Initializable {
             tilePaneMap2.setLayoutX(offsetX);
             tilePaneMap2.setLayoutY(offsetY);
         }
+
+        // Nếu có các thành phần khác cần di chuyển, điều chỉnh tương tự
     }
+
+
 
 
     public static void setJoueurSprite(Image i) {
