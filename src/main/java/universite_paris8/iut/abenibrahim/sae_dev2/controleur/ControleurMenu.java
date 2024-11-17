@@ -125,8 +125,10 @@ public class ControleurMenu {
             SaveData saveData = (SaveData) ois.readObject();
             ois.close();
 
-            // Tạo một instance mới của Environnement
-            Environnement env = new Environnement();
+            // Lấy instance Singleton của Environnement
+            Environnement env = Environnement.getInstance();
+
+
 
             // Khôi phục dữ liệu của người chơi (joueur)
             Joueur joueur = env.getActeurManager().getJoueur();
@@ -135,7 +137,7 @@ public class ControleurMenu {
             joueur.setPv(saveData.getJoueurPv());
 
             // Khôi phục dữ liệu của các kẻ thù (ennemis)
-            env.getActeurManager().getEnnemis().clear(); // Xóa danh sách kẻ thù hiện tại
+            env.getActeurManager().getEnnemis().clear();
             for (SaveData.EnnemiData ennemiData : saveData.getEnnemisData()) {
                 Ennemi ennemi = new Ennemi(env, ennemiData.getEnnemiX(), ennemiData.getEnnemiY(), 50, ennemiData.getEnnemiPv());
                 env.getActeurManager().ajouterEnnemi(ennemi);
@@ -151,6 +153,7 @@ public class ControleurMenu {
             e.printStackTrace();
         }
     }
+
 
 
 

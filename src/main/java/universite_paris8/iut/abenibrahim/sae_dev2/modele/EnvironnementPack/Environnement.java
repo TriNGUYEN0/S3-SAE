@@ -3,14 +3,27 @@ package universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Constants;
 
 public class Environnement {
-    private TerrainManager terrainManager;
-    private ObjetManager objetManager;
-    private ActeurManager acteurManager;
+    private static volatile Environnement instance;
 
-    public Environnement() {
+    private  TerrainManager terrainManager;
+    private  ObjetManager objetManager;
+    private  ActeurManager acteurManager;
+
+    private Environnement() {
         this.terrainManager = new TerrainManager(Constants.longueurMax, Constants.largeurMax);
         this.objetManager = new ObjetManager();
         this.acteurManager = new ActeurManager(this);
+    }
+
+    public static Environnement getInstance() {
+        if (instance == null) {
+            synchronized (Environnement.class) {
+                if (instance == null) {
+                    instance = new Environnement();
+                }
+            }
+        }
+        return instance;
     }
 
     public TerrainManager getTerrainManager() {
@@ -24,6 +37,10 @@ public class Environnement {
     public ActeurManager getActeurManager() {
         return acteurManager;
     }
+
+    public void reset() {
+        this.terrainManager = new TerrainManager(Constants.longueurMax, Constants.largeurMax);
+        this.objetManager = new ObjetManager();
+        this.acteurManager = new ActeurManager(this);
+    }
 }
-
-

@@ -34,9 +34,14 @@ public class AnimatedEnnemiSprite extends AnimationTimer {
         stop();
         start();
     }
-    private void nextFrame() {
+    public void nextFrame() {
+        if (frames == null || frames.length == 0) {
+            throw new IllegalArgumentException("Khung hình không được cung cấp.");
+        }
+        String path = frames[currentFrame];
+        Image image = new Image(getClass().getResource(path).toExternalForm());
+        imageView.setImage(image);
         currentFrame = (currentFrame + 1) % frames.length;
-        imageView.setImage(new Image(frames[currentFrame]));
     }
     @Override
     public void handle(long now) {

@@ -1,8 +1,6 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack;
 
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Soin;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.*;
 
 import java.util.List;
 
@@ -20,6 +18,13 @@ public class ObjetManager {
         this.armeMap = new ArrayList<>();
         this.objetDefenseList = new ArrayList<>();
         this.soinMap = new ArrayList<>();
+        // Tạo và thêm vũ khí vào armeMap
+        ArmeFactory epeeFactory = new EpeeFactory();
+        Arme epee1 = epeeFactory.createArme(500, 500);
+        Arme epee2 = epeeFactory.createArme(600, 600);
+
+        armeMap.add(epee1);
+        armeMap.add(epee2);
     }
 
     public List<Arme> getArmeMap() {
