@@ -8,9 +8,7 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.InventaireObjets;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ArmeDistance;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
 
 public class Joueur extends Acteur {
@@ -21,6 +19,7 @@ public class Joueur extends Acteur {
     private ObservableList<Projectile> projectiles;
     private Direction lastDirection;
     private int pointDef;
+    private StrategieAttaque str;
 
     public Joueur(Environnement e, int x, int y, int v, int pv){
         super(e,x,y,v,pv);
@@ -31,10 +30,13 @@ public class Joueur extends Acteur {
         this.nbSoin= new SimpleIntegerProperty(20);
         this.lastDirection = Direction.EST;
         this.pointDef = 0;
+        this.str =null;
     }
+
 
     @Override
     public Acteur attaquer(){
+        /*
         int playerX, playerY, enemyX, enemyY,enemyProjectilsX,enemyProjectilsY;
 
         int distanceAttaque = 50;
@@ -59,10 +61,18 @@ public class Joueur extends Acteur {
         if(distance1 <= distanceAttaque){
             environnement.getEnnemiProjectile().recoisDegat(this.armeEquipee.getPointAttaque());
             return environnement.getEnnemiProjectile();
-
         }
         return null;
+        */
 
+        setStrEnRapprocher();
+        str.attaquer(this,environnement.getEnnemi());
+        return null;
+
+    }
+
+    public void setStrEnRapprocher() {
+        str = new StrategieAttaqueRapprocher(50);
     }
 
     public void equiperArme(Arme arme){
