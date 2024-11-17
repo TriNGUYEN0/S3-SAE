@@ -25,29 +25,48 @@ public class JoueurVue {
         this.joueur = joueur;
         this.paneMap = paneMap;
 
-
+        // Nạp các khung hình
         framesUp = loadFrames("universite_paris8/iut/abenibrahim/sae_dev2/Up");
         framesDown = loadFrames("universite_paris8/iut/abenibrahim/sae_dev2/Down");
         framesLeft = loadFrames("universite_paris8/iut/abenibrahim/sae_dev2/Left");
         framesRight = loadFrames("universite_paris8/iut/abenibrahim/sae_dev2/Right");
 
+        // Khung hình mặc định
+        if (framesRight.length > 0) {
+            this.joueurSprite = new ImageView(framesRight[0]);
+        } else {
+            System.err.println("Lỗi: Không có hình ảnh khung mặc định. Sử dụng hình ảnh mặc định.");
+            this.joueurSprite = new ImageView(); // Tạo ImageView rỗng để tránh lỗi
+        }
 
-        this.joueurSprite = new ImageView(framesRight[0]); // Khung hình mặc định
+        // Thiết lập kích thước
         this.joueurSprite.setFitWidth(50);
         this.joueurSprite.setFitHeight(50);
 
-
+        // Thêm sprite vào Pane
         paneMap.getChildren().add(joueurSprite);
+        System.out.println("Đã thêm Joueur vào paneMap.");
+
+        // Ràng buộc vị trí sprite với vị trí của Joueur
         bindSpriteToJoueur();
     }
 
-
+    /**
+     * Ràng buộc vị trí của ImageView với tọa độ của Joueur
+     */
     private void bindSpriteToJoueur() {
-        joueurSprite.translateXProperty().bind(joueur.xProperty());
-        joueurSprite.translateYProperty().bind(joueur.yProperty());
+        if (joueur.xProperty() != null && joueur.yProperty() != null) {
+            joueurSprite.translateXProperty().bind(joueur.xProperty());
+            joueurSprite.translateYProperty().bind(joueur.yProperty());
+            System.out.println("Đã ràng buộc vị trí của JoueurSprite với Joueur.");
+        } else {
+            System.err.println("Lỗi: Joueur không có tọa độ hợp lệ.");
+        }
     }
 
-
+    /**
+     * Tạo và xử lý sự kiện bàn phím cho Joueur
+     */
     public void creerSpriteJoueur(Controleur controleur) {
         ControleurTouche controleurTouche = new ControleurTouche(
                 joueur,
@@ -59,16 +78,20 @@ public class JoueurVue {
         Scene scene = paneMap.getScene();
         if (scene != null) {
             scene.addEventHandler(KeyEvent.KEY_PRESSED, controleurTouche);
+            System.out.println("Đã gắn sự kiện bàn phím vào Scene.");
         } else {
             paneMap.sceneProperty().addListener((obs, oldScene, newScene) -> {
                 if (newScene != null) {
                     newScene.addEventHandler(KeyEvent.KEY_PRESSED, controleurTouche);
+                    System.out.println("Đã gắn sự kiện bàn phím vào Scene mới.");
                 }
             });
         }
     }
 
-
+    /**
+     * Cập nhật khung hình của sprite dựa trên hướng
+     */
     public void updateFrame(String direction) {
         Image[] frames = switch (direction) {
             case "UP" -> framesUp;
@@ -78,24 +101,32 @@ public class JoueurVue {
             default -> null;
         };
 
-        if (frames != null) {
+        if (frames != null && frames.length > 0) {
             currentFrameIndex = (currentFrameIndex + 1) % frames.length;
             joueurSprite.setImage(frames[currentFrameIndex]);
+            System.out.println("Đã cập nhật khung hình cho hướng: " + direction);
+        } else {
+            System.err.println("Lỗi: Không tìm thấy khung hình cho hướng: " + direction);
         }
     }
 
-
-
+    /**
+     * Trả về ImageView của Joueur
+     */
     public ImageView getJoueurSprite() {
         return joueurSprite;
     }
 
-
+    /**
+     * Xóa sprite khỏi Pane khi cần thiết
+     */
     public void removeSprite() {
         paneMap.getChildren().remove(joueurSprite);
     }
 
-
+    /**
+     * Tải các khung hình từ thư mục
+     */
     private Image[] loadFrames(String folderPath) {
         try {
             return new Image[]{
@@ -105,8 +136,7 @@ public class JoueurVue {
             };
         } catch (NullPointerException e) {
             System.err.println("Lỗi: Không tìm thấy tệp hình ảnh tại " + folderPath);
-            return new Image[0];
+            return new Image[0]; // Trả về mảng trống nếu xảy ra lỗi
         }
     }
-
 }

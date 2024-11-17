@@ -88,6 +88,14 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
+        System.out.println("Controleur đã được khởi tạo.");
+
+        if (paneMap == null) {
+            System.err.println("Lỗi: paneMap chưa được tiêm (injected). Kiểm tra fx:id trong FXML.");
+        } else {
+            paneMap.setStyle("-fx-background-color: lightblue;"); // Đặt màu nền để kiểm tra
+        }
+
         paneMap.setScaleX(ZOOM_FACTOR);
         paneMap.setScaleY(ZOOM_FACTOR);
 

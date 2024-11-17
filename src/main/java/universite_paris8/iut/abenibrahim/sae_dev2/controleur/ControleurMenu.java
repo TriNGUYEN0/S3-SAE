@@ -22,6 +22,7 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.SaveData;
 import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.ObjectInputStream;
+import java.net.URL;
 import java.nio.file.Paths;
 
 
@@ -157,22 +158,28 @@ public class ControleurMenu {
         if (videoMediaPlayer != null) {
             videoMediaPlayer.stop();
             mediaPlayer2.play();
-            FXMLLoader loader = new FXMLLoader(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/lafoudre.fxml"));
-            try {
-                Parent root = loader.load();
-                // Tiếp tục xử lý với root
-            } catch (Exception e) {
-                e.printStackTrace(); // Ghi log lỗi chi tiết
-            }
 
-            if (getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/lafoudre.fxml") == null) {
+            URL fxmlLocation = getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/lafoudre.fxml");
+            System.out.println("Đường dẫn lafoudre.fxml: " + fxmlLocation);
+
+            if (fxmlLocation == null) {
                 System.err.println("Lỗi: Tệp lafoudre.fxml không tồn tại.");
                 return;
             }
 
-
+            FXMLLoader loader = new FXMLLoader(fxmlLocation);
+            try {
+                Parent root = loader.load();
+                Scene newScene = new Scene(root);
+                Stage stage = (Stage) mediaView.getScene().getWindow();
+                stage.setScene(newScene);
+                stage.show();
+            } catch (Exception e) {
+                e.printStackTrace(); // Ghi log lỗi chi tiết
+            }
         }
     }
+
 
     public void handleAideButton(ActionEvent actionEvent)throws IOException {
         FXMLLoader loader = new FXMLLoader(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/touche.fxml"));
