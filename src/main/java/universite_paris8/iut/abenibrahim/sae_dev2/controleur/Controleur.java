@@ -125,19 +125,26 @@ public class Controleur implements Initializable {
         joueurSprite = new ImageView(joueurImage);
 
         List<Ennemi> ennemis = environnement.getActeurManager().getEnnemis();
-        if (!ennemis.isEmpty()) {
-            Ennemi premierEnnemi = ennemis.get(0); // Giả sử lấy kẻ thù đầu tiên
-            Image ennemiImage = new Image(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/ennemi-droite1-removebg-preview.png").toExternalForm());
-            ennemiSprite = new ImageView(ennemiImage);
 
-            this.ennemiVue = new EnnemiVue(premierEnnemi.xProperty(), premierEnnemi.yProperty(), this.paneMap, ennemiSprite);
-            this.ennemiVue.creerSpriteEnnemi();
-            this.ennemiVue.initialiserEnnemi(ennemiSprite, paneMap);
-
-            this.pvVueEnnemi = new PvVueEnnemi(this.paneMap);
-            premierEnnemi.pvProperty().addListener((obs, oldValue, newValue) ->
-                    pvVueEnnemi.updatePvEnnemieImage(premierEnnemi.getPv()));
+// Nếu danh sách kẻ thù trống, thêm một kẻ thù mặc định
+        if (ennemis.isEmpty()) {
+            Ennemi ennemi = new Ennemi(environnement, 300, 300, 50, 100); // Tạo kẻ thù tại vị trí (300, 300)
+            environnement.getActeurManager().ajouterEnnemi(ennemi);       // Thêm vào danh sách
+            ennemis = environnement.getActeurManager().getEnnemis();     // Cập nhật danh sách
         }
+
+        if (!ennemis.isEmpty()) {
+            Ennemi premierEnnemi = ennemis.get(0);
+
+            if (premierEnnemi.getSprite() != null && !paneMap.getChildren().contains(premierEnnemi.getSprite())) {
+                paneMap.getChildren().add(premierEnnemi.getSprite());
+                System.out.println("Ennemi sprite added to paneMap.");
+            } else {
+                System.err.println("Ennemi sprite already exists in paneMap or is null.");
+            }
+        }
+
+
 
         this.projectileVue = new ProjectileVue();
         this.projectileVueEnnemie = new ProjectileVueEnnemie();

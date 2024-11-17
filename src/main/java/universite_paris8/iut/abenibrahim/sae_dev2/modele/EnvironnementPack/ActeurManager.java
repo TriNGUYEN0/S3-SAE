@@ -20,9 +20,12 @@ public class ActeurManager {
 
     public ActeurManager(Environnement environnement) {
         this.acteurs = FXCollections.observableArrayList();
-        this.joueur = new Joueur(environnement, 10, 10, Constants.vitesse, Constants.pvJoueur);
+        this.joueur = new Joueur(environnement, 200, 200, Constants.vitesse, Constants.pvJoueur);
         this.ennemis = new ArrayList<>();
         this.pnjs = new ArrayList<>();
+
+        Ennemi ennemi = new Ennemi(environnement, 300, 300, 50, 100);
+        ajouterEnnemi(ennemi);
 
         acteurs.add(joueur);
 

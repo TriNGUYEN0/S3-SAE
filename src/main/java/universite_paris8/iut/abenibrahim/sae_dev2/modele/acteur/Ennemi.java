@@ -43,6 +43,10 @@ public class Ennemi extends Acteur {
         this.direction = direction;
     }
 
+    public void setSprite(ImageView sprite) {
+        this.sprite = sprite;
+    }
+
     public ImageView getSprite() {
         return sprite;
     }

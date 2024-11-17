@@ -35,11 +35,15 @@ public class EnnemiVue {
         this.animatedEnnemiSprite.start();
     }
 
-    public void initialiserEnnemi(ImageView imageView, Pane pane){
-        imageView.setFitHeight(50);
-        imageView.setFitWidth(50);
-        pane.getChildren().add(imageView);
+    public void initialiserEnnemi(ImageView sprite, Pane paneMap) {
+        if (!paneMap.getChildren().contains(sprite)) { // Chỉ thêm nếu chưa tồn tại
+            paneMap.getChildren().add(sprite);
+            System.out.println("Sprite của Ennemi đã được thêm vào paneMap.");
+        } else {
+            System.err.println("Sprite của Ennemi đã tồn tại trong paneMap.");
+        }
     }
+
 
 
     public void animerEnnemi(AnimatedEnnemiSprite animationTimer, Direction direction){

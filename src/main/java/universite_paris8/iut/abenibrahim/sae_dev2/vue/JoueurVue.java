@@ -9,6 +9,8 @@ import universite_paris8.iut.abenibrahim.sae_dev2.controleur.Controleur;
 import universite_paris8.iut.abenibrahim.sae_dev2.controleur.ControleurTouche;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
 
+import java.net.URL;
+
 public class JoueurVue {
     private final Joueur joueur;
     private final ImageView joueurSprite;
@@ -94,21 +96,24 @@ public class JoueurVue {
      */
     public void updateFrame(String direction) {
         Image[] frames = switch (direction) {
-            case "UP" -> framesUp;
-            case "DOWN" -> framesDown;
-            case "LEFT" -> framesLeft;
-            case "RIGHT" -> framesRight;
+            case "NORD" -> framesUp;
+            case "SUD" -> framesDown;
+            case "OUEST" -> framesLeft;
+            case "EST" -> framesRight;
             default -> null;
         };
 
-        if (frames != null && frames.length > 0) {
-            currentFrameIndex = (currentFrameIndex + 1) % frames.length;
-            joueurSprite.setImage(frames[currentFrameIndex]);
-            System.out.println("Đã cập nhật khung hình cho hướng: " + direction);
-        } else {
+        if (frames == null || frames.length == 0) {
             System.err.println("Lỗi: Không tìm thấy khung hình cho hướng: " + direction);
+            return;
         }
+
+        currentFrameIndex = (currentFrameIndex + 1) % frames.length;
+        joueurSprite.setImage(frames[currentFrameIndex]); // Cập nhật khung hình
+
     }
+
+
 
     /**
      * Trả về ImageView của Joueur
@@ -129,14 +134,24 @@ public class JoueurVue {
      */
     private Image[] loadFrames(String folderPath) {
         try {
-            return new Image[]{
-                    new Image(getClass().getResource("/" + folderPath + "/1.png").toExternalForm()),
-                    new Image(getClass().getResource("/" + folderPath + "/2.png").toExternalForm()),
-                    new Image(getClass().getResource("/" + folderPath + "/3.png").toExternalForm())
-            };
-        } catch (NullPointerException e) {
-            System.err.println("Lỗi: Không tìm thấy tệp hình ảnh tại " + folderPath);
-            return new Image[0]; // Trả về mảng trống nếu xảy ra lỗi
+            System.out.println("Đang tải hình ảnh từ thư mục: " + folderPath);
+            Image[] images = new Image[3];
+            for (int i = 0; i < 3; i++) {
+                String imagePath = "/" + folderPath + "/" + (i + 1) + ".png";
+                URL imageURL = getClass().getResource(imagePath);
+                if (imageURL == null) {
+                    System.err.println("Lỗi: Không tìm thấy tệp hình ảnh tại " + imagePath);
+                } else {
+                    images[i] = new Image(imageURL.toExternalForm());
+                    System.out.println("Đã tải hình ảnh: " + imagePath);
+                }
+            }
+            return images;
+        } catch (Exception e) {
+            System.err.println("Lỗi khi tải hình ảnh từ thư mục: " + folderPath);
+            e.printStackTrace();
+            return new Image[0];
         }
     }
+
 }
