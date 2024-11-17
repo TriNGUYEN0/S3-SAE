@@ -1,22 +1,30 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.deplacement;
 
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Acteur;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.EnnemiProjectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
 
 public class DeplacementEnnemiProjectile implements Deplacement {
     @Override
     public void seDeplacer(Acteur acteur, Direction direction) {
+        if (!(acteur instanceof EnnemiProjectile)) {
+            return;
+        }
+
         EnnemiProjectile ennemiProjectile = (EnnemiProjectile) acteur;
-        Joueur joueur = ennemiProjectile.getEnvironnement().getJoueur();
+        Environnement environnement = ennemiProjectile.getEnvironnement();
+        Joueur joueur = environnement.getActeurManager().getJoueur();
 
         if (ennemiProjectile.detecterJoueur()) {
             Direction directionVersJoueur = calculerDirection(ennemiProjectile.getX(), ennemiProjectile.getY(), joueur.getX(), joueur.getY());
             int xTmp = ennemiProjectile.getX() + directionVersJoueur.getX() * ennemiProjectile.getVitesse();
             int yTmp = ennemiProjectile.getY() + directionVersJoueur.getY() * ennemiProjectile.getVitesse();
 
-            if (ennemiProjectile.getEnvironnement().dansTerrain(xTmp, yTmp) && ennemiProjectile.getEnvironnement().getMap().verifierCollisions(xTmp, yTmp)) {
+            // Sử dụng `dansTerrain` từ `Map`
+            if (environnement.getTerrainManager().getMap().dansTerrain(xTmp, yTmp)
+                    && environnement.getTerrainManager().getMap().verifierCollisions(xTmp, yTmp)) {
                 ennemiProjectile.setX(xTmp);
                 ennemiProjectile.setY(yTmp);
                 ennemiProjectile.setDirection(directionVersJoueur);

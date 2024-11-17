@@ -197,49 +197,102 @@ public class Controleur implements Initializable {
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.200),
                 ev -> {
-                    if (temps >= 10000) {
-                        System.out.println("Animation terminé");
-                        gameLoop.stop();
-                    } else {
-                        // Cập nhật trạng thái của tất cả các Acteur
-                        environnement.getActeurManager().unTour();
-
-                        // Cập nhật vị trí và trạng thái của sprite người chơi
-                        Joueur joueur = environnement.getActeurManager().getJoueur();
-                        ImageView joueurSprite = joueurVue.getJoueurSprite();
-                        joueurSprite.setTranslateX(joueur.getX());
-                        joueurSprite.setTranslateY(joueur.getY());
-
-                        // Cập nhật projectiles của người chơi
-                        List<Ennemi> ennemis = environnement.getActeurManager().getEnnemis();
-                        projectileVue.updateProjectiles(
-                                joueur.getProjectiles(),
-                                ennemis,
-                                projectilesSprites,
-                                this.paneMap
-                        );
-
-                        // Xử lý hành động và trạng thái của các kẻ thù
-                        for (Iterator<Ennemi> it = ennemis.iterator(); it.hasNext(); ) {
-                            Ennemi ennemi = it.next();
-                            if (ennemi.estVivant()) {
-                                ennemi.attaquer(joueur);
-                            } else {
-                                // Loại bỏ sprite và kẻ thù khi chết
-                                paneMap.getChildren().remove(ennemi.getSprite());
-                                it.remove();
-                            }
-                        }
-
-                        // Kiểm tra trạng thái của người chơi
-                        if (!joueur.estVivant()) {
+                    try {
+                        if (temps >= 10000) {
+                            System.out.println("Animation terminé");
                             gameLoop.stop();
-                            paneMap.getChildren().remove(joueurSprite);
-                            gameOverVue.updatePosition(joueur.getX(), joueur.getY());
-                            gameOverVue.getImageView().setVisible(true);
-                        }
+                        } else {
+                            // Kiểm tra Environnement và ActeurManager
+                            if (environnement == null || environnement.getActeurManager() == null) {
+                                System.err.println("Lỗi: Environnement hoặc ActeurManager chưa được khởi tạo.");
+                                gameLoop.stop();
+                                return;
+                            }
 
-                        temps++;
+                            // Lấy Joueur
+                            Joueur joueur = environnement.getActeurManager().getJoueur();
+                            if (joueur == null) {
+                                System.err.println("Lỗi: Joueur chưa được khởi tạo trong Environnement.");
+                                gameLoop.stop();
+                                return;
+                            }
+
+                            // Kiểm tra JoueurVue
+                            if (joueurVue == null) {
+                                System.err.println("Lỗi: JoueurVue chưa được khởi tạo.");
+                                gameLoop.stop();
+                                return;
+                            }
+
+                            // Lấy ImageView từ JoueurVue
+                            ImageView joueurSprite = joueurVue.getJoueurSprite();
+                            if (joueurSprite == null) {
+                                System.err.println("Lỗi: JoueurSprite chưa được khởi tạo trong JoueurVue.");
+                                gameLoop.stop();
+                                return;
+                            }
+
+                            // Xóa ràng buộc trước khi đặt giá trị mới
+                            if (joueurSprite.translateXProperty().isBound()) {
+                                joueurSprite.translateXProperty().unbind();
+                            }
+                            if (joueurSprite.translateYProperty().isBound()) {
+                                joueurSprite.translateYProperty().unbind();
+                            }
+
+                            // Cập nhật vị trí của người chơi
+                            joueurSprite.setTranslateX(joueur.getX());
+                            joueurSprite.setTranslateY(joueur.getY());
+
+                            // Cập nhật các projectiles
+                            List<Ennemi> ennemis = environnement.getActeurManager().getEnnemis();
+                            if (projectileVue != null) {
+                                projectileVue.updateProjectiles(
+                                        joueur.getProjectiles(),
+                                        ennemis,
+                                        projectilesSprites,
+                                        this.paneMap
+                                );
+                            } else {
+                                System.err.println("Lỗi: ProjectileVue chưa được khởi tạo.");
+                            }
+
+                            // Xử lý các hành động của kẻ thù
+                            if (ennemis != null) {
+                                for (Iterator<Ennemi> it = ennemis.iterator(); it.hasNext(); ) {
+                                    Ennemi ennemi = it.next();
+                                    if (ennemi.estVivant()) {
+                                        ennemi.attaquer(joueur);
+                                    } else {
+                                        // Loại bỏ sprite của kẻ thù khi chết
+                                        paneMap.getChildren().remove(ennemi.getSprite());
+                                        it.remove();
+                                    }
+                                }
+                            } else {
+                                System.err.println("Lỗi: Danh sách kẻ thù (ennemis) không tồn tại.");
+                            }
+
+                            // Kiểm tra trạng thái sống của người chơi
+                            if (!joueur.estVivant()) {
+                                System.out.println("Game Over: Joueur đã chết.");
+                                gameLoop.stop();
+                                paneMap.getChildren().remove(joueurSprite);
+                                if (gameOverVue != null) {
+                                    gameOverVue.updatePosition(joueur.getX(), joueur.getY());
+                                    gameOverVue.getImageView().setVisible(true);
+                                } else {
+                                    System.err.println("Lỗi: GameOverVue chưa được khởi tạo.");
+                                }
+                            }
+
+                            // Tăng bộ đếm thời gian
+                            temps++;
+                        }
+                    } catch (Exception ex) {
+                        System.err.println("Lỗi xảy ra trong vòng lặp gameLoop: " + ex.getMessage());
+                        ex.printStackTrace();
+                        gameLoop.stop();
                     }
                 }
         );
@@ -247,6 +300,7 @@ public class Controleur implements Initializable {
         gameLoop.getKeyFrames().add(kf);
         gameLoop.setCycleCount(Timeline.INDEFINITE);
     }
+
 
     public void ajusterCameraSuiviJoueur() {
         Joueur joueur = environnement.getActeurManager().getJoueur();

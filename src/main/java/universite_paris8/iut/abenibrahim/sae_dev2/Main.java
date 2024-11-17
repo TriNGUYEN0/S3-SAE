@@ -19,13 +19,19 @@ public class Main extends Application {
     }
     @Override
     public void start(Stage stage) throws Exception {
-        FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainMenu.fxml"));
-        Scene scene = new Scene(fxmlLoader.load(),750,750);
-        scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
-        Pane root = (Pane) scene.getRoot();
-        root.requestFocus();
-        stage.setTitle("LA FOUDRE");
-        stage.setScene(scene);
-        stage.show();
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(Main.class.getResource("mainMenu.fxml"));
+            Scene scene = new Scene(fxmlLoader.load(), 750, 750);
+            scene.getStylesheets().add(getClass().getResource("style.css").toExternalForm());
+            Pane root = (Pane) scene.getRoot();
+            root.requestFocus();
+            stage.setTitle("LA FOUDRE");
+            stage.setScene(scene);
+            stage.show();
+        }
+        catch (Exception e) {
+            e.printStackTrace();
+            System.err.println("Lỗi khi tải FXML: " + e.getMessage());
+        }
     }
 }

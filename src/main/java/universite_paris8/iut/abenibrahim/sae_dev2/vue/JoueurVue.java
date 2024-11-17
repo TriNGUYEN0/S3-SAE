@@ -25,33 +25,29 @@ public class JoueurVue {
         this.joueur = joueur;
         this.paneMap = paneMap;
 
-        // Khởi tạo các khung hình cho từng hướng
-        framesUp = loadFrames("/universite_paris8/iut/abenibrahim/sae_dev2/up");
-        framesDown = loadFrames("/universite_paris8/iut/abenibrahim/sae_dev2/down");
-        framesLeft = loadFrames("/universite_paris8/iut/abenibrahim/sae_dev2/left");
-        framesRight = loadFrames("/universite_paris8/iut/abenibrahim/sae_dev2/right");
 
-        // Tạo và cấu hình sprite
+        framesUp = loadFrames("universite_paris8/iut/abenibrahim/sae_dev2/Up");
+        framesDown = loadFrames("universite_paris8/iut/abenibrahim/sae_dev2/Down");
+        framesLeft = loadFrames("universite_paris8/iut/abenibrahim/sae_dev2/Left");
+        framesRight = loadFrames("universite_paris8/iut/abenibrahim/sae_dev2/Right");
+
+
         this.joueurSprite = new ImageView(framesRight[0]); // Khung hình mặc định
         this.joueurSprite.setFitWidth(50);
         this.joueurSprite.setFitHeight(50);
 
-        // Thêm sprite vào pane và ràng buộc vị trí
+
         paneMap.getChildren().add(joueurSprite);
         bindSpriteToJoueur();
     }
 
-    /**
-     * Ràng buộc vị trí của sprite với vị trí của `Joueur`
-     */
+
     private void bindSpriteToJoueur() {
         joueurSprite.translateXProperty().bind(joueur.xProperty());
         joueurSprite.translateYProperty().bind(joueur.yProperty());
     }
 
-    /**
-     * Thêm điều khiển và tương tác thông qua `ControleurTouche`
-     */
+
     public void creerSpriteJoueur(Controleur controleur) {
         ControleurTouche controleurTouche = new ControleurTouche(
                 joueur,
@@ -72,9 +68,7 @@ public class JoueurVue {
         }
     }
 
-    /**
-     * Cập nhật khung hình của sprite dựa trên hướng
-     */
+
     public void updateFrame(String direction) {
         Image[] frames = switch (direction) {
             case "UP" -> framesUp;
@@ -91,28 +85,28 @@ public class JoueurVue {
     }
 
 
-    /**
-     * Trả về sprite của Joueur
-     */
+
     public ImageView getJoueurSprite() {
         return joueurSprite;
     }
 
-    /**
-     * Xóa sprite khỏi Pane khi cần thiết
-     */
+
     public void removeSprite() {
         paneMap.getChildren().remove(joueurSprite);
     }
 
-    /**
-     * Tải các khung hình từ thư mục
-     */
-    private Image[] loadFrames(String basePath) {
-        return new Image[]{
-                new Image(getClass().getResource(basePath + "1.png").toExternalForm()),
-                new Image(getClass().getResource(basePath + "2.png").toExternalForm()),
-                new Image(getClass().getResource(basePath + "3.png").toExternalForm())
-        };
+
+    private Image[] loadFrames(String folderPath) {
+        try {
+            return new Image[]{
+                    new Image(getClass().getResource("/" + folderPath + "/1.png").toExternalForm()),
+                    new Image(getClass().getResource("/" + folderPath + "/2.png").toExternalForm()),
+                    new Image(getClass().getResource("/" + folderPath + "/3.png").toExternalForm())
+            };
+        } catch (NullPointerException e) {
+            System.err.println("Lỗi: Không tìm thấy tệp hình ảnh tại " + folderPath);
+            return new Image[0];
+        }
     }
+
 }

@@ -102,6 +102,13 @@ public class Map {
                 };
     }
 
+    public boolean dansTerrain(int x, int y) {
+        int maxWidth = tab2[0].length * 50;
+        int maxHeight = tab2.length * 50;
+
+        return x >= 0 && x < maxWidth && y >= 0 && y < maxHeight;
+    }
+
     public boolean verifierCollisions(int x, int y) {
         for (int i = x; i <= x + 30; i += 5) {
             for (int j = y; j <= y + 30; j += 5) {

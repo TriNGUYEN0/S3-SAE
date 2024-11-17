@@ -157,15 +157,20 @@ public class ControleurMenu {
         if (videoMediaPlayer != null) {
             videoMediaPlayer.stop();
             mediaPlayer2.play();
+            FXMLLoader loader = new FXMLLoader(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/lafoudre.fxml"));
             try {
-                FXMLLoader loader = new FXMLLoader(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/lafoudre.fxml"));
                 Parent root = loader.load();
-                Scene scene = new Scene(root);
-                Stage stage = (Stage) playButton.getScene().getWindow();
-                stage.setScene(scene);
-            } catch (IOException e) {
-                e.printStackTrace();
+                // Tiếp tục xử lý với root
+            } catch (Exception e) {
+                e.printStackTrace(); // Ghi log lỗi chi tiết
             }
+
+            if (getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/lafoudre.fxml") == null) {
+                System.err.println("Lỗi: Tệp lafoudre.fxml không tồn tại.");
+                return;
+            }
+
+
         }
     }
 
