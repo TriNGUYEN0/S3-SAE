@@ -322,13 +322,27 @@ public class Controleur implements Initializable {
         double joueurX = joueur.getX();
         double joueurY = joueur.getY();
 
+        // Kích thước cửa sổ hiển thị
+        double windowWidth = paneMap.getWidth();
+        double windowHeight = paneMap.getHeight();
 
-        double offsetX = -joueurX * ZOOM_FACTOR + (paneMap.getWidth() / 2) - (25 * ZOOM_FACTOR);
-        double offsetY = -joueurY * ZOOM_FACTOR + (paneMap.getHeight() / 2) - (25 * ZOOM_FACTOR);
+        // Tính toán vị trí của TilePane để Joueur luôn ở giữa màn hình
+        double offsetX = -joueurX * 50 + windowWidth / 2 - 25; // 50 là kích thước ô (tile)
+        double offsetY = -joueurY * 50 + windowHeight / 2 - 25;
 
-        paneMap.setLayoutX(offsetX);
-        paneMap.setLayoutY(offsetY);
+        // Đặt vị trí TilePane
+        tilePaneMap.setLayoutX(offsetX);
+        tilePaneMap.setLayoutY(offsetY);
+
+        premierPlanMap.setLayoutX(offsetX);
+        premierPlanMap.setLayoutY(offsetY);
+
+        if (tilePaneMap2.isVisible()) {
+            tilePaneMap2.setLayoutX(offsetX);
+            tilePaneMap2.setLayoutY(offsetY);
+        }
     }
+
 
     public static void setJoueurSprite(Image i) {
         Controleur.joueurSprite.setImage(i);
