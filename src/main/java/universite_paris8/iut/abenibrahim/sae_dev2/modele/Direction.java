@@ -23,4 +23,18 @@ public enum Direction
     {
         return this.y;
     }
+    public Direction inverse(){
+        switch (this){
+            case NORD :
+                return SUD;
+            case SUD :
+                return NORD;
+            case OUEST:
+                return EST;
+            case EST:
+                return OUEST;
+            default:
+                throw new IllegalArgumentException();
+        }
+    }
 }

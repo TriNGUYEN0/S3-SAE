@@ -1,7 +1,7 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
@@ -142,7 +142,7 @@ public static Environnement getUniqueInstance(){
             Acteur a = acteurs.get(i);
             if (a instanceof Ennemi){
                 if(!a.estVivant()){
-                    System.out.println("mort de : " + a);
+                   // System.out.println("mort de : " + a);
                     acteurs.remove(i);
                 }
             }

@@ -2,8 +2,7 @@ package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
 
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.InventaireObjets;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Epée;
 public class Ennemi extends Acteur {
     private Arme epée;
@@ -28,7 +27,7 @@ public class Ennemi extends Acteur {
     }
 
     @Override
-    public void attaquer() {
+    public Acteur attaquer() {
         int distanceAttaque = 50;
         Joueur joueur = environnement.getGuts();
         int distanceX = Math.abs(joueur.getX() - this.getX());
@@ -37,7 +36,9 @@ public class Ennemi extends Acteur {
 
         if (distance <= distanceAttaque) {
             joueur.recoisDegat(this.epée.getPointAttaque());
+            return joueur;
         }
+        return null;
     }
 
     @Override
@@ -87,7 +88,9 @@ public class Ennemi extends Acteur {
     public Direction getDirection() {
         return direction;
     }
-    public Arme getEpée() {
+
+    @Override
+    public Arme getArmeEquipee() {
         return this.epée;
     }
 }

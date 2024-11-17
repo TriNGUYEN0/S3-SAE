@@ -1,8 +1,8 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 
 import javafx.beans.property.IntegerProperty;
 import javafx.beans.property.SimpleIntegerProperty;
-import javafx.scene.shape.Rectangle;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Environnement;
 
@@ -14,6 +14,7 @@ public abstract class Acteur {
 
     private IntegerProperty pv;
     private int vitesse = 10;
+    private Arme armeEquipee;
 
     public Acteur(Environnement e,int x,int y,int v,int pv){
         this.x=new SimpleIntegerProperty(x);
@@ -69,9 +70,12 @@ public abstract class Acteur {
     public boolean estMort() {
         return getPv() <= 0;
     }
-    public abstract void attaquer();
+    public abstract Acteur attaquer();
 
     public abstract void recoisDegat(int degat);
+    public Arme getArmeEquipee(){
+        return armeEquipee;
+    }
 
 }
 

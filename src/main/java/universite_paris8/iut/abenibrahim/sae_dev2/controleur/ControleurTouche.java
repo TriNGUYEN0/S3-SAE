@@ -6,7 +6,7 @@ import javafx.scene.input.KeyCode;
 import javafx.scene.input.KeyEvent;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.vue.*;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
 import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
@@ -20,6 +20,7 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
     private SoinVue soinVue;
     private MapVue mapVue;
     private objetDefVue objetDefVue;
+    private CommandInvoker historique;//Commande
     public ControleurTouche(Joueur joueur, ImageView v, InventaireVue inventaireVue, SoinVue soinVue, DialogueVue dialogueVue, MapVue mapVue,objetDefVue objetDefVue) {
         this.animatedSprite = new AnimatedSprite(joueur.getX(), joueur.getY(), JoueurVue.framesDroite, 0);
         this.animatedSprite.setImageView(v);
@@ -30,12 +31,14 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
         this.joueur = joueur;
         this.mapVue=mapVue;
         this.objetDefVue=objetDefVue;
+        this.historique= CommandInvoker.getUniqueInstance();
     }
 
     @Override
     public void handle(KeyEvent event) {
         KeyCode k = event.getCode();
         Direction direction = null;
+        Command command =null;
         switch (k){
             case S -> {
                 if (event.isControlDown()) {
@@ -53,7 +56,8 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                 }
             }
             case A -> {
-                this.joueur.attaquer();
+                command= new AttaqueCommand(joueur);
+
             }
             case SPACE -> {
                 this.joueur.lancerProjectile();
@@ -90,32 +94,42 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
             case UP -> {
                 direction = Direction.NORD;
                 animatedSprite.definirFrames(JoueurVue.framesHaut);
+                command = new MoveCommand(joueur,direction);
+
             }
             case DOWN -> {
                 direction = Direction.SUD;
                 animatedSprite.definirFrames(JoueurVue.framesBas);
+                command = new MoveCommand(joueur,direction);
+
             }
             case LEFT -> {
                 direction = Direction.OUEST;
                 animatedSprite.definirFrames(JoueurVue.framesGauche);
+                command = new MoveCommand(joueur,direction);
             }
             case RIGHT -> {
                 direction = Direction.EST;
                 animatedSprite.definirFrames(JoueurVue.framesDroite);
+                command = new MoveCommand(joueur,direction);
             }
-        }
+        }if (command!=null){
+            historique.executeCommand(command);
         if (direction != null)
-            if (!inventaireVue.inventairePane.isVisible()){
+        if (!inventaireVue.inventairePane.isVisible()){
                 this.joueur.seDeplace(direction);
                 ct.ajusterCameraSuiviJoueur();
                 mapVue.updatePlayerPosition(joueur.getX(), joueur.getY());
                 System.out.println(joueur.getX() + " " + joueur.getY());
+
             }
-    }
+    }}
     public void Actualiser(Controleur c){
         this.ct = c;
     }
-
+    public void undoLastCommand(){
+        historique.undoCommand();
+    }
     public AnimatedSprite getAnimatedSprite() {
         return animatedSprite;
     }

@@ -1,7 +1,7 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele;
 
 import javafx.scene.image.Image;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 public class InventaireObjets {
     private Arme arme;
     private Image image;

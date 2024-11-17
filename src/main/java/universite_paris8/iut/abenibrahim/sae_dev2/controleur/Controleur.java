@@ -73,7 +73,7 @@ public class Controleur implements Initializable {
             ObjectOutputStream oos = new ObjectOutputStream(fos);
             oos.writeObject(saveData);
             oos.close();
-            System.out.println("Partie sauvegardée avec succès !");
+          System.out.println("Partie sauvegardée avec succès !");
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -100,6 +100,7 @@ public class Controleur implements Initializable {
     private Label dialogueBox;
     @FXML
     private Label dialogueBox2;
+    private CommandInvoker historique = CommandInvoker.getUniqueInstance();
 
 
     @Override
@@ -185,11 +186,15 @@ public class Controleur implements Initializable {
     }
 
     private void initAnimation() {
+        Command cAEnnemieProjectile = new AttaqueCommand(environnement.getGuts(),environnement.getEnnemiProjectile());
+        Command cAEnnemie = new AttaqueCommand(environnement.getGuts(),environnement.getEnnemi());
+
         temps = 0;
         gameLoop = new Timeline();
         KeyFrame kf = new KeyFrame(
                 Duration.seconds(0.200),
-                ev -> {
+
+        ev -> {
                     if (temps == 10000) {
                         System.out.println("fini");
                         gameLoop.stop();
@@ -198,12 +203,13 @@ public class Controleur implements Initializable {
                         this.projectileVue.updateProjectiles(environnement.getGuts().getProjectiles(), environnement.getEnnemi(), projectilesSprites, this.paneMap);
                         this.pRojectileVueEnnemie.updateProjectiles(environnement.getEnnemiProjectile().getProjectileList(),environnement.getGuts(),enemyProjectilesSprites , this.paneMap);
                         if(!environnement.getEnnemiProjectile().estMort()){
-                            environnement.getEnnemiProjectile().attaquer();
+                            historique.executeCommand(cAEnnemieProjectile);
                         }
-                        System.out.println("PV JOUEUR : " + environnement.getGuts().getPv());
-                        System.out.println("PV ENNEMI : " + environnement.getEnnemi().getPv());
-                        System.out.println("pv Ennemi2 : " + environnement.getEnnemiProjectile().getPv());
-                        environnement.getEnnemi().attaquer();
+                       // System.out.println("PV JOUEUR : " + environnement.getGuts().getPv());
+                       // System.out.println("PV ENNEMI : " + environnement.getEnnemi().getPv());
+                        //System.out.println("pv Ennemi2 : " + environnement.getEnnemiProjectile().getPv());
+                        historique.executeCommand(cAEnnemie);
+
                         temps++;
                         ennemiVue.animerEnnemi(animationTimer, environnement.getEnnemi().getDirection());
                         if (environnement.getGuts().estMort()) {

@@ -1,5 +1,5 @@
 package universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur;
-
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import javafx.collections.FXCollections;
 import javafx.collections.ObservableList;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
@@ -38,7 +38,7 @@ public class EnnemiProjectile extends Acteur{
 
 
     @Override
-    public void attaquer() {
+    public Acteur attaquer() {
         if(detecterJoueur()){
             Joueur joueur = environnement.getGuts();
             int projectileX = getX();
@@ -48,9 +48,11 @@ public class EnnemiProjectile extends Acteur{
             Direction directionVersJoueur = calculerDirection(joueur.getX(), joueur.getY());
             Projectile projectile = new Projectile(projectileX, projectileY, directionVersJoueur, vitesseProjectile, degatProjectile);
             projectiles.add(projectile);
-            System.out.println("Projectile lancé à : " + projectileX + ", " + projectileY + " en direction " + lastDirection);
+           // System.out.println("Projectile lancé à : " + projectileX + ", " + projectileY + " en direction " + lastDirection);
+            return  joueur;
         }
 
+        return null;
     }
     @Override
     public void recoisDegat(int degat) {
@@ -70,6 +72,10 @@ public class EnnemiProjectile extends Acteur{
         } else {
             return deltaY > 0 ? Direction.SUD : Direction.NORD;
         }
+    }
+    @Override
+    public Arme getArmeEquipee() {
+        return this.armeDistance;
     }
 }
 

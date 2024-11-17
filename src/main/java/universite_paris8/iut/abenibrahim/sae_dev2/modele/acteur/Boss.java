@@ -28,7 +28,7 @@ public class Boss extends Acteur{
 
 
     @Override
-    public void attaquer() {
+    public Acteur attaquer() {
         int distanceAttaque = 50;
         Joueur joueur = environnement.getGuts();
         int distanceX = Math.abs(joueur.getX() - this.getX());
@@ -38,6 +38,7 @@ public class Boss extends Acteur{
         if (distance <= distanceAttaque) {
             joueur.recoisDegat(this.pointAttaque);
         }
+        return null;
     }
 
     @Override

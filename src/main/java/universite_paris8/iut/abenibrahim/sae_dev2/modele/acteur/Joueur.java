@@ -10,9 +10,8 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.InventaireObjets;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ArmeDistance;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
-import universite_paris8.iut.abenibrahim.sae_dev2.objet.Arme;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.objet.Soin;
-import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.objetDefense;
 
 public class Joueur extends Acteur {
 
@@ -35,7 +34,7 @@ public class Joueur extends Acteur {
     }
 
     @Override
-    public void attaquer(){
+    public Acteur attaquer(){
         int playerX, playerY, enemyX, enemyY,enemyProjectilsX,enemyProjectilsY;
 
         int distanceAttaque = 50;
@@ -55,10 +54,15 @@ public class Joueur extends Acteur {
         double distance1 = Math.sqrt(distance1x * distance1x + distance1Y * distance1Y);
         if (distance <= distanceAttaque) {
             environnement.getEnnemi(). recoisDegat(this.armeEquipee.getPointAttaque());
+            return environnement.getEnnemi();
         }
         if(distance1 <= distanceAttaque){
             environnement.getEnnemiProjectile().recoisDegat(this.armeEquipee.getPointAttaque());
+            return environnement.getEnnemiProjectile();
+
         }
+        return null;
+
     }
 
     public void equiperArme(Arme arme){
@@ -178,7 +182,7 @@ public class Joueur extends Acteur {
 
                 Projectile projectile = new Projectile(projectileX, projectileY, lastDirection, vitesseProjectile, degatProjectile);
                 projectiles.add(projectile);
-                System.out.println("Projectile lancé à : " + projectileX + ", " + projectileY + " en direction " + lastDirection);
+               // System.out.println("Projectile lancé à : " + projectileX + ", " + projectileY + " en direction " + lastDirection);
             }
 
         }
@@ -205,4 +209,6 @@ public class Joueur extends Acteur {
     public int getPointDef() {
         return this.pointDef;
     }
+    @Override
+    public Arme getArmeEquipee(){return armeEquipee;}
 }
