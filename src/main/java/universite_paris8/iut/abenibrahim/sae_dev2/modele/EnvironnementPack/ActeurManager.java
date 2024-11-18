@@ -13,72 +13,68 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class ActeurManager {
-    private Joueur joueur;
+    private ObservableList<Acteur> acteurs;
     private List<Ennemi> ennemis;
     private List<Pnj> pnjs;
-    private ObservableList<Acteur> acteurs;
     private List<EnnemiProjectile> ennemiProjectiles;
+    private Joueur joueur;
 
     public ActeurManager(Environnement environnement) {
         this.acteurs = FXCollections.observableArrayList();
-        this.joueur = new Joueur(environnement, 200, 200, Constants.vitesse, Constants.pvJoueur);
         this.ennemis = new ArrayList<>();
         this.pnjs = new ArrayList<>();
         this.ennemiProjectiles = new ArrayList<>();
 
-        Ennemi ennemi = new Ennemi(environnement, 300, 300, 50, 100);
-        ennemis.add(ennemi);
-
-        EnnemiProjectile ennemiProjectile = new EnnemiProjectile(environnement, 1200, 600, 0, 100);
-        ennemiProjectiles.add(ennemiProjectile);
-
-
+        // Khởi tạo Joueur
+        this.joueur = new Joueur(environnement, 200, 200, Constants.vitesse, Constants.pvJoueur);
         acteurs.add(joueur);
 
+        // Thêm Ennemi
+        Ennemi ennemi = new Ennemi(environnement, 300, 300, 50, 100);
+        ajouterEnnemi(ennemi);
+
+        // Thêm EnnemiProjectile
+        EnnemiProjectile ennemiProjectile = new EnnemiProjectile(environnement, 1200, 600, 0, 100);
+        ajouterEnnemiProjectile(ennemiProjectile);
+
+        // Thêm Pnj
         Pnj pnj = new Pnj(environnement, 1410, 100, "Je vois que vous voulez tuer le Cleric beast...");
-        pnjs.add(pnj);
+        ajouterPnj(pnj);
     }
 
+    public void ajouterEnnemi(Ennemi ennemi) {
+        ennemis.add(ennemi);
+        acteurs.add(ennemi);
+    }
 
+    public void ajouterPnj(Pnj pnj) {
+        pnjs.add(pnj);
+        acteurs.add(pnj);
+    }
 
-
+    public void ajouterEnnemiProjectile(EnnemiProjectile ennemiProjectile) {
+        ennemiProjectiles.add(ennemiProjectile);
+        acteurs.add(ennemiProjectile);
+    }
 
     public Joueur getJoueur() {
         return joueur;
     }
 
+    public ObservableList<Acteur> getActeurs() {
+        return acteurs;
+    }
 
     public List<Ennemi> getEnnemis() {
         return ennemis;
     }
 
-
     public List<Pnj> getPnjs() {
         return pnjs;
-    }
-
-
-    public ObservableList<Acteur> getActeurs() {
-        return acteurs;
-    }
-
-    public void unTour() {
-        for (Acteur acteur : new ArrayList<>(acteurs)) {
-            if (acteur instanceof Ennemi) {
-                Ennemi ennemi = (Ennemi) acteur;
-                ennemi.seDeplacer(ennemi.getDirection());
-                ennemi.attaquer(joueur);
-            } else if (acteur instanceof EnnemiProjectile) {
-                EnnemiProjectile ennemiProjectile = (EnnemiProjectile) acteur;
-                ennemiProjectile.seDeplacer(ennemiProjectile.getDirection());
-                ennemiProjectile.attaquer(joueur);
-            }
-        }
-
-        acteurs.removeIf(acteur -> !acteur.estVivant());
     }
 
     public List<EnnemiProjectile> getEnnemiProjectiles() {
         return ennemiProjectiles;
     }
 }
+
