@@ -119,18 +119,36 @@ public class InventaireVue {
     public void afficherArmesSurCarte() {
         for (Arme arme : environnement.getObjetManager().getArmeMap()) {
             ArmeVue armeVue = new ArmeVue(paneMap, arme);
-            armeVues.add(armeVue);
-        }
-    }
-
-    public void supprimerArmeDeLaCarte(Arme arme) {
-        for (int i = armeVues.size() - 1; i >= 0; i--) {
-            ArmeVue armeVue = armeVues.get(i);
-            if (armeVue.getArme().equals(arme)) {
-                armeVue.supprimerArmeDeLaCarte();
-                armeVues.remove(i);
-                break;
+            if (!armeVues.contains(armeVue)) {
+                armeVues.add(armeVue);
             }
         }
     }
+
+
+    public void supprimerArmeDeLaCarte(Arme arme) {
+        // Xóa trong armeVues
+        for (int i = armeVues.size() - 1; i >= 0; i--) {
+            ArmeVue armeVue = armeVues.get(i);
+            if (armeVue.getArme().equals(arme)) {
+                armeVue.supprimerArmeDeLaCarte(); // Xóa hình ảnh
+                armeVues.remove(i); // Xóa khỏi danh sách
+                System.out.println("Vũ khí đã được loại bỏ khỏi giao diện: " + arme.getNom());
+            }
+        }
+
+        // Kiểm tra và xóa hình ảnh dư thừa trong paneMap
+        paneMap.getChildren().removeIf(node -> {
+            if (node instanceof ImageView) {
+                ImageView imageView = (ImageView) node;
+                double x = imageView.getTranslateX();
+                double y = imageView.getTranslateY();
+                return (x == arme.getX() && y == arme.getY()); // Nếu tọa độ trùng khớp
+            }
+            return false;
+        });
+
+        System.out.println("Hoàn thành kiểm tra và xóa hình ảnh của vũ khí trên giao diện.");
+    }
+
 }

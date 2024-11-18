@@ -201,6 +201,27 @@ public class Controleur implements Initializable {
         return environnement;
     }
 
+    public InventaireVue getInventaireVue() {
+        return this.inventaireVue;
+    }
+
+    public SoinVue getSoinVue() {
+        return this.soinVue;
+    }
+
+    public DialogueVue getDialogueVue() {
+        return this.dialogueVue;
+    }
+
+    public MapVue getMapVue() {
+        return this.mapVue;
+    }
+
+    public ObjetDefVue getObjetDefVue() {
+        return this.objetDefVue;
+    }
+
+
     private void initAnimation() {
         temps = 0;
         gameLoop = new Timeline();
@@ -265,7 +286,7 @@ public class Controleur implements Initializable {
         gameLoop.setCycleCount(Timeline.INDEFINITE);
     }
 
-    private void ajusterCameraSuiviJoueur() {
+    public void ajusterCameraSuiviJoueur() {
         Joueur joueur = environnement.getActeurManager().getJoueur();
         double joueurX = joueur.getX();
         double joueurY = joueur.getY();

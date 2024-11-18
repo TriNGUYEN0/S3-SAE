@@ -71,11 +71,18 @@ public class JoueurVue {
      */
     public void creerSpriteJoueur(Controleur controleur) {
         ControleurTouche controleurTouche = new ControleurTouche(
-                joueur,
-                controleur.getEnvironnement(),
-                joueurSprite,
-                this
+                joueur, // Joueur
+                controleur.getEnvironnement(), // Environnement
+                this, // JoueurVue
+                controleur.getInventaireVue(), // InventaireVue
+                controleur.getSoinVue(), // SoinVue
+                controleur.getMapVue(), // MapVue
+                controleur.getObjetDefVue(), // ObjetDefVue
+                controleur.getDialogueVue() // DialogueVue
         );
+
+        // Gán đối tượng Controleur cho ControleurTouche
+        controleurTouche.setControleur(controleur);
 
         Scene scene = paneMap.getScene();
         if (scene != null) {
@@ -90,6 +97,10 @@ public class JoueurVue {
             });
         }
     }
+
+
+
+
 
     /**
      * Cập nhật khung hình của sprite dựa trên hướng

@@ -21,10 +21,8 @@ public class ObjetManager {
 
         ArmeFactory epeeFactory = new EpeeFactory();
         Arme epee1 = epeeFactory.createArme(500, 500);
-        Arme epee2 = epeeFactory.createArme(600, 600);
 
         armeMap.add(epee1);
-        armeMap.add(epee2);
     }
 
     public List<Arme> getArmeMap() {
@@ -51,6 +49,14 @@ public class ObjetManager {
         objetDefenseList.add(objetDefense);
     }
 
+    public void supprimerArme(Arme arme) {
+        if (armeMap.contains(arme)) {
+            armeMap.remove(arme);
+            System.out.println("Vũ khí đã bị loại bỏ khỏi armeMap: " + arme.getNom());
+        } else {
+            System.err.println("Vũ khí không tồn tại trong armeMap: " + arme.getNom());
+        }
+    }
 
 
 }
