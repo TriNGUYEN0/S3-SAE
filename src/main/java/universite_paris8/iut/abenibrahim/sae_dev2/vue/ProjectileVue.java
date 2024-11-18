@@ -6,6 +6,7 @@ import javafx.scene.paint.Color;
 import javafx.scene.shape.Circle;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Ennemi;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
 
 import java.util.Iterator;
 import java.util.List;
@@ -14,54 +15,62 @@ public class ProjectileVue {
     public ProjectileVue() {
     }
 
-    public void updateProjectiles(
+    public void updateEnnemiProjectiles(
             ObservableList<Projectile> projectiles,
-            List<Ennemi> ennemis,
-            List<Circle> projectilesSprites,
+            Joueur joueur,
+            List<Circle> enemyProjectilesSprites,
             Pane paneMap
     ) {
-
-        for (int i = projectilesSprites.size() - 1; i >= projectiles.size(); i--) {
-            paneMap.getChildren().remove(projectilesSprites.get(i));
-            projectilesSprites.remove(i);
+        // Loại bỏ projectiles không cần thiết khỏi bản đồ
+        for (int i = enemyProjectilesSprites.size() - 1; i >= projectiles.size(); i--) {
+            paneMap.getChildren().remove(enemyProjectilesSprites.get(i));
+            enemyProjectilesSprites.remove(i);
         }
 
-
+        // Cập nhật vị trí hoặc kiểm tra va chạm
         Iterator<Projectile> iterator = projectiles.iterator();
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             projectile.deplacer();
 
-
-            for (Iterator<Ennemi> ennemiIterator = ennemis.iterator(); ennemiIterator.hasNext(); ) {
-                Ennemi ennemi = ennemiIterator.next();
-                if (checkCollision(projectile, ennemi)) {
-                    ennemi.recevoirDegats(projectile.getDegat());
-                    if (!ennemi.estVivant()) {
-                        paneMap.getChildren().remove(ennemi.getSprite());
-                        ennemiIterator.remove();
-                    }
-                    iterator.remove();
-                    break;
-                }
+            // Kiểm tra va chạm với `Joueur`
+            if (checkCollisionWithJoueur(projectile, joueur)) {
+                joueur.recevoirDegats(projectile.getDegat());
+                System.out.println("Joueur a été touché par un projectile !");
+                iterator.remove();
+                continue;
             }
         }
 
-
+        // Hiển thị hoặc cập nhật projectiles
         for (int i = 0; i < projectiles.size(); i++) {
             Projectile projectile = projectiles.get(i);
             Circle projectileCircle;
-            if (i < projectilesSprites.size()) {
-                projectileCircle = projectilesSprites.get(i);
+            if (i < enemyProjectilesSprites.size()) {
+                projectileCircle = enemyProjectilesSprites.get(i);
             } else {
-                projectileCircle = new Circle(5, Color.BLUE); // Taille et couleur du projectile
-                projectilesSprites.add(projectileCircle);
+                projectileCircle = new Circle(5, Color.RED); // Màu đỏ cho đạn `EnnemiProjectile`
+                enemyProjectilesSprites.add(projectileCircle);
                 paneMap.getChildren().add(projectileCircle);
             }
             projectileCircle.setCenterX(projectile.getX());
             projectileCircle.setCenterY(projectile.getY());
         }
     }
+
+    private boolean checkCollisionWithJoueur(Projectile projectile, Joueur joueur) {
+        int projectileX = projectile.getX();
+        int projectileY = projectile.getY();
+        int joueurX = joueur.getX();
+        int joueurY = joueur.getY();
+        int collisionDistance = 10;
+
+        int distanceX = Math.abs(projectileX - joueurX);
+        int distanceY = Math.abs(projectileY - joueurY);
+
+        return (distanceX < collisionDistance && distanceY < collisionDistance);
+    }
+
 
     private boolean checkCollision(Projectile projectile, Ennemi ennemi) {
         int projectileX = projectile.getX();

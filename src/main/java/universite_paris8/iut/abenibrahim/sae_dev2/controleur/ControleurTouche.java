@@ -8,6 +8,7 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Acteur;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Ennemi;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.EnnemiProjectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.Arme;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.objet.ObjetDefense;
@@ -113,6 +114,14 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                 // Nếu tìm thấy kẻ thù, tấn công
                 if (ennemiCible != null) {
                     joueur.attaquer(ennemiCible);
+                }
+
+                EnnemiProjectile cible = environnement.getActeurManager().getEnnemiProjectiles().stream()
+                        .filter(e -> Math.abs(e.getX() - joueur.getX()) < 50 && Math.abs(e.getY() - joueur.getY()) < 50)
+                        .findFirst()
+                        .orElse(null);
+                if (cible != null) {
+                    joueur.attaquer(cible);
                 }
             }
 

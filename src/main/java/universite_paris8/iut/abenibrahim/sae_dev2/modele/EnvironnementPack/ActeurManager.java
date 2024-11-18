@@ -29,23 +29,18 @@ public class ActeurManager {
         Ennemi ennemi = new Ennemi(environnement, 300, 300, 50, 100);
         ennemis.add(ennemi);
 
-        EnnemiProjectile ennemiProjectile = new EnnemiProjectile(environnement, 600, 500, 0, 100);
+        EnnemiProjectile ennemiProjectile = new EnnemiProjectile(environnement, 1200, 600, 0, 100);
         ennemiProjectiles.add(ennemiProjectile);
 
 
         acteurs.add(joueur);
 
         Pnj pnj = new Pnj(environnement, 1410, 100, "Je vois que vous voulez tuer le Cleric beast...");
-        ajouterPnj(pnj);
         pnjs.add(pnj);
     }
 
 
 
-    public void ajouterPnj(Pnj pnj) {
-        pnjs.add(pnj);
-        acteurs.add(pnj);
-    }
 
 
     public Joueur getJoueur() {

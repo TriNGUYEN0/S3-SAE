@@ -14,10 +14,12 @@ import javafx.scene.shape.Circle;
 import javafx.util.Duration;
 import universite_paris8.iut.abenibrahim.sae_dev2.Main;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.Projectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.SaveData;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Ennemi;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.EnnemiProjectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Pnj;
 import universite_paris8.iut.abenibrahim.sae_dev2.vue.*;
 
 import java.net.URL;
@@ -70,6 +72,7 @@ public class Controleur implements Initializable {
     private int temps;
     private static ImageView joueurSprite;
     private List<EnnemiVue> ennemiVues;
+    private static final double ENNEMI_ATTACK_RANGE = 100.0; // Phạm vi tấn công tính bằng pixel
     private List<EnnemieProjectilesVue> ennemiProjectilesVues;
     private MapVue mapVue;
     private PvVue pvVue;
@@ -189,6 +192,14 @@ public class Controleur implements Initializable {
         // Khởi tạo DialogueVue
         this.dialogueVue = new DialogueVue(dialogueBox, environnement, dialogueBox2);
 
+
+        for (Pnj pnj : environnement.getActeurManager().getPnjs()) {
+            PnjVue pnjVue = new PnjVue(paneMap, pnj.xProperty(), pnj.yProperty());
+            pnjVue.creerSpritePnj();
+            pnjVue.initialiserPnj(pnjVue.getPnjSpriteView(), paneMap);
+            System.out.println("PNJ đã được thêm vào bản đồ.");
+        }
+
         // Khởi tạo ObjetDefVue
         this.objetDefVue = new ObjetDefVue(environnement, paneMap);
         this.objetDefVue.afficherObjetDefSurCarte();
@@ -254,16 +265,6 @@ public class Controleur implements Initializable {
 
                         Joueur joueur = environnement.getActeurManager().getJoueur();
 
-                        // Cập nhật projectiles của Joueur
-                        if (projectileVue != null) {
-                            projectileVue.updateProjectiles(
-                                    joueur.getProjectiles(),
-                                    environnement.getActeurManager().getEnnemis(),
-                                    projectilesSprites,
-                                    this.paneMap
-                            );
-                        }
-
                         // Cập nhật các kẻ thù (Ennemi)
                         for (Iterator<EnnemiVue> it = ennemiVues.iterator(); it.hasNext(); ) {
                             EnnemiVue ennemiVue = it.next();
@@ -281,24 +282,57 @@ public class Controleur implements Initializable {
                             }
                         }
 
-                        // Cập nhật các EnPro (EnnemiProjectile)
+                        // Cập nhật các EnnemiProjectile
                         for (Iterator<EnnemieProjectilesVue> it = ennemiProjectilesVues.iterator(); it.hasNext(); ) {
                             EnnemieProjectilesVue ennemiProjectileVue = it.next();
                             EnnemiProjectile ennemiProjectile = environnement.getActeurManager().getEnnemiProjectiles().stream()
-                                    .filter(e -> e.xProperty().get() == ennemiProjectileVue.getEnnemieSpriteView().getTranslateX() &&
-                                            e.yProperty().get() == ennemiProjectileVue.getEnnemieSpriteView().getTranslateY())
-
+                                    .filter(e -> e.xProperty().get() == (int) ennemiProjectileVue.getEnnemieSpriteView().getTranslateX() &&
+                                            e.yProperty().get() == (int) ennemiProjectileVue.getEnnemieSpriteView().getTranslateY())
                                     .findFirst()
                                     .orElse(null);
 
                             if (ennemiProjectile != null && ennemiProjectile.estVivant()) {
+                                // Di chuyển EnnemiProjectile
                                 ennemiProjectile.seDeplacer(ennemiProjectile.getDirection());
+
+                                // Kiểm tra khoảng cách và tấn công nếu gần
+                                double distance = Math.sqrt(
+                                        Math.pow(joueur.getX() - ennemiProjectile.getX(), 2) +
+                                                Math.pow(joueur.getY() - ennemiProjectile.getY(), 2)
+                                );
+
+                                if (distance <= ENNEMI_ATTACK_RANGE) {
+                                    ennemiProjectile.attaquer(joueur);
+                                    System.out.println("EnnemiProjectile tấn công người chơi!");
+
+                                    // Tạo đạn của EnnemiProjectile
+                                    Projectile projectile = new Projectile(
+                                            ennemiProjectile.getX(),
+                                            ennemiProjectile.getY(),
+                                            ennemiProjectile.getDirection(),
+                                            10, // Tốc độ đạn
+                                            15  // Sát thương đạn
+                                    );
+                                    ennemiProjectile.getProjectiles().add(projectile);
+                                }
                             } else {
                                 // Xóa sprite của EnPro khỏi paneMap
                                 paneMap.getChildren().remove(ennemiProjectileVue.getEnnemieSpriteView());
                                 it.remove();
                                 System.out.println("EnnemiProjectile đã bị loại bỏ khỏi paneMap.");
                             }
+                        }
+
+                        // Hiển thị và di chuyển đạn của EnnemiProjectile
+                        for (EnnemiProjectile ennemiProjectile : environnement.getActeurManager().getEnnemiProjectiles()) {
+                            // Trong initAnimation
+                            projectileVueEnnemie.updateProjectiles(
+                                    ennemiProjectile.getProjectiles(),
+                                    joueur,
+                                    enemyProjectilesSprites,
+                                    paneMap
+                            );
+
                         }
 
                         // Kiểm tra nếu Joueur đã chết
@@ -325,6 +359,7 @@ public class Controleur implements Initializable {
         gameLoop.setCycleCount(Timeline.INDEFINITE); // Lặp vô hạn
         gameLoop.play(); // Bắt đầu vòng lặp
     }
+
 
 
 

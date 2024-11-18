@@ -14,7 +14,7 @@ public class EnnemiProjectile extends Acteur {
     private ObservableList<Projectile> projectiles;
 
 
-    private static final int DISTANCE_DETECTION = 500;
+    private static final int DISTANCE_DETECTION = 3759;
 
     public EnnemiProjectile(Environnement e, int x, int y, int v, int pv) {
         super(e, x, y, v, pv);
