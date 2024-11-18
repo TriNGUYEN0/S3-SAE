@@ -140,7 +140,6 @@ public class ControleurMenu {
             env.getActeurManager().getEnnemis().clear();
             for (SaveData.EnnemiData ennemiData : saveData.getEnnemisData()) {
                 Ennemi ennemi = new Ennemi(env, ennemiData.getEnnemiX(), ennemiData.getEnnemiY(), 50, ennemiData.getEnnemiPv());
-                env.getActeurManager().ajouterEnnemi(ennemi);
             }
 
             // Khôi phục dữ liệu bản đồ

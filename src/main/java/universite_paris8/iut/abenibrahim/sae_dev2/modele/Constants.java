@@ -14,5 +14,5 @@ public class Constants {
     public static final int pvEnnemi=500;
 
 
-    public static final int vitesse=30;
+    public static final int vitesse=10;
 }

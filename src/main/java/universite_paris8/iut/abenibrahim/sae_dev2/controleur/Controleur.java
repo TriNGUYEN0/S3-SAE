@@ -16,6 +16,7 @@ import universite_paris8.iut.abenibrahim.sae_dev2.Main;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.EnvironnementPack.Environnement;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.SaveData;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Ennemi;
+import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.EnnemiProjectile;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.acteur.Joueur;
 import universite_paris8.iut.abenibrahim.sae_dev2.vue.*;
 
@@ -68,6 +69,8 @@ public class Controleur implements Initializable {
     private Timeline gameLoop;
     private int temps;
     private static ImageView joueurSprite;
+    private List<EnnemiVue> ennemiVues;
+    private List<EnnemieProjectilesVue> ennemiProjectilesVues;
     private MapVue mapVue;
     private PvVue pvVue;
     private JoueurVue joueurVue;
@@ -84,11 +87,12 @@ public class Controleur implements Initializable {
     public void initialize(URL location, ResourceBundle resources) {
         System.out.println("Controleur đã được khởi tạo.");
 
+        // Kiểm tra và thiết lập `paneMap`
         if (paneMap == null) {
             System.err.println("Lỗi: paneMap chưa được tiêm (injected). Kiểm tra fx:id trong FXML.");
             return;
         } else {
-            paneMap.setStyle("-fx-background-color: lightblue;"); // Đặt màu nền để kiểm tra
+            paneMap.setStyle("-fx-background-color: lightblue;"); // Đặt màu nền kiểm tra
         }
 
         paneMap.setScaleX(ZOOM_FACTOR);
@@ -143,6 +147,31 @@ public class Controleur implements Initializable {
             System.out.println("JoueurSprite đã tồn tại trong paneMap.");
         }
 
+        // Khởi tạo và hiển thị các Ennemis
+        List<EnnemiVue> ennemiVues = new ArrayList<>();
+        for (Ennemi ennemi : environnement.getActeurManager().getEnnemis()) {
+            EnnemiVue ennemiVue = new EnnemiVue(ennemi, paneMap);
+            ennemiVue.creerSpriteEnnemi();
+            ennemiVues.add(ennemiVue);
+        }
+        this.ennemiVues = ennemiVues;
+
+        // Khởi tạo danh sách EnnemieProjectilesVue
+        this.ennemiProjectilesVues = new ArrayList<>();
+
+        for (EnnemiProjectile ennemiProjectile : environnement.getActeurManager().getEnnemiProjectiles()) {
+            EnnemieProjectilesVue ennemiProjectileVue = new EnnemieProjectilesVue(
+                    paneMap,
+                    ennemiProjectile.xProperty(),
+                    ennemiProjectile.yProperty()
+            );
+            ennemiProjectileVue.creerSpritePnj();
+            ennemiProjectileVue.initialiserEnnemieProjectiles(ennemiProjectileVue.getEnnemieSpriteView(), paneMap);
+            this.ennemiProjectilesVues.add(ennemiProjectileVue);
+            System.out.println("Đã thêm EnnemiProjectile vào paneMap.");
+        }
+
+
         // Khởi tạo ProjectileVue
         this.projectileVue = new ProjectileVue();
         this.projectileVueEnnemie = new ProjectileVueEnnemie();
@@ -150,14 +179,9 @@ public class Controleur implements Initializable {
         // Khởi tạo SoinVue
         this.soinVue = new SoinVue(this.paneMap, this.nbSoin, this.environnement);
         this.soinVue.afficherSoinsSurCarte();
-        soinVue.getSoinStackPane().layoutXProperty().bind(joueur.xProperty().add(-400));
-        soinVue.getSoinStackPane().layoutYProperty().bind(joueur.yProperty().add(-100));
-        soinVue.getNbSoinStackPane().layoutXProperty().bind(joueur.xProperty().add(-325));
-        soinVue.getNbSoinStackPane().layoutYProperty().bind(joueur.yProperty().add(-95));
 
         // Khởi tạo InventaireVue
         slots = Arrays.asList(slot1, slot2);
-
         this.inventaireVue = new InventaireVue(this.paneMap, this.tilePaneMap, this.environnement,
                 inventairePane, slot1, slot2, titre, armeChoisie, phrase, slots, premierPlanMap);
         this.inventaireVue.afficherArmesSurCarte();
@@ -185,17 +209,9 @@ public class Controleur implements Initializable {
         gameOverVue = new GameOverVue(this.paneMap);
         gameOverVue.getImageView().setVisible(false);
 
-        // Khởi tạo danh sách Projectile
-        this.projectilesSprites = new ArrayList<>();
-        this.enemyProjectilesSprites = new ArrayList<>();
-
-        // Hiển thị tất cả các thành phần
-        this.inventaireVue.afficherArmesSurCarte();
-        this.soinVue.afficherSoinsSurCarte();
-        this.objetDefVue.afficherObjetDefSurCarte();
-
         System.out.println("Initialization complete.");
     }
+
 
     public Environnement getEnvironnement() {
         return environnement;
@@ -225,8 +241,9 @@ public class Controleur implements Initializable {
     private void initAnimation() {
         temps = 0;
         gameLoop = new Timeline();
+
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.200),
+                Duration.seconds(0.200), // Cập nhật mỗi 200ms
                 ev -> {
                     try {
                         if (temps >= 10000) {
@@ -247,18 +264,40 @@ public class Controleur implements Initializable {
                             );
                         }
 
-                        // Xử lý các kẻ thù
-                        List<Ennemi> ennemis = environnement.getActeurManager().getEnnemis();
-                        if (ennemis != null) {
-                            for (Iterator<Ennemi> it = ennemis.iterator(); it.hasNext(); ) {
-                                Ennemi ennemi = it.next();
-                                if (ennemi.estVivant()) {
-                                    ennemi.seDeplacer(ennemi.getDirection());
-                                    ennemi.attaquer(joueur);
-                                } else {
-                                    paneMap.getChildren().remove(ennemi.getSprite());
-                                    it.remove();
-                                }
+                        // Cập nhật các kẻ thù (Ennemi)
+                        for (Iterator<EnnemiVue> it = ennemiVues.iterator(); it.hasNext(); ) {
+                            EnnemiVue ennemiVue = it.next();
+                            Ennemi ennemi = ennemiVue.getEnnemi();
+
+                            if (ennemi.estVivant()) {
+                                ennemi.seDeplacer(ennemi.getDirection());
+                                ennemi.attaquer(joueur);
+                                ennemiVue.animerEnnemi(ennemi.getDirection());
+                            } else {
+                                // Xóa sprite của Ennemi khỏi paneMap
+                                paneMap.getChildren().remove(ennemiVue.getEnnemiSprite());
+                                it.remove();
+                                System.out.println("Ennemi đã bị loại bỏ khỏi paneMap.");
+                            }
+                        }
+
+                        // Cập nhật các EnPro (EnnemiProjectile)
+                        for (Iterator<EnnemieProjectilesVue> it = ennemiProjectilesVues.iterator(); it.hasNext(); ) {
+                            EnnemieProjectilesVue ennemiProjectileVue = it.next();
+                            EnnemiProjectile ennemiProjectile = environnement.getActeurManager().getEnnemiProjectiles().stream()
+                                    .filter(e -> e.xProperty().get() == ennemiProjectileVue.getEnnemieSpriteView().getTranslateX() &&
+                                            e.yProperty().get() == ennemiProjectileVue.getEnnemieSpriteView().getTranslateY())
+
+                                    .findFirst()
+                                    .orElse(null);
+
+                            if (ennemiProjectile != null && ennemiProjectile.estVivant()) {
+                                ennemiProjectile.seDeplacer(ennemiProjectile.getDirection());
+                            } else {
+                                // Xóa sprite của EnPro khỏi paneMap
+                                paneMap.getChildren().remove(ennemiProjectileVue.getEnnemieSpriteView());
+                                it.remove();
+                                System.out.println("EnnemiProjectile đã bị loại bỏ khỏi paneMap.");
                             }
                         }
 
@@ -275,7 +314,7 @@ public class Controleur implements Initializable {
 
                         temps++;
                     } catch (Exception ex) {
-                        System.err.println("Lỗi xảy ra trong vòng lặp gameLoop: " + ex.getMessage());
+                        System.err.println("Lỗi xảy ra trong gameLoop: " + ex.getMessage());
                         ex.printStackTrace();
                         gameLoop.stop();
                     }
@@ -283,8 +322,11 @@ public class Controleur implements Initializable {
         );
 
         gameLoop.getKeyFrames().add(kf);
-        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        gameLoop.setCycleCount(Timeline.INDEFINITE); // Lặp vô hạn
+        gameLoop.play(); // Bắt đầu vòng lặp
     }
+
+
 
     public void ajusterCameraSuiviJoueur() {
         Joueur joueur = environnement.getActeurManager().getJoueur();

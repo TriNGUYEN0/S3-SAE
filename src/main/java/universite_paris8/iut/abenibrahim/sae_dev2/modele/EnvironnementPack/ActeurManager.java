@@ -17,26 +17,30 @@ public class ActeurManager {
     private List<Ennemi> ennemis;
     private List<Pnj> pnjs;
     private ObservableList<Acteur> acteurs;
+    private List<EnnemiProjectile> ennemiProjectiles;
 
     public ActeurManager(Environnement environnement) {
         this.acteurs = FXCollections.observableArrayList();
         this.joueur = new Joueur(environnement, 200, 200, Constants.vitesse, Constants.pvJoueur);
         this.ennemis = new ArrayList<>();
         this.pnjs = new ArrayList<>();
+        this.ennemiProjectiles = new ArrayList<>();
 
         Ennemi ennemi = new Ennemi(environnement, 300, 300, 50, 100);
-        ajouterEnnemi(ennemi);
+        ennemis.add(ennemi);
+
+        EnnemiProjectile ennemiProjectile = new EnnemiProjectile(environnement, 600, 500, 0, 100);
+        ennemiProjectiles.add(ennemiProjectile);
+
 
         acteurs.add(joueur);
 
         Pnj pnj = new Pnj(environnement, 1410, 100, "Je vois que vous voulez tuer le Cleric beast...");
         ajouterPnj(pnj);
+        pnjs.add(pnj);
     }
 
-    public void ajouterEnnemi(Ennemi ennemi) {
-        ennemis.add(ennemi);
-        acteurs.add(ennemi);
-    }
+
 
     public void ajouterPnj(Pnj pnj) {
         pnjs.add(pnj);
@@ -77,5 +81,9 @@ public class ActeurManager {
         }
 
         acteurs.removeIf(acteur -> !acteur.estVivant());
+    }
+
+    public List<EnnemiProjectile> getEnnemiProjectiles() {
+        return ennemiProjectiles;
     }
 }
