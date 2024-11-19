@@ -7,7 +7,7 @@ import universite_paris8.iut.abenibrahim.sae_dev2.modele.Direction;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.combat.Combat;
 import universite_paris8.iut.abenibrahim.sae_dev2.modele.strategie.deplacement.Deplacement;
 
-public abstract class Acteur {
+public class Acteur {
     private Direction direction;
     private IntegerProperty x, y;
     private IntegerProperty pv;

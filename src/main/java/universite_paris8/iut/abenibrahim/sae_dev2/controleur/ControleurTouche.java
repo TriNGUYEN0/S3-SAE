@@ -24,7 +24,7 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
     private final MapVue mapVue;
     private final ObjetDefVue objetDefVue;
     private final DialogueVue dialogueVue;
-    private Controleur controleur; // Để lưu trò chơi và quản lý camera
+    private Controleur controleur;
 
     public ControleurTouche(
             Joueur joueur,
@@ -46,7 +46,7 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
         this.dialogueVue = dialogueVue;
     }
 
-    // Nếu cần gán `Controleur` sau khi tạo đối tượng:
+
     public void setControleur(Controleur controleur) {
         this.controleur = controleur;
     }
@@ -59,20 +59,20 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
         Direction direction = null;
 
         switch (keyCode) {
-            // Di chuyển
+
             case UP -> direction = Direction.NORD;
             case DOWN -> direction = Direction.SUD;
             case LEFT -> direction = Direction.OUEST;
             case RIGHT -> direction = Direction.EST;
 
-            // Lưu trò chơi
+
             case S -> {
                 if (event.isControlDown() && controleur != null) {
                     controleur.saveGame();
                 }
             }
 
-            // Hiển thị/tắt bảng đồ
+
             case I -> {
                 if (inventaireVue.inventairePane.isVisible()) {
                     inventaireVue.masquerInventaire();
@@ -81,7 +81,6 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                 }
             }
 
-            // Nhặt vật phẩm
             case R -> {
                 Arme arme = joueur.ramasserArme();
                 Soin soin = joueur.ramasserSoin();
@@ -99,9 +98,8 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                 }
             }
 
-            // Hành động tấn công
+
             case A -> {
-                // Tìm kẻ thù gần nhất
                 Ennemi ennemiCible = environnement.getActeurManager().getEnnemis().stream()
                         .filter(Ennemi::estVivant)
                         .min((e1, e2) -> {
@@ -111,7 +109,6 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
                         })
                         .orElse(null);
 
-                // Nếu tìm thấy kẻ thù, tấn công
                 if (ennemiCible != null) {
                     joueur.attaquer(ennemiCible);
                 }
@@ -126,17 +123,16 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
             }
 
 
-            // Sử dụng vật phẩm hồi máu
             case C -> {
                 if (joueur.peutSeSoigner()) {
                     joueur.seSoigner();
                 }
             }
 
-            // Sử dụng vũ khí tầm xa
+
             case SPACE -> joueur.lancerProjectile();
 
-            // Hiển thị hoặc ẩn đối thoại
+
             case P -> {
                 if (joueur.peutParler()) {
                     dialogueVue.afficherDialoguePnj();
@@ -149,7 +145,7 @@ public class ControleurTouche implements EventHandler<KeyEvent> {
             }
         }
 
-        // Xử lý di chuyển và cập nhật giao diện
+
         if (direction != null) {
             joueur.setDirection(direction);
             if (!inventaireVue.inventairePane.isVisible()) {

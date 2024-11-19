@@ -25,19 +25,19 @@ public class ActeurManager {
         this.pnjs = new ArrayList<>();
         this.ennemiProjectiles = new ArrayList<>();
 
-        // Khởi tạo Joueur
+
         this.joueur = new Joueur(environnement, 200, 200, Constants.vitesse, Constants.pvJoueur);
         acteurs.add(joueur);
 
-        // Thêm Ennemi
+
         Ennemi ennemi = new Ennemi(environnement, 300, 300, 50, 100);
         ajouterEnnemi(ennemi);
 
-        // Thêm EnnemiProjectile
+
         EnnemiProjectile ennemiProjectile = new EnnemiProjectile(environnement, 1200, 600, 0, 100);
         ajouterEnnemiProjectile(ennemiProjectile);
 
-        // Thêm Pnj
+
         Pnj pnj = new Pnj(environnement, 1410, 100, "Je vois que vous voulez tuer le Cleric beast...");
         ajouterPnj(pnj);
     }

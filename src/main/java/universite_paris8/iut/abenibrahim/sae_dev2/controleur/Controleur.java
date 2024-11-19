@@ -72,7 +72,7 @@ public class Controleur implements Initializable {
     private int temps;
     private static ImageView joueurSprite;
     private List<EnnemiVue> ennemiVues;
-    private static final double ENNEMI_ATTACK_RANGE = 100.0; // Phạm vi tấn công tính bằng pixel
+    private static final double ENNEMI_ATTACK_RANGE = 100.0;
     private List<EnnemieProjectilesVue> ennemiProjectilesVues;
     private MapVue mapVue;
     private PvVue pvVue;
@@ -88,15 +88,6 @@ public class Controleur implements Initializable {
 
     @Override
     public void initialize(URL location, ResourceBundle resources) {
-        System.out.println("Controleur đã được khởi tạo.");
-
-        // Kiểm tra và thiết lập `paneMap`
-        if (paneMap == null) {
-            System.err.println("Lỗi: paneMap chưa được tiêm (injected). Kiểm tra fx:id trong FXML.");
-            return;
-        } else {
-            paneMap.setStyle("-fx-background-color: lightblue;"); // Đặt màu nền kiểm tra
-        }
 
         paneMap.setScaleX(ZOOM_FACTOR);
         paneMap.setScaleY(ZOOM_FACTOR);
@@ -104,7 +95,7 @@ public class Controleur implements Initializable {
         tilePaneMap.setPrefTileWidth(50);
         tilePaneMap.setPrefTileHeight(50);
 
-        // Sử dụng Singleton Environnement
+
         Environnement env = Main.getEnvironnement();
         if (env == null) {
             this.environnement = Environnement.getInstance();
@@ -128,29 +119,28 @@ public class Controleur implements Initializable {
             return;
         }
 
-        // Khởi tạo PvVue và ràng buộc với Joueur
+
         this.pvVue = new PvVue(this.paneMap);
         joueur.pvProperty().addListener((obs, oldValue, newValue) ->
                 pvVue.updatePvJoueurImage(joueur.getPv()));
 
-        // Tạo ImageView cho Joueur
+
         Image joueurImage = new Image(getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/boy_right_1.png").toExternalForm());
         joueurSprite = new ImageView(joueurImage);
         joueurSprite.setFitWidth(50);
         joueurSprite.setFitHeight(50);
 
-        // Ràng buộc vị trí của JoueurSprite với Joueur
+
         joueurSprite.translateXProperty().bind(joueur.xProperty());
         joueurSprite.translateYProperty().bind(joueur.yProperty());
 
         if (!paneMap.getChildren().contains(joueurSprite)) {
             paneMap.getChildren().add(joueurSprite);
-            System.out.println("Đã thêm Joueur vào paneMap.");
         } else {
-            System.out.println("JoueurSprite đã tồn tại trong paneMap.");
+            System.out.println("JoueurSprite déjà dans paneMap.");
         }
 
-        // Khởi tạo và hiển thị các Ennemis
+
         List<EnnemiVue> ennemiVues = new ArrayList<>();
         for (Ennemi ennemi : environnement.getActeurManager().getEnnemis()) {
             EnnemiVue ennemiVue = new EnnemiVue(ennemi, paneMap);
@@ -159,7 +149,7 @@ public class Controleur implements Initializable {
         }
         this.ennemiVues = ennemiVues;
 
-        // Khởi tạo danh sách EnnemieProjectilesVue
+
         this.ennemiProjectilesVues = new ArrayList<>();
 
         for (EnnemiProjectile ennemiProjectile : environnement.getActeurManager().getEnnemiProjectiles()) {
@@ -171,25 +161,25 @@ public class Controleur implements Initializable {
             ennemiProjectileVue.creerSpritePnj();
             ennemiProjectileVue.initialiserEnnemieProjectiles(ennemiProjectileVue.getEnnemieSpriteView(), paneMap);
             this.ennemiProjectilesVues.add(ennemiProjectileVue);
-            System.out.println("Đã thêm EnnemiProjectile vào paneMap.");
+
         }
 
 
-        // Khởi tạo ProjectileVue
+
         this.projectileVue = new ProjectileVue();
         this.projectileVueEnnemie = new ProjectileVueEnnemie();
 
-        // Khởi tạo SoinVue
+
         this.soinVue = new SoinVue(this.paneMap, this.nbSoin, this.environnement);
         this.soinVue.afficherSoinsSurCarte();
 
-        // Khởi tạo InventaireVue
+
         slots = Arrays.asList(slot1, slot2);
         this.inventaireVue = new InventaireVue(this.paneMap, this.tilePaneMap, this.environnement,
                 inventairePane, slot1, slot2, titre, armeChoisie, phrase, slots, premierPlanMap);
         this.inventaireVue.afficherArmesSurCarte();
 
-        // Khởi tạo DialogueVue
+
         this.dialogueVue = new DialogueVue(dialogueBox, environnement, dialogueBox2);
 
 
@@ -197,26 +187,25 @@ public class Controleur implements Initializable {
             PnjVue pnjVue = new PnjVue(paneMap, pnj.xProperty(), pnj.yProperty());
             pnjVue.creerSpritePnj();
             pnjVue.initialiserPnj(pnjVue.getPnjSpriteView(), paneMap);
-            System.out.println("PNJ đã được thêm vào bản đồ.");
         }
 
         // Khởi tạo ObjetDefVue
         this.objetDefVue = new ObjetDefVue(environnement, paneMap);
         this.objetDefVue.afficherObjetDefSurCarte();
 
-        // Khởi tạo JoueurVue
+
         this.joueurVue = new JoueurVue(joueur, this.paneMap);
         this.joueurVue.creerSpriteJoueur(this);
 
-        // Thêm listener để camera di chuyển theo Joueur
+
         joueur.xProperty().addListener((obs, oldVal, newVal) -> ajusterCameraSuiviJoueur());
         joueur.yProperty().addListener((obs, oldVal, newVal) -> ajusterCameraSuiviJoueur());
 
-        // Khởi tạo game loop
+        // game loop
         initAnimation();
         gameLoop.play();
 
-        // Khởi tạo GameOverVue
+        // GameOverVue
         gameOverVue = new GameOverVue(this.paneMap);
         gameOverVue.getImageView().setVisible(false);
 
@@ -254,7 +243,7 @@ public class Controleur implements Initializable {
         gameLoop = new Timeline();
 
         KeyFrame kf = new KeyFrame(
-                Duration.seconds(0.200), // Cập nhật mỗi 200ms
+                Duration.seconds(0.200),
                 ev -> {
                     try {
                         if (temps >= 10000) {
@@ -265,7 +254,7 @@ public class Controleur implements Initializable {
 
                         Joueur joueur = environnement.getActeurManager().getJoueur();
 
-                        // Cập nhật các kẻ thù (Ennemi)
+
                         for (Iterator<EnnemiVue> it = ennemiVues.iterator(); it.hasNext(); ) {
                             EnnemiVue ennemiVue = it.next();
                             Ennemi ennemi = ennemiVue.getEnnemi();
@@ -275,14 +264,13 @@ public class Controleur implements Initializable {
                                 ennemi.attaquer(joueur);
                                 ennemiVue.animerEnnemi(ennemi.getDirection());
                             } else {
-                                // Xóa sprite của Ennemi khỏi paneMap
+
                                 paneMap.getChildren().remove(ennemiVue.getEnnemiSprite());
                                 it.remove();
-                                System.out.println("Ennemi đã bị loại bỏ khỏi paneMap.");
                             }
                         }
 
-                        // Cập nhật các EnnemiProjectile
+
                         for (Iterator<EnnemieProjectilesVue> it = ennemiProjectilesVues.iterator(); it.hasNext(); ) {
                             EnnemieProjectilesVue ennemiProjectileVue = it.next();
                             EnnemiProjectile ennemiProjectile = environnement.getActeurManager().getEnnemiProjectiles().stream()
@@ -292,10 +280,10 @@ public class Controleur implements Initializable {
                                     .orElse(null);
 
                             if (ennemiProjectile != null && ennemiProjectile.estVivant()) {
-                                // Di chuyển EnnemiProjectile
+
                                 ennemiProjectile.seDeplacer(ennemiProjectile.getDirection());
 
-                                // Kiểm tra khoảng cách và tấn công nếu gần
+
                                 double distance = Math.sqrt(
                                         Math.pow(joueur.getX() - ennemiProjectile.getX(), 2) +
                                                 Math.pow(joueur.getY() - ennemiProjectile.getY(), 2)
@@ -303,29 +291,26 @@ public class Controleur implements Initializable {
 
                                 if (distance <= ENNEMI_ATTACK_RANGE) {
                                     ennemiProjectile.attaquer(joueur);
-                                    System.out.println("EnnemiProjectile tấn công người chơi!");
 
-                                    // Tạo đạn của EnnemiProjectile
                                     Projectile projectile = new Projectile(
                                             ennemiProjectile.getX(),
                                             ennemiProjectile.getY(),
                                             ennemiProjectile.getDirection(),
-                                            10, // Tốc độ đạn
-                                            15  // Sát thương đạn
+                                            10,
+                                            15
                                     );
                                     ennemiProjectile.getProjectiles().add(projectile);
                                 }
                             } else {
-                                // Xóa sprite của EnPro khỏi paneMap
+
                                 paneMap.getChildren().remove(ennemiProjectileVue.getEnnemieSpriteView());
                                 it.remove();
-                                System.out.println("EnnemiProjectile đã bị loại bỏ khỏi paneMap.");
                             }
                         }
 
-                        // Hiển thị và di chuyển đạn của EnnemiProjectile
+
                         for (EnnemiProjectile ennemiProjectile : environnement.getActeurManager().getEnnemiProjectiles()) {
-                            // Trong initAnimation
+
                             projectileVueEnnemie.updateProjectiles(
                                     ennemiProjectile.getProjectiles(),
                                     joueur,
@@ -335,9 +320,9 @@ public class Controleur implements Initializable {
 
                         }
 
-                        // Kiểm tra nếu Joueur đã chết
+
                         if (!joueur.estVivant()) {
-                            System.out.println("Game Over: Joueur đã chết.");
+                            System.out.println("Game Over: Joueur out !");
                             gameLoop.stop();
                             paneMap.getChildren().remove(joueurSprite);
                             if (gameOverVue != null) {
@@ -348,7 +333,7 @@ public class Controleur implements Initializable {
 
                         temps++;
                     } catch (Exception ex) {
-                        System.err.println("Lỗi xảy ra trong gameLoop: " + ex.getMessage());
+                        System.err.println("error gameLoop: " + ex.getMessage());
                         ex.printStackTrace();
                         gameLoop.stop();
                     }
@@ -356,8 +341,8 @@ public class Controleur implements Initializable {
         );
 
         gameLoop.getKeyFrames().add(kf);
-        gameLoop.setCycleCount(Timeline.INDEFINITE); // Lặp vô hạn
-        gameLoop.play(); // Bắt đầu vòng lặp
+        gameLoop.setCycleCount(Timeline.INDEFINITE);
+        gameLoop.play();
     }
 
 
@@ -368,11 +353,11 @@ public class Controleur implements Initializable {
         double joueurX = joueur.getX();
         double joueurY = joueur.getY();
 
-        // Kích thước của Scene
+
         double sceneWidth = paneMap.getScene().getWidth();
         double sceneHeight = paneMap.getScene().getHeight();
 
-        // Tính toán offset để giữ Joueur ở giữa màn hình
+
         double offsetX = -joueurX * ZOOM_FACTOR + (sceneWidth / 2) - (joueurSprite.getFitWidth() / 2) * ZOOM_FACTOR;
         double offsetY = -joueurY * ZOOM_FACTOR + (sceneHeight / 2) - (joueurSprite.getFitHeight() / 2) * ZOOM_FACTOR;
 

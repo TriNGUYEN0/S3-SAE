@@ -21,19 +21,19 @@ public class ProjectileVue {
             List<Circle> enemyProjectilesSprites,
             Pane paneMap
     ) {
-        // Loại bỏ projectiles không cần thiết khỏi bản đồ
+
         for (int i = enemyProjectilesSprites.size() - 1; i >= projectiles.size(); i--) {
             paneMap.getChildren().remove(enemyProjectilesSprites.get(i));
             enemyProjectilesSprites.remove(i);
         }
 
-        // Cập nhật vị trí hoặc kiểm tra va chạm
+
         Iterator<Projectile> iterator = projectiles.iterator();
         while (iterator.hasNext()) {
             Projectile projectile = iterator.next();
             projectile.deplacer();
 
-            // Kiểm tra va chạm với `Joueur`
+
             if (checkCollisionWithJoueur(projectile, joueur)) {
                 joueur.recevoirDegats(projectile.getDegat());
                 System.out.println("Joueur a été touché par un projectile !");
@@ -42,7 +42,7 @@ public class ProjectileVue {
             }
         }
 
-        // Hiển thị hoặc cập nhật projectiles
+
         for (int i = 0; i < projectiles.size(); i++) {
             Projectile projectile = projectiles.get(i);
             Circle projectileCircle;

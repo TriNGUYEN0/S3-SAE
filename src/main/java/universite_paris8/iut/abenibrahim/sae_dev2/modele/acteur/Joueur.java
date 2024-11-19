@@ -95,8 +95,8 @@ public class Joueur extends Acteur {
     public Arme ramasserArme() {
         for (Arme arme : getEnvironnement().getObjetManager().getArmeMap()) {
             if (estProche(arme.getX(), arme.getY())) {
-                ajouterArme(arme); // Thêm vào danh sách vũ khí của Joueur
-                return arme; // Trả về vũ khí được nhặt
+                ajouterArme(arme);
+                return arme;
             }
         }
         return null;

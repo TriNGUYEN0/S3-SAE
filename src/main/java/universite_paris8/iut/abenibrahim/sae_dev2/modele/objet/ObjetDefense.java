@@ -5,7 +5,7 @@ public class ObjetDefense {
     private final int y;
     private final int defDonner;
 
-    // Constructor private sử dụng Builder
+
     private ObjetDefense(Builder builder) {
         this.x = builder.x;
         this.y = builder.y;

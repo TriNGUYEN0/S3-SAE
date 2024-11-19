@@ -125,28 +125,25 @@ public class ControleurMenu {
             SaveData saveData = (SaveData) ois.readObject();
             ois.close();
 
-            // Lấy instance Singleton của Environnement
             Environnement env = Environnement.getInstance();
 
 
 
-            // Khôi phục dữ liệu của người chơi (joueur)
             Joueur joueur = env.getActeurManager().getJoueur();
             joueur.setX(saveData.getJoueurX());
             joueur.setY(saveData.getJoueurY());
             joueur.setPv(saveData.getJoueurPv());
 
-            // Khôi phục dữ liệu của các kẻ thù (ennemis)
             env.getActeurManager().getEnnemis().clear();
             for (SaveData.EnnemiData ennemiData : saveData.getEnnemisData()) {
                 Ennemi ennemi = new Ennemi(env, ennemiData.getEnnemiX(), ennemiData.getEnnemiY(), 50, ennemiData.getEnnemiPv());
             }
 
-            // Khôi phục dữ liệu bản đồ
+
             env.getTerrainManager().getMap().setTab(saveData.getMapData());
             env.getTerrainManager().getMap().setTab2(saveData.getMapData2());
 
-            // Lưu trữ môi trường đã tải để sử dụng trong cảnh trò chơi
+
             Main.setEnvironnement(env);
         } catch (IOException | ClassNotFoundException e) {
             e.printStackTrace();
@@ -162,10 +159,9 @@ public class ControleurMenu {
             mediaPlayer2.play();
 
             URL fxmlLocation = getClass().getResource("/universite_paris8/iut/abenibrahim/sae_dev2/lafoudre.fxml");
-            System.out.println("Đường dẫn lafoudre.fxml: " + fxmlLocation);
 
             if (fxmlLocation == null) {
-                System.err.println("Lỗi: Tệp lafoudre.fxml không tồn tại.");
+                System.err.println("lafoudre.fxml n'exsite pas.");
                 return;
             }
 
@@ -177,7 +173,7 @@ public class ControleurMenu {
                 stage.setScene(newScene);
                 stage.show();
             } catch (Exception e) {
-                e.printStackTrace(); // Ghi log lỗi chi tiết
+                e.printStackTrace();
             }
         }
     }

@@ -35,9 +35,6 @@ public class AnimatedEnnemiSprite extends AnimationTimer {
         start();
     }
     public void nextFrame() {
-        if (frames == null || frames.length == 0) {
-            throw new IllegalArgumentException("Khung hình không được cung cấp.");
-        }
         String path = frames[currentFrame];
         Image image = new Image(getClass().getResource(path).toExternalForm());
         imageView.setImage(image);
@@ -45,7 +42,7 @@ public class AnimatedEnnemiSprite extends AnimationTimer {
     }
     @Override
     public void handle(long now) {
-        if (now - lastUpdate >= 500_000_000) { // Mettre à jour toutes les 100 ms
+        if (now - lastUpdate >= 500_000_000) {
             nextFrame();
             lastUpdate = now;
         }

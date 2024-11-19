@@ -41,28 +41,27 @@ public class EnnemiVue {
         this.ennemi = ennemi;
         this.paneMap = paneMap;
 
-        // Khởi tạo ImageView cho Ennemi
+
         Image initialImage = new Image(getClass().getResource(framesDroite[0]).toExternalForm());
         this.ennemiSprite = new ImageView(initialImage);
         this.ennemiSprite.setFitWidth(50);
         this.ennemiSprite.setFitHeight(50);
 
-        // Ràng buộc vị trí của sprite với vị trí của Ennemi
+
         this.ennemiSprite.translateXProperty().bind(this.ennemi.xProperty());
         this.ennemiSprite.translateYProperty().bind(this.ennemi.yProperty());
 
-        // Khởi tạo hoạt ảnh
+
         this.animatedEnnemiSprite = new AnimatedEnnemiSprite(framesDroite, ennemiSprite);
     }
 
     public void creerSpriteEnnemi() {
         if (!paneMap.getChildren().contains(ennemiSprite)) {
             paneMap.getChildren().add(ennemiSprite);
-            System.out.println("Sprite của Ennemi đã được thêm vào paneMap.");
         } else {
-            System.err.println("Sprite của Ennemi đã tồn tại trong paneMap.");
+            System.err.println("Sprite d'Ennemi existe déjà in paneMap.");
         }
-        // Bắt đầu hoạt ảnh
+
         animatedEnnemiSprite.start();
     }
 

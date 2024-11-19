@@ -31,7 +31,7 @@ public class Main extends Application {
         }
         catch (Exception e) {
             e.printStackTrace();
-            System.err.println("Lỗi khi tải FXML: " + e.getMessage());
+            System.err.println("Error FXML: " + e.getMessage());
         }
     }
 }

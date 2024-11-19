@@ -127,28 +127,23 @@ public class InventaireVue {
 
 
     public void supprimerArmeDeLaCarte(Arme arme) {
-        // Xóa trong armeVues
         for (int i = armeVues.size() - 1; i >= 0; i--) {
             ArmeVue armeVue = armeVues.get(i);
             if (armeVue.getArme().equals(arme)) {
-                armeVue.supprimerArmeDeLaCarte(); // Xóa hình ảnh
-                armeVues.remove(i); // Xóa khỏi danh sách
-                System.out.println("Vũ khí đã được loại bỏ khỏi giao diện: " + arme.getNom());
+                armeVue.supprimerArmeDeLaCarte();
+                armeVues.remove(i);
             }
         }
 
-        // Kiểm tra và xóa hình ảnh dư thừa trong paneMap
         paneMap.getChildren().removeIf(node -> {
             if (node instanceof ImageView) {
                 ImageView imageView = (ImageView) node;
                 double x = imageView.getTranslateX();
                 double y = imageView.getTranslateY();
-                return (x == arme.getX() && y == arme.getY()); // Nếu tọa độ trùng khớp
+                return (x == arme.getX() && y == arme.getY());
             }
             return false;
         });
-
-        System.out.println("Hoàn thành kiểm tra và xóa hình ảnh của vũ khí trên giao diện.");
     }
 
 }

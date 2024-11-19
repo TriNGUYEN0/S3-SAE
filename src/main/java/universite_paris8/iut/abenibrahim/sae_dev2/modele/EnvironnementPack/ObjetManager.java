@@ -50,12 +50,8 @@ public class ObjetManager {
     }
 
     public void supprimerArme(Arme arme) {
-        if (armeMap.contains(arme)) {
-            armeMap.remove(arme);
-            System.out.println("Vũ khí đã bị loại bỏ khỏi armeMap: " + arme.getNom());
-        } else {
-            System.err.println("Vũ khí không tồn tại trong armeMap: " + arme.getNom());
-        }
+        armeMap.contains(arme);
+        armeMap.remove(arme);
     }
 
 

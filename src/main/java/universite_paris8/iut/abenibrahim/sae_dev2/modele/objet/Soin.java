@@ -5,14 +5,14 @@ public class Soin {
     private final int y;
     private final int pointPvDonner;
 
-    // Constructor private sử dụng Builder
+
     private Soin(Builder builder) {
         this.x = builder.x;
         this.y = builder.y;
         this.pointPvDonner = builder.pointPvDonner;
     }
 
-    // Getters
+
     public int getX() {
         return x;
     }
@@ -25,7 +25,7 @@ public class Soin {
         return pointPvDonner;
     }
 
-    // Lớp lồng Builder
+
     public static class Builder {
         private int x = Constante.POSITION_X_SOIN;
         private int y = Constante.POSITION_Y_SOIN;
